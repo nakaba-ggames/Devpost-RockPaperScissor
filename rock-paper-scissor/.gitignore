@@ -1,0 +1,7 @@
+# Personal learning context
+/devpost/learner-profile.md
+
+# Local credentials; examples must contain no secrets
+.env
+.env.*
+!.env.example
