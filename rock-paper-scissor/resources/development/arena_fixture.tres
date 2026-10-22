@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ArenaFixture" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/development/arena_fixture.gd" id="1"]
+[resource]
+script = ExtResource("1")
+condition = 0
+opponent_decision_seconds = 3.0
+opponent_revision_seconds = 7.0
+opponent_initial = "Rock"
+opponent_revised = "Paper"

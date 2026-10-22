@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ArenaRules" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/resources/arena_rules.gd" id="1"]
+[resource]
+script = ExtResource("1")
+option_seconds = 15.0
+production_weights_configured = false
+devil_weight = -1.0
+angel_weight = -1.0
+no_modifier_weight = -1.0

@@ -140,7 +140,7 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(490, 0)
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 8
 
 [node name="PlayerName" type="Label" parent="Margin/Stack/Body/Menu" unique_id=1496976688]
 unique_name_in_owner = true
@@ -254,7 +254,7 @@ text = "Clear Data • local only"
 [node name="FixtureNotice" type="Label" parent="Margin/Stack/Body/Menu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
-text = "M02 development search fixture"
+text = "Development fixtures • search / arena condition"
 horizontal_alignment = 1
 
 [node name="SearchScenario" type="OptionButton" parent="Margin/Stack/Body/Menu"]
@@ -269,6 +269,20 @@ popup/item_0/id = 0
 popup/item_1/text = "Normal timeout (30–45 seconds)"
 popup/item_1/id = 1
 popup/item_2/text = "Scripted failure (deferred check)"
+popup/item_2/id = 2
+
+[node name="ArenaCondition" type="OptionButton" parent="Margin/Stack/Body/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+item_count = 3
+selected = 0
+popup/item_0/text = "Devil's Seduction • fixture"
+popup/item_0/id = 0
+popup/item_1/text = "Angel's Confession • fixture"
+popup/item_1/id = 1
+popup/item_2/text = "No modifier • fixture"
 popup/item_2/id = 2
 
 [node name="Matchmaking" parent="Margin/Stack/Body" instance=ExtResource("8_search")]

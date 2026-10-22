@@ -17,6 +17,7 @@ var can_continue: bool = false
 var changing_screen: bool = false
 
 func _ready() -> void:
+	%ArenaCondition.select(matchmaking.arena_fixture.condition)
 	print("M01 engine: ", Engine.get_version_info().string)
 	if OS.has_feature("web"):
 		var browser_info = JavaScriptBridge.get_interface("navigator")
@@ -36,6 +37,7 @@ func _ready() -> void:
 	%RetryConnection.pressed.connect(service.retry)
 	%Play.pressed.connect(_play)
 	matchmaking.return_requested.connect(_return_from_search)
+	matchmaking.match_ready.connect(_arena_entered)
 	%Leaderboard.pressed.connect(_temporary.bind("Leaderboard", "Available in M07."))
 	%Record.pressed.connect(_temporary.bind("Record", "Available in M07; layout reserved to the creator."))
 	%Stats.pressed.connect(_temporary.bind("Detailed Stats", "Available in M07; layout reserved to the creator."))
@@ -181,6 +183,7 @@ func _play() -> void:
 	player.overall_points = menu_profile.overall_points
 	matchmaking.show()
 	matchmaking.modulate.a = 0.0
+	matchmaking.arena_condition = %ArenaCondition.selected
 	matchmaking.start(player, %SearchScenario.selected)
 	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
 	screen_tween.tween_property(matchmaking, "modulate:a", 1.0, motion.fade_seconds)
@@ -197,6 +200,7 @@ func _return_from_search() -> void:
 	screen_tween.tween_property(matchmaking, "modulate:a", 0.0, motion.fade_seconds)
 	await screen_tween.finished
 	matchmaking.hide()
+	_arena_chrome(true)
 	menu.modulate.a = 0.0
 	menu.show()
 	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
@@ -204,3 +208,12 @@ func _return_from_search() -> void:
 	await screen_tween.finished
 	changing_screen = false
 	print("M02 menu: return transition completed")
+
+func _arena_entered(_context: MatchContext) -> void:
+	_arena_chrome(false)
+
+func _arena_chrome(shown: bool) -> void:
+	$Margin/Stack/Brand.visible = shown
+	$Margin/Stack/Subtitle.visible = shown
+	$Margin/Stack/FeedbackSpace.visible = shown
+	$Margin/Stack/PreviewNotice.visible = shown

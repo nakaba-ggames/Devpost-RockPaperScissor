@@ -1,0 +1,792 @@
+{
+  "idle": {
+    "actors": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "defaulted": true,
+        "events": [
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 17701,
+            "kind": "default",
+            "matchId": "dev-4d1f4b08d8022f0bc0a87a1dea8089e4",
+            "optionElapsedMsec": 15000,
+            "payload": {
+              "initialCard": "Scissor"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 3
+          }
+        ],
+        "initialCard": "Scissor",
+        "locked": true,
+        "lockedElapsedMsec": 17701,
+        "startingOrder": [
+          "Scissor",
+          "Rock",
+          "Paper"
+        ]
+      },
+      {
+        "actorId": "fixture-opponent",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 5701,
+            "kind": "decision",
+            "matchId": "dev-4d1f4b08d8022f0bc0a87a1dea8089e4",
+            "optionElapsedMsec": 3000,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 1
+          },
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 9718,
+            "kind": "decision",
+            "matchId": "dev-4d1f4b08d8022f0bc0a87a1dea8089e4",
+            "optionElapsedMsec": 7017,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 1,
+            "sequence": 2
+          }
+        ],
+        "initialCard": "Paper",
+        "locked": true,
+        "lockedElapsedMsec": 17701,
+        "startingOrder": [
+          "Rock",
+          "Paper",
+          "Scissor"
+        ]
+      }
+    ],
+    "condition": 0,
+    "matchId": "dev-4d1f4b08d8022f0bc0a87a1dea8089e4",
+    "optionDeadline": 17701,
+    "optionLocked": 17701,
+    "optionStarted": 2701,
+    "presentationComplete": true,
+    "rulesRevision": "m03-option-v1"
+  },
+  "choices_start": {
+    "actors": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 2868,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 152,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 1
+          }
+        ],
+        "initialCard": "Rock",
+        "locked": false,
+        "lockedElapsedMsec": -1,
+        "startingOrder": [
+          "Rock",
+          "Scissor",
+          "Paper"
+        ]
+      },
+      {
+        "actorId": "fixture-opponent",
+        "defaulted": false,
+        "events": [],
+        "initialCard": "",
+        "locked": false,
+        "lockedElapsedMsec": -1,
+        "startingOrder": [
+          "Rock",
+          "Paper",
+          "Scissor"
+        ]
+      }
+    ],
+    "condition": 0,
+    "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+    "optionDeadline": 17716,
+    "optionLocked": -1,
+    "optionStarted": 2716,
+    "presentationComplete": false,
+    "rulesRevision": "m03-option-v1"
+  },
+  "revised": {
+    "actors": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 2868,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 152,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 1
+          },
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 5498,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 2782,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 1,
+            "sequence": 2
+          },
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 6349,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 3633,
+            "payload": {
+              "initialCard": "Scissor"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 2,
+            "sequence": 4
+          }
+        ],
+        "initialCard": "Scissor",
+        "locked": false,
+        "lockedElapsedMsec": -1,
+        "startingOrder": [
+          "Rock",
+          "Scissor",
+          "Paper"
+        ]
+      },
+      {
+        "actorId": "fixture-opponent",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 5717,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 3001,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 3
+          }
+        ],
+        "initialCard": "Rock",
+        "locked": false,
+        "lockedElapsedMsec": -1,
+        "startingOrder": [
+          "Rock",
+          "Paper",
+          "Scissor"
+        ]
+      }
+    ],
+    "condition": 0,
+    "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+    "optionDeadline": 17716,
+    "optionLocked": -1,
+    "optionStarted": 2716,
+    "presentationComplete": false,
+    "rulesRevision": "m03-option-v1"
+  },
+  "choices_locked": {
+    "actors": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 2868,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 152,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 1
+          },
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 5498,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 2782,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 1,
+            "sequence": 2
+          },
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 6349,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 3633,
+            "payload": {
+              "initialCard": "Scissor"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 2,
+            "sequence": 4
+          }
+        ],
+        "initialCard": "Scissor",
+        "locked": true,
+        "lockedElapsedMsec": 17733,
+        "startingOrder": [
+          "Rock",
+          "Scissor",
+          "Paper"
+        ]
+      },
+      {
+        "actorId": "fixture-opponent",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 5717,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 3001,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 3
+          },
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 9716,
+            "kind": "decision",
+            "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+            "optionElapsedMsec": 7000,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 1,
+            "sequence": 5
+          }
+        ],
+        "initialCard": "Paper",
+        "locked": true,
+        "lockedElapsedMsec": 17733,
+        "startingOrder": [
+          "Rock",
+          "Paper",
+          "Scissor"
+        ]
+      }
+    ],
+    "condition": 0,
+    "matchId": "dev-7ed1a17c9e9fc76619b46c902d2e80e8",
+    "optionDeadline": 17716,
+    "optionLocked": 17733,
+    "optionStarted": 2716,
+    "presentationComplete": true,
+    "rulesRevision": "m03-option-v1"
+  },
+  "angel_start": {
+    "actors": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "defaulted": false,
+        "events": [],
+        "initialCard": "",
+        "locked": false,
+        "lockedElapsedMsec": -1,
+        "startingOrder": [
+          "Paper",
+          "Scissor",
+          "Rock"
+        ]
+      },
+      {
+        "actorId": "fixture-opponent",
+        "defaulted": false,
+        "events": [],
+        "initialCard": "",
+        "locked": false,
+        "lockedElapsedMsec": -1,
+        "startingOrder": [
+          "Scissor",
+          "Paper",
+          "Rock"
+        ]
+      }
+    ],
+    "condition": 1,
+    "matchId": "dev-6b4c9864d751a0038d1d1a6817c5d031",
+    "optionDeadline": 17699,
+    "optionLocked": -1,
+    "optionStarted": 2699,
+    "presentationComplete": false,
+    "rulesRevision": "m03-option-v1"
+  },
+  "angel_locked": {
+    "actors": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "defaulted": true,
+        "events": [
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 17699,
+            "kind": "default",
+            "matchId": "dev-6b4c9864d751a0038d1d1a6817c5d031",
+            "optionElapsedMsec": 15000,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 3
+          }
+        ],
+        "initialCard": "Paper",
+        "locked": true,
+        "lockedElapsedMsec": 17699,
+        "startingOrder": [
+          "Paper",
+          "Scissor",
+          "Rock"
+        ]
+      },
+      {
+        "actorId": "fixture-opponent",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 5699,
+            "kind": "decision",
+            "matchId": "dev-6b4c9864d751a0038d1d1a6817c5d031",
+            "optionElapsedMsec": 3000,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 1
+          },
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 9699,
+            "kind": "decision",
+            "matchId": "dev-6b4c9864d751a0038d1d1a6817c5d031",
+            "optionElapsedMsec": 7000,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 1,
+            "sequence": 2
+          }
+        ],
+        "initialCard": "Paper",
+        "locked": true,
+        "lockedElapsedMsec": 17699,
+        "startingOrder": [
+          "Scissor",
+          "Paper",
+          "Rock"
+        ]
+      }
+    ],
+    "condition": 1,
+    "matchId": "dev-6b4c9864d751a0038d1d1a6817c5d031",
+    "optionDeadline": 17699,
+    "optionLocked": 17699,
+    "optionStarted": 2699,
+    "presentationComplete": true,
+    "rulesRevision": "m03-option-v1"
+  },
+  "none_locked": {
+    "actors": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "defaulted": true,
+        "events": [
+          {
+            "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+            "elapsedMsec": 17700,
+            "kind": "default",
+            "matchId": "dev-7e3e2676f3bfd2612d3b4e9ca9da7605",
+            "optionElapsedMsec": 15000,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 3
+          }
+        ],
+        "initialCard": "Paper",
+        "locked": true,
+        "lockedElapsedMsec": 17700,
+        "startingOrder": [
+          "Paper",
+          "Rock",
+          "Scissor"
+        ]
+      },
+      {
+        "actorId": "fixture-opponent",
+        "defaulted": false,
+        "events": [
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 5716,
+            "kind": "decision",
+            "matchId": "dev-7e3e2676f3bfd2612d3b4e9ca9da7605",
+            "optionElapsedMsec": 3016,
+            "payload": {
+              "initialCard": "Rock"
+            },
+            "phase": "option",
+            "revised": false,
+            "revision": 0,
+            "sequence": 1
+          },
+          {
+            "actorId": "fixture-opponent",
+            "elapsedMsec": 9717,
+            "kind": "decision",
+            "matchId": "dev-7e3e2676f3bfd2612d3b4e9ca9da7605",
+            "optionElapsedMsec": 7017,
+            "payload": {
+              "initialCard": "Paper"
+            },
+            "phase": "option",
+            "revised": true,
+            "revision": 1,
+            "sequence": 2
+          }
+        ],
+        "initialCard": "Paper",
+        "locked": true,
+        "lockedElapsedMsec": 17700,
+        "startingOrder": [
+          "Rock",
+          "Paper",
+          "Scissor"
+        ]
+      }
+    ],
+    "condition": 2,
+    "matchId": "dev-7e3e2676f3bfd2612d3b4e9ca9da7605",
+    "optionDeadline": 17700,
+    "optionLocked": 17700,
+    "optionStarted": 2700,
+    "presentationComplete": true,
+    "rulesRevision": "m03-option-v1"
+  },
+  "native_log": [
+    {
+      "id": 0,
+      "level": "info",
+      "message": "[MCPRuntimeServer] port: scanning 6570-6585 (default)",
+      "timestamp_unix": 1792685880
+    },
+    {
+      "id": 1,
+      "level": "info",
+      "message": "[MCPRuntimeServer] listening on 127.0.0.1:6570",
+      "timestamp_unix": 1792685880
+    },
+    {
+      "id": 2,
+      "level": "info",
+      "message": "[MCPRegistry] runtime port 6570 registered for /users/karinauval/godot-projects/devpost-madewithai-jam/devpost-rockpaperscissor/rock-paper-scissor",
+      "timestamp_unix": 1792685880
+    },
+    {
+      "id": 3,
+      "level": "info",
+      "message": "M01 engine: 4.7-stable (official)",
+      "timestamp_unix": 1792685880
+    },
+    {
+      "id": 4,
+      "level": "info",
+      "message": "M01 GD-Sync: actual SDK connected signal received",
+      "timestamp_unix": 1792685884
+    },
+    {
+      "id": 5,
+      "level": "info",
+      "message": "M01 menu: temporary transition completed",
+      "timestamp_unix": 1792685908
+    },
+    {
+      "id": 6,
+      "level": "info",
+      "message": "M02 search began: generation=1 scenario=0 fallback=35.543s",
+      "timestamp_unix": 1792685909
+    },
+    {
+      "id": 7,
+      "level": "info",
+      "message": "M02 search: entry transition completed",
+      "timestamp_unix": 1792685909
+    },
+    {
+      "id": 8,
+      "level": "info",
+      "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.016s",
+      "timestamp_unix": 1792685913
+    },
+    {
+      "id": 9,
+      "level": "info",
+      "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+      "timestamp_unix": 1792685913
+    },
+    {
+      "id": 10,
+      "level": "info",
+      "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+      "timestamp_unix": 1792685916
+    },
+    {
+      "id": 11,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').get('history').debug_snapshot()",
+      "timestamp_unix": 1792685918
+    },
+    {
+      "id": 12,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').get('history').debug_snapshot()",
+      "timestamp_unix": 1792685922
+    },
+    {
+      "id": 13,
+      "level": "info",
+      "message": "M03 Option locked: elapsed=15017ms; choices retained privately",
+      "timestamp_unix": 1792685931
+    },
+    {
+      "id": 14,
+      "level": "info",
+      "message": "M03 presentation complete: M04 boundary; reservation retained",
+      "timestamp_unix": 1792685933
+    },
+    {
+      "id": 15,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').get('history').debug_snapshot()",
+      "timestamp_unix": 1792685941
+    },
+    {
+      "id": 16,
+      "level": "info",
+      "message": "M02 menu: return transition completed",
+      "timestamp_unix": 1792685968
+    },
+    {
+      "id": 17,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Menu/ArenaCondition').select(1)",
+      "timestamp_unix": 1792685972
+    },
+    {
+      "id": 18,
+      "level": "info",
+      "message": "M02 search began: generation=3 scenario=0 fallback=33.198s",
+      "timestamp_unix": 1792685972
+    },
+    {
+      "id": 19,
+      "level": "info",
+      "message": "M02 search: entry transition completed",
+      "timestamp_unix": 1792685973
+    },
+    {
+      "id": 20,
+      "level": "info",
+      "message": "M02 match reserved: generation=3 kind=scripted_opponent elapsed=4.018s",
+      "timestamp_unix": 1792685976
+    },
+    {
+      "id": 21,
+      "level": "info",
+      "message": "M02 handoff ready: generation=3 ready_count=2 transition completed",
+      "timestamp_unix": 1792685977
+    },
+    {
+      "id": 22,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').seconds_left()",
+      "timestamp_unix": 1792685979
+    },
+    {
+      "id": 23,
+      "level": "info",
+      "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+      "timestamp_unix": 1792685979
+    },
+    {
+      "id": 24,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').get('history').debug_snapshot()",
+      "timestamp_unix": 1792685982
+    },
+    {
+      "id": 25,
+      "level": "info",
+      "message": "M03 Option locked: elapsed=15000ms; choices retained privately",
+      "timestamp_unix": 1792685994
+    },
+    {
+      "id": 26,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').seconds_left()",
+      "timestamp_unix": 1792685996
+    },
+    {
+      "id": 27,
+      "level": "info",
+      "message": "M03 presentation complete: M04 boundary; reservation retained",
+      "timestamp_unix": 1792685996
+    },
+    {
+      "id": 28,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/PhaseEnds').visible",
+      "timestamp_unix": 1792685998
+    },
+    {
+      "id": 29,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').get('history').debug_snapshot()",
+      "timestamp_unix": 1792686000
+    },
+    {
+      "id": 30,
+      "level": "info",
+      "message": "M02 menu: return transition completed",
+      "timestamp_unix": 1792686028
+    },
+    {
+      "id": 31,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Menu/ArenaCondition').select(2)",
+      "timestamp_unix": 1792686030
+    },
+    {
+      "id": 32,
+      "level": "info",
+      "message": "M02 search began: generation=5 scenario=0 fallback=41.964s",
+      "timestamp_unix": 1792686031
+    },
+    {
+      "id": 33,
+      "level": "info",
+      "message": "M02 search: entry transition completed",
+      "timestamp_unix": 1792686031
+    },
+    {
+      "id": 34,
+      "level": "info",
+      "message": "M02 match reserved: generation=5 kind=scripted_opponent elapsed=4.017s",
+      "timestamp_unix": 1792686035
+    },
+    {
+      "id": 35,
+      "level": "info",
+      "message": "M02 handoff ready: generation=5 ready_count=3 transition completed",
+      "timestamp_unix": 1792686035
+    },
+    {
+      "id": 36,
+      "level": "info",
+      "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+      "timestamp_unix": 1792686038
+    },
+    {
+      "id": 37,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').seconds_left()",
+      "timestamp_unix": 1792686041
+    },
+    {
+      "id": 38,
+      "level": "info",
+      "message": "M03 Option locked: elapsed=15000ms; choices retained privately",
+      "timestamp_unix": 1792686053
+    },
+    {
+      "id": 39,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').get('phase')",
+      "timestamp_unix": 1792686054
+    },
+    {
+      "id": 40,
+      "level": "info",
+      "message": "M03 presentation complete: M04 boundary; reservation retained",
+      "timestamp_unix": 1792686055
+    },
+    {
+      "id": 41,
+      "level": "info",
+      "message": "[MCPTools] execute.code: get_node('/root/Main/Margin/Stack/Body/Matchmaking/Arena/Coordinator').get('history').debug_snapshot()",
+      "timestamp_unix": 1792686073
+    }
+  ]
+}

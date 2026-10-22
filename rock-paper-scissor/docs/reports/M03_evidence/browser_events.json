@@ -1,0 +1,128 @@
+[
+  {
+    "level": "log",
+    "message": "Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org",
+    "timestamp": "2026-10-22T16:21:31.371Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "timestamp": "2026-10-22T16:21:31.537Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "timestamp": "2026-10-22T16:21:31.692Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 engine: 4.7-stable (official)",
+    "timestamp": "2026-10-22T16:21:31.890Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-22T16:21:31.891Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 GD-Sync: actual SDK connected signal received",
+    "timestamp": "2026-10-22T16:21:39.032Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 menu: temporary transition completed",
+    "timestamp": "2026-10-22T16:21:55.059Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org",
+    "timestamp": "2026-10-22T16:23:08.079Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "timestamp": "2026-10-22T16:23:08.169Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "timestamp": "2026-10-22T16:23:08.210Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 engine: 4.7-stable (official)",
+    "timestamp": "2026-10-22T16:23:08.320Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-22T16:23:08.321Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 GD-Sync: actual SDK connected signal received",
+    "timestamp": "2026-10-22T16:23:15.412Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 menu: temporary transition completed",
+    "timestamp": "2026-10-22T16:23:22.925Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=1 scenario=0 fallback=42.751s",
+    "timestamp": "2026-10-22T16:23:41.878Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T16:23:42.159Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.015s",
+    "timestamp": "2026-10-22T16:23:45.893Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+    "timestamp": "2026-10-22T16:23:46.444Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+    "timestamp": "2026-10-22T16:23:48.876Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M03 Option locked: elapsed=15000ms; choices retained privately",
+    "timestamp": "2026-10-22T16:24:03.880Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M03 presentation complete: M04 boundary; reservation retained",
+    "timestamp": "2026-10-22T16:24:05.812Z",
+    "url": "http://localhost:3000/index.js"
+  }
+]
