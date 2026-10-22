@@ -12,14 +12,16 @@ func begin(controller: OptionCoordinator) -> void:
 	revised = false
 
 func _process(_delta: float) -> void:
-	if coordinator == null or not coordinator.phase in ["option", "identity_claim", "switch_claim"]:
+	if coordinator == null or not coordinator.phase in ["option", "identity_claim", "switch_claim", "final_choice"]:
 		return
 	if observed_phase != coordinator.phase:
 		observed_phase = coordinator.phase
 		acted = false
 		revised = false
 	var started := coordinator.history.option_started_elapsed_msec
-	if observed_phase != "option":
+	if observed_phase == "final_choice":
+		started = coordinator.history.final_timing.started
+	elif observed_phase != "option":
 		started = coordinator.history.claim_timing[observed_phase].started
 	var elapsed := (coordinator.elapsed_msec() - started) / 1000.0
 	if not acted and elapsed >= fixture.opponent_decision_seconds:
@@ -41,7 +43,12 @@ func _submit(is_revision: bool) -> void:
 		value = fixture.opponent_switch
 		if is_revision:
 			value = fixture.opponent_switch_revised
-	if observed_phase == "option":
+	if observed_phase == "final_choice":
+		value = fixture.opponent_final
+		if is_revision:
+			value = fixture.opponent_final_revised
+		coordinator.accept_final(coordinator.context.opponent.player_id, value)
+	elif observed_phase == "option":
 		coordinator.accept_choice(coordinator.context.opponent.player_id, value)
 	else:
 		coordinator.accept_claim(coordinator.context.opponent.player_id, value)

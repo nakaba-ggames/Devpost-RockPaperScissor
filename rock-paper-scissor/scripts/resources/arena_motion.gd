@@ -23,3 +23,6 @@ extends Resource
 @export var unused_card_exit_distance: float = 95.0
 @export var chat_seconds: float = 0.25
 @export var chat_slide_distance: float = 34.0
+@export var final_choices_y: float = 550.0
+@export var submission_pulse_scale: float = 1.12
+@export var submission_pulse_seconds: float = 0.18

@@ -2,6 +2,8 @@ extends Control
 signal return_requested
 signal option_complete(context: MatchContext)
 signal claims_complete(context: MatchContext)
+signal round_complete(context: MatchContext)
+var candidate: String = ""
 @export var motion: ArenaMotion
 @onready var coordinator: OptionCoordinator = $Coordinator
 @onready var opponent_adapter: Node = $DevelopmentOpponent
@@ -27,6 +29,8 @@ func _ready() -> void:
 	coordinator.decision_accepted.connect(_decision)
 	coordinator.option_locked.connect(_locked.bind("option"))
 	coordinator.claim_locked.connect(_locked)
+	coordinator.final_locked.connect(_locked.bind("final_choice"))
+	$ConfirmSwitch.pressed.connect(_confirm_final)
 	$ChatTrigger.pressed.connect(_open_chat)
 	$ChatOverlay/Content/Close.pressed.connect(_close_chat)
 	$ChatOverlay/Content/Send.pressed.connect(_send_chat)
@@ -55,6 +59,8 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 	$Clock.text = "Option opens after the condition"
 	$Boundary.text = ""
 	$Return.hide()
+	$ConfirmSwitch.hide()
+	candidate = ""
 	$Choices.hide()
 	$OpponentBubble.hide()
 	$PlayerBubble.hide()
@@ -81,6 +87,10 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 	presentation_tween.tween_property($Intro, "modulate:a", 0.0, motion.intro_fade_seconds)
 	await presentation_tween.finished
 	$Intro.hide()
+	$Choices.position.y = 704.0
+	var order := coordinator.history.actor(context.local_player.player_id).starting_order
+	for button in $Choices.get_children():
+		$Choices.move_child(button, order.find(str(button.name)))
 	$Choices.show()
 	for button in $Choices.get_children():
 		button.disabled = false
@@ -91,13 +101,23 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 	opponent_adapter.begin(coordinator)
 
 func _process(_delta: float) -> void:
-	if coordinator.phase in ["option", "identity_claim", "switch_claim"]:
+	if coordinator.phase in ["option", "identity_claim", "switch_claim", "final_choice"]:
 		$Clock.text = "%.1f s • reconsider until time expires" % coordinator.seconds_left()
 
 func _choose(choice: String) -> void:
 	if context != null:
 		if coordinator.phase == "option":
 			coordinator.accept_choice(context.local_player.player_id, choice)
+		elif coordinator.phase == "final_choice":
+			candidate = choice
+			$ConfirmSwitch.disabled = false
+			$LocalChoice.text = "Initial: " + coordinator.history.actor(context.local_player.player_id).initial_card + " • Candidate: " + candidate
+			for button in $Choices.get_children():
+				var target := Color.WHITE
+				if button.text != candidate:
+					target = Color(motion.unselected_brightness, motion.unselected_brightness, motion.unselected_brightness)
+				var tween := _tween()
+				tween.tween_property(button, "modulate", target, motion.announcement_seconds)
 		else:
 			var value := choice
 			if coordinator.phase == "switch_claim":
@@ -122,6 +142,10 @@ func _decision(actor_id: String, revised: bool) -> void:
 	_announce(label, message)
 	if coordinator.phase == "option":
 		_move_cards(side, coordinator.history.actor(actor_id))
+	elif coordinator.phase == "final_choice":
+		if actor_id == context.local_player.player_id:
+			$LocalChoice.text = "Initial: " + coordinator.history.actor(actor_id).initial_card + " • Submitted: " + coordinator.history.actor(actor_id).final_card
+		_submission_effect(side, actor_id)
 	else:
 		_update_bubble(actor_id, coordinator.phase)
 
@@ -160,6 +184,7 @@ func _home_position(side: String, index: int) -> Vector2:
 	return Vector2(center_x + (index - 1) * motion.card_spacing, y)
 
 func _locked(locked_phase: String) -> void:
+	$ConfirmSwitch.disabled = true
 	for button in $Choices.get_children():
 		button.disabled = true
 	$Clock.text = "0.0 s • decisions locked"
@@ -172,6 +197,12 @@ func _locked(locked_phase: String) -> void:
 				if actor_history.defaulted:
 					$LocalChoice.text += " • leftmost default"
 			_move_cards(side, actor_history)
+		elif locked_phase == "final_choice":
+			var side := "OpponentCards"
+			if actor_history.actor_id == context.local_player.player_id:
+				side = "PlayerCards"
+			if actor_history.final_state.defaulted:
+				_submission_effect(side, actor_history.actor_id)
 		else:
 			_update_bubble(actor_history.actor_id, locked_phase)
 	_dim(0.0)
@@ -194,16 +225,21 @@ func _locked(locked_phase: String) -> void:
 		await _prepare_claim("identity_claim")
 	elif locked_phase == "identity_claim":
 		await _prepare_claim("switch_claim")
+	elif locked_phase == "switch_claim":
+		coordinator.finish_claims_presentation()
+		claims_complete.emit(context)
+		_prepare_final()
 	else:
-		$Phase.text = "CLAIMS COMPLETE"
-		$Boundary.text = "M04 development boundary • Final choice is M05.\nContext retained. No round is saved."
+		$ConfirmSwitch.hide()
+		$Phase.text = "LOCAL ROUND COMPLETE"
+		$Boundary.text = "M05 development boundary • Simulated receipt only.\nM06 reveal pending. No points or history saved."
 		$Return.show()
 		$Return.modulate.a = 0.0
 		presentation_tween = _tween()
 		presentation_tween.tween_property($Return, "modulate:a", 1.0, motion.intro_fade_seconds)
 		await presentation_tween.finished
-		coordinator.finish_claims_presentation()
-		claims_complete.emit(context)
+		coordinator.finish_final_presentation()
+		round_complete.emit(context)
 
 func _prepare_claim(next_phase: String) -> void:
 	$Phase.text = "CLAIM • IDENTITY"
@@ -233,6 +269,8 @@ func _prepare_claim(next_phase: String) -> void:
 		await presentation_tween.finished
 	else:
 		$Phase.text = "CHANGE CLAIM • INTENTION"
+		$Choices.move_child($Choices/Rock, 0)
+		$Choices.move_child($Choices/Paper, 1)
 		$Choices/Rock.text = "Keep"
 		$Choices/Paper.text = "Switch"
 		$Choices/Scissor.hide()
@@ -330,3 +368,52 @@ func _leave() -> void:
 	coordinator.leave_context()
 	context = null
 	return_requested.emit()
+
+func _prepare_final() -> void:
+	$Phase.text = "CHANGE • FINAL CHOICE"
+	$PlayerTell.text = ""
+	$OpponentTell.text = ""
+	$PlayerBubble.hide()
+	$OpponentBubble.hide()
+	var tendency := "N/A"
+	if context.opponent.switch_percentage != null:
+		tendency = "%.1f%%" % float(context.opponent.switch_percentage)
+	$Tendency.text = "Opponent switching tendency: " + tendency
+	$LocalChoice.text = "Initial: " + coordinator.history.actor(context.local_player.player_id).initial_card + " • Select, then confirm below"
+	candidate = ""
+	var order := coordinator.history.actor(context.local_player.player_id).starting_order
+	for button in $Choices.get_children():
+		button.show()
+		button.text = str(button.name)
+		button.disabled = false
+		button.modulate = Color.WHITE
+		$Choices.move_child(button, order.find(str(button.name)))
+	$Choices.position.y = motion.final_choices_y
+	$Choices.show()
+	$Choices.modulate.a = 0.0
+	$ConfirmSwitch.show()
+	$ConfirmSwitch.modulate.a = 0.0
+	$ConfirmSwitch.disabled = true
+	_dim(motion.dim_alpha)
+	var tween := _tween().set_parallel(true)
+	tween.tween_property($Choices, "modulate:a", 1.0, motion.dim_seconds)
+	tween.tween_property($ConfirmSwitch, "modulate:a", 1.0, motion.dim_seconds)
+	coordinator.start_final()
+
+func _confirm_final() -> void:
+	if context != null and not candidate.is_empty():
+		coordinator.accept_final(context.local_player.player_id, candidate)
+
+func _submission_effect(side: String, actor_id: String) -> void:
+	# Pulse the existing face-down representative identically for keep/switch.
+	var own := coordinator.history.actor(actor_id)
+	var card: Control = get_node(side).get_child(own.starting_order.find(own.initial_card))
+	var effect: CPUParticles2D = $OpponentSubmissionEffect
+	if side == "PlayerCards":
+		effect = $PlayerSubmissionEffect
+	effect.position = card.position + card.size * card.scale / 2.0
+	effect.restart()
+	effect.emitting = true
+	var tween := _tween()
+	tween.tween_property(card, "scale", motion.card_scale * motion.submission_pulse_scale, motion.submission_pulse_seconds)
+	tween.tween_property(card, "scale", motion.card_scale, motion.submission_pulse_seconds)

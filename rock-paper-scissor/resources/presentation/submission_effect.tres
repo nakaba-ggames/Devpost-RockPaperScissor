@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SubmissionEffect" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/resources/submission_effect.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Graphics/Simple Shapes/Star 2.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+amount = 18
+lifetime = 0.75
+spread = 180.0
+velocity = Vector2(28, 65)
+particle_scale = Vector2(0.035, 0.07)
+color = Color(1, 0.84, 0.45, 1)

@@ -1,0 +1,140 @@
+[
+  {
+    "level": "log",
+    "message": "Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org",
+    "timestamp": "2026-10-22T19:36:40.513Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "timestamp": "2026-10-22T19:36:40.659Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "timestamp": "2026-10-22T19:36:40.814Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 engine: 4.7-stable (official)",
+    "timestamp": "2026-10-22T19:36:41.028Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-22T19:36:41.028Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 menu: temporary transition completed",
+    "timestamp": "2026-10-22T19:36:47.477Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 GD-Sync: actual SDK connected signal received",
+    "timestamp": "2026-10-22T19:36:48.232Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=1 scenario=0 fallback=42.452s",
+    "timestamp": "2026-10-22T19:37:02.613Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T19:37:02.895Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.018s",
+    "timestamp": "2026-10-22T19:37:06.631Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+    "timestamp": "2026-10-22T19:37:07.179Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+    "timestamp": "2026-10-22T19:37:09.596Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M03 Option locked: elapsed=15015ms; choices retained privately",
+    "timestamp": "2026-10-22T19:37:24.612Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "Option presentation complete; same context and reservation retained",
+    "timestamp": "2026-10-22T19:37:26.196Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 identity_claim started: full 15-second window",
+    "timestamp": "2026-10-22T19:37:26.662Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 identity_claim locked after 15016ms",
+    "timestamp": "2026-10-22T19:37:41.679Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 switch_claim started: full 15-second window",
+    "timestamp": "2026-10-22T19:37:43.265Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 switch_claim locked after 15014ms",
+    "timestamp": "2026-10-22T19:37:58.281Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 complete: M05 boundary; context/history/reservation retained; no round saved",
+    "timestamp": "2026-10-22T19:37:59.863Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 final choice started: full 15-second window",
+    "timestamp": "2026-10-22T19:37:59.863Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 receipt: simulated=true persisted=false",
+    "timestamp": "2026-10-22T19:38:14.882Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 final locked after 15016ms; history/result frozen; no persistent credit",
+    "timestamp": "2026-10-22T19:38:14.882Z",
+    "url": "http://localhost:3000/m05.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 complete: M06 handoff ready; simulated receipt only; reservation retained",
+    "timestamp": "2026-10-22T19:38:16.811Z",
+    "url": "http://localhost:3000/m05.js"
+  }
+]

@@ -1,10 +1,16 @@
 class_name OptionCoordinator
 extends Node
+const ResultSink = preload("res://scripts/results/result_sink.gd")
+const RoundResolver = preload("res://scripts/results/round_resolver.gd")
 ## Local authoritative coordinator; M09 supplies host/peer transport.
 signal option_started
 signal decision_accepted(actor_id: String, revised: bool)
 signal claim_started(phase_name: String)
 signal claim_locked(phase_name: String)
+signal final_locked
+signal round_ready(context: MatchContext)
+signal finalization_failed(result_id: String, detail: String, retryable: bool)
+@export var result_sink: ResultSink
 signal option_locked
 @export var rules: ArenaRules
 var context: MatchContext
@@ -15,7 +21,7 @@ var deadline_msec: int = 0
 var sequence: int = 0
 
 func begin_match(match_context: MatchContext, condition: int) -> bool:
-	if rules == null or rules.option_seconds != 15.0 or rules.identity_claim_seconds != 15.0 or rules.switch_claim_seconds != 15.0:
+	if rules == null or rules.option_seconds != 15.0 or rules.identity_claim_seconds != 15.0 or rules.switch_claim_seconds != 15.0 or rules.final_choice_seconds != 15.0:
 		push_error("Option requires the approved 15-second rules resource.")
 		return false
 	context = match_context
@@ -52,6 +58,8 @@ func _process(_delta: float) -> void:
 		_lock()
 	elif phase in ["identity_claim", "switch_claim"]:
 		_lock_claim()
+	elif phase == "final_choice":
+		_lock_final()
 
 func accept_choice(actor_id: String, choice: String) -> bool:
 	if phase != "option":
@@ -91,7 +99,7 @@ func _lock() -> void:
 	print("M03 Option locked: elapsed=%dms; choices retained privately" % (history.option_locked_elapsed_msec - history.option_started_elapsed_msec))
 
 func seconds_left() -> float:
-	if not phase in ["option", "identity_claim", "switch_claim"]:
+	if not phase in ["option", "identity_claim", "switch_claim", "final_choice"]:
 		return 0.0
 	return maxf(0.0, (deadline_msec - Time.get_ticks_msec()) / 1000.0)
 
@@ -195,3 +203,78 @@ func finish_claims_presentation() -> void:
 		history.claims_presentation_complete = true
 		phase = "m04_complete"
 		print("M04 complete: M05 boundary; context/history/reservation retained; no round saved")
+
+func _ready() -> void:
+	if result_sink != null:
+		result_sink.acknowledged.connect(_receipt)
+		result_sink.failed.connect(_result_failed)
+
+func start_final() -> bool:
+	if phase != "m04_complete" or not history.claims_presentation_complete:
+		return false
+	deadline_msec = Time.get_ticks_msec() + int(rules.final_choice_seconds * 1000.0)
+	history.final_timing = {"started": elapsed_msec(), "deadline": deadline_msec - match_started_msec, "locked": -1}
+	for actor_history in history.initial_choices:
+		actor_history.final_state = {"defaulted": false, "locked": false, "lockedElapsedMsec": -1, "events": []}
+	phase = "final_choice"
+	print("M05 final choice started: full 15-second window")
+	return true
+
+func accept_final(actor_id: String, choice: String) -> bool:
+	if phase != "final_choice":
+		return false
+	if Time.get_ticks_msec() >= deadline_msec:
+		_lock_final()
+		return false
+	var actor_history := history.actor(actor_id)
+	if actor_history == null or not choice in actor_history.starting_order or actor_history.final_card == choice:
+		return false
+	var revised := not actor_history.final_card.is_empty()
+	actor_history.final_card = choice
+	_record_final_event(actor_history, "decision", revised)
+	decision_accepted.emit(actor_id, revised)
+	return true
+
+func _record_final_event(actor_history: InitialChoiceHistory, kind: String, revised: bool) -> void:
+	sequence += 1
+	var event := {"matchId": context.match_id, "phase": "final_choice", "actorId": actor_history.actor_id, "sequence": sequence, "revision": actor_history.final_state.events.size(), "kind": kind, "revised": revised, "elapsedMsec": elapsed_msec(), "phaseElapsedMsec": elapsed_msec() - int(history.final_timing.started), "payload": {"finalCard": actor_history.final_card}}
+	actor_history.final_state.events.append(event)
+	actor_history.events.append(event)
+
+func _lock_final() -> void:
+	if phase != "final_choice":
+		return
+	phase = "final_locked"
+	history.final_timing.locked = elapsed_msec()
+	for actor_history in history.initial_choices:
+		if actor_history.final_card.is_empty():
+			actor_history.final_card = actor_history.starting_order[0]
+			actor_history.final_state.defaulted = true
+			_record_final_event(actor_history, "default", false)
+		actor_history.final_state.locked = true
+		actor_history.final_state.lockedElapsedMsec = history.final_timing.locked
+	# Freeze detached history/eligibility before presentation; stable ID for M06 retry.
+	context.result_submission = RoundResolver.submission(context, rules)
+	if result_sink != null:
+		result_sink.submit(context.result_submission)
+	else:
+		_result_failed(context.result_id, "Result sink missing.", false)
+	print("M05 final locked after %dms; history/result frozen; no persistent credit" % (history.final_timing.locked - history.final_timing.started))
+	final_locked.emit()
+
+func _receipt(result_id: String, receipt: Dictionary) -> void:
+	if context == null or context.result_id != result_id:
+		return
+	context.result_receipt = receipt.duplicate(true)
+	print("M05 receipt: simulated=%s persisted=%s" % [receipt.get("simulated", false), receipt.get("persisted", false)])
+
+func _result_failed(result_id: String, detail: String, retryable: bool) -> void:
+	finalization_failed.emit(result_id, detail, retryable)
+
+func finish_final_presentation() -> void:
+	if phase != "final_locked":
+		return
+	history.final_presentation_complete = true
+	phase = "m05_complete"
+	round_ready.emit(context)
+	print("M05 complete: M06 handoff ready; simulated receipt only; reservation retained")

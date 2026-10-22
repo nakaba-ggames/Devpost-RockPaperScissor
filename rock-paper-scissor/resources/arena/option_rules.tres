@@ -2,7 +2,7 @@
 [ext_resource type="Script" path="res://scripts/resources/arena_rules.gd" id="1"]
 [resource]
 script = ExtResource("1")
-revision = "m04-claims-v1"
+revision = "m05-round-v1"
 option_seconds = 15.0
 identity_claim_seconds = 15.0
 switch_claim_seconds = 15.0
@@ -10,3 +10,11 @@ production_weights_configured = false
 devil_weight = -1.0
 angel_weight = -1.0
 no_modifier_weight = -1.0
+final_choice_seconds = 15.0
+win_points = 10
+draw_points = 3
+loss_points = 0
+devil_win_bonus = 10
+devil_draw_bonus = 5
+angel_win_bonus = 15
+angel_draw_bonus = 7

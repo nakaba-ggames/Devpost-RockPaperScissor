@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BotPersonality" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/resources/bot_personality.gd" id="1"]
+[resource]
+script = ExtResource("1")
+profile_id = "m05-policy-fixture-not-production"
+development_fixture = true
+choice_weights = Vector3(1, 1, 1)
+identity_lie_chance = 0.6
+intention_lie_chance = 0.4
+switch_chance = 0.5
+revision_chance = 1.0
+decision_seconds = Vector2(2, 3)
+revision_seconds = Vector2(6, 7)

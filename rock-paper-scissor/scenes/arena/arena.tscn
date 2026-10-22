@@ -5,13 +5,18 @@
 [ext_resource type="Resource" path="res://resources/presentation/arena_motion.tres" id="3"]
 [ext_resource type="Script" uid="uid://n022n2emcjj0" path="res://scripts/arena/option_coordinator.gd" id="4"]
 [ext_resource type="Resource" path="res://resources/arena/option_rules.tres" id="5"]
-[ext_resource type="Script" uid="uid://drj0whha0c15" path="res://scripts/development/scripted_option_opponent.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/bots/local_opponent_adapter.gd" id="6"]
 [ext_resource type="Resource" path="res://resources/development/arena_fixture.tres" id="7"]
 
 [ext_resource type="Script" path="res://scripts/development/local_preview_chat.gd" id="8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/arena_chat.tscn" id="9"]
 [ext_resource type="PackedScene" path="res://scenes/ui/speech_bubble.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="11"]
+
+[ext_resource type="Resource" path="res://resources/bots/development_personality.tres" id="12"]
+[ext_resource type="Script" path="res://scripts/development/local_result_sink.gd" id="13"]
+[ext_resource type="Script" path="res://scripts/arena/submission_particles.gd" id="14"]
+[ext_resource type="Resource" path="res://resources/presentation/submission_effect.tres" id="15"]
 
 [node name="Arena" unique_id=494029415 instance=ExtResource("1")]
 layout_mode = 3
@@ -23,13 +28,14 @@ motion = ExtResource("3")
 visible = false
 [node name="PhaseEnds" parent="." index="13"]
 visible = false
-[node name="Coordinator" type="Node" parent="." index="17" unique_id=1008589915]
+[node name="Coordinator" type="Node" parent="." index="17" unique_id=1008589915 node_paths=PackedStringArray("result_sink")]
 script = ExtResource("4")
 rules = ExtResource("5")
+result_sink = NodePath("../ResultSink")
 
 [node name="DevelopmentOpponent" type="Node" parent="." index="18" unique_id=2089189068]
 script = ExtResource("6")
-fixture = ExtResource("7")
+personality = ExtResource("12")
 
 [node name="OpponentBubble" parent="." instance=ExtResource("10")]
 visible = false
@@ -60,3 +66,26 @@ text = "C\nH\nA\nT"
 [node name="ChatOverlay" parent="." instance=ExtResource("9")]
 [node name="ChatSession" type="Node" parent="."]
 script = ExtResource("8")
+
+[node name="ConfirmSwitch" parent="." instance=ExtResource("11")]
+visible = false
+layout_mode = 0
+z_index = 2
+custom_minimum_size = Vector2(0, 48)
+offset_top = 714.0
+offset_right = 490.0
+offset_bottom = 766.0
+theme_override_font_sizes/font_size = 22
+text = "Switch • confirm choice"
+[node name="ResultSink" type="Node" parent="."]
+script = ExtResource("13")
+[node name="PlayerSubmissionEffect" type="CPUParticles2D" parent="."]
+emitting = false
+z_index = 2
+script = ExtResource("14")
+settings = ExtResource("15")
+[node name="OpponentSubmissionEffect" type="CPUParticles2D" parent="."]
+emitting = false
+z_index = 2
+script = ExtResource("14")
+settings = ExtResource("15")

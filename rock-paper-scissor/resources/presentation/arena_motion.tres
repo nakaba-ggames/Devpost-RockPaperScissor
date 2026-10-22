@@ -25,3 +25,6 @@ bubble_start_scale = Vector2(0.92, 0.92)
 unused_card_exit_distance = 95.0
 chat_seconds = 0.25
 chat_slide_distance = 34.0
+final_choices_y = 550.0
+submission_pulse_scale = 1.12
+submission_pulse_seconds = 0.18

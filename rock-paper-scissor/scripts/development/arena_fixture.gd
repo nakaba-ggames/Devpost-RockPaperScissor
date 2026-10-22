@@ -10,3 +10,5 @@ extends Resource
 @export_enum("Rock", "Paper", "Scissor") var opponent_identity_revised: String = "Scissor"
 @export_enum("keep", "switch") var opponent_switch: String = "keep"
 @export_enum("keep", "switch") var opponent_switch_revised: String = "switch"
+@export_enum("Rock", "Paper", "Scissor") var opponent_final: String = "Paper"
+@export_enum("Rock", "Paper", "Scissor") var opponent_final_revised: String = "Rock"
