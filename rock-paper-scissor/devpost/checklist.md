@@ -10,11 +10,11 @@ Plan approved on 2026-10-22: the creator explicitly approved the displayed check
 
 Build mode: fast — explicitly selected by the creator in the M01 implementation chat on 2026-10-22. Required hands-on feedback remains part of M01; adjustments follow actual review.
 
-Scope gate: execute only the milestone explicitly assigned by the human. Each slice maps 1:1 to the matching MNN in [Milestones.md](../docs/Milestones.md), which owns detailed scope/criteria and reports. All slices below are unperformed. Complete only the assigned slice and stop; a later unchecked slice is not authorization to continue. Keep the learner profile and credentials out of commits.
+Scope gate: execute only the milestone explicitly assigned by the human. Each slice maps 1:1 to the matching MNN in [Milestones.md](../docs/Milestones.md), which owns detailed scope/criteria and reports. Completion is recorded only in the applicable boxes below. Complete only the assigned slice and stop; a later unchecked slice is not authorization to continue. Keep the learner profile and credentials out of commits.
 
 ## Slices
 
-- [ ] **1. Rough main menu and real GD-Sync connection**
+- [x] **1. Rough main menu and real GD-Sync connection**
   Becomes usable: The portrait app reaches a functional rough menu, accepts preview identity/profile data, exposes the requested navigation and Clear Data control, and makes an actual GD-Sync service connection.
   Why now: Follows the requested entry-first sequence and proves the web/network dependency while building the first usable screen, rather than adding a separate setup milestone.
   PRD ref: `prd.md > Opening and Anonymous Entry`; `prd.md > Main Menu and Player Information`; `prd.md > Screens and Layout`; `prd.md > Look and Feel`.
@@ -136,7 +136,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after M01: creator tries menu, controls, initial motion, SDK connection presentation and the local-only Clear Data testing reset; record feedback before expanding the flow.
+- [x] Early usable behavior explored — after M01: creator tried the menu, controls, initial motion, SDK connection presentation and local-only Clear Data testing reset. Feedback on 2026-10-22: “Yes, it works perfectly”. No adjustment requested; implementation committed as `2b773ac`.
 - [ ] Integrated local core journey explored — after M06: creator plays menu/search/deception/reveal/menu, shaping feel/narration before later UI/integrations.
 - [ ] Live multiplayer explored — after M09: creator plays with a second real client and checks timing, chat, cancellation and pre-/post-receipt departures; preview persistence is explicitly identified.
 - [ ] Final kick-the-tires exploration and feedback completed — after M12 at the deployed HTTPS build with real backend data.
@@ -165,3 +165,4 @@ Activity mode: not chosen; use an appropriate focused investigation or prior pra
 
 - 2026-10-22, M01: creator explicitly limits verification to changed-scene diagnostics, one normal editor entry/menu flow, one single-threaded release-browser smoke flow, one ordinary reload, one local-only Clear Data reset, and focused export/assertion checks. Broad regression, failure/disconnect/timeout injection, stress/race/malformed-input checks and device/browser matrix are deferred to a dedicated later session; none may be marked performed.
 - 2026-10-22, M01: creator selected fast mode and has no strict naming rules for this preview. Use trimmed, nonempty local display names; production validation remains M10. Final title/menu choreography and allegiance art remain creator-owned.
+- 2026-10-22, M01 complete: scoped mechanical evidence is in `docs/reports/M01_Report.md`; creator accepted the full early hands-on check (“Yes, it works perfectly”). Implementation commit `2b773ac` succeeded before checking slice 1 and its early checkpoint. No deferred edge check or later milestone/checkpoint is marked complete.

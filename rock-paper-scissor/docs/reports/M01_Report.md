@@ -1,6 +1,6 @@
 # M01 — Rough main menu and real GD-Sync connection
 
-Status: **verification and creator review accepted; commit pending** — implementation and scoped mechanical checks passed. On 2026-10-22 the creator answered the complete hands-on check: “Yes, it works perfectly”. Slice 1 and the early M01 checkpoint will be checked after the implementation commit succeeds. M02 has not been started.
+Status: **complete** — implementation and scoped mechanical checks passed. On 2026-10-22 the creator answered the complete hands-on check: “Yes, it works perfectly”. Implementation commit `2b773ac` succeeded; only slice 1 and the early M01 checkpoint are checked. M02 has not been started.
 
 ## Scope and approved references
 
@@ -20,7 +20,7 @@ The creator explicitly selected **fast mode** and stated there are no strict pre
 - `export_presets.cfg`: release Web preset; threads/extensions/PWA disabled; selected M01 scene plus explicit runtime script dependencies, including path-loaded SDK scripts. Excludes documentation, source art, toolkit and editor SDK UI.
 - `tools/serve_m01.py`: localhost-only static preview, no backend routes. Its Python server threads are host tooling, not game-client threads. `tools/inspect_m01_pack.py`: focused PCK directory/assertion inspection that never prints credential contents.
 - `.gitignore`, sibling `backend/.gitignore`: protect local keys, generated export, private learner context and editor/system content. Existing unrelated backend files are preserved.
-- `devpost/checklist.md`: records mode, preview naming agreement and the creator-directed testing limitation under Revisions. No progress box was checked.
+- `devpost/checklist.md`: records mode, preview naming agreement and the creator-directed testing limitation under Revisions. After the implementation commit succeeded, only slice 1 and the early M01 checkpoint were checked; the actual creator feedback is recorded.
 - This report, `M01_PackManifest.txt`, `M01_SDK_Provenance.json` and `M01_evidence/`: inspectable evidence. Generated release files are in sibling `backend/public/`, ignored and not intended for Git.
 
 ## Architecture/interface changes and deviations
@@ -103,9 +103,11 @@ The PCK includes the SDK controllers instantiated at startup, the required typed
 
 ## Commits and checklist slice update
 
-Planned implementation commit: `feat(menu): add preview menu and GD-Sync connection`.
+Implementation commit: `2b773ac79eb4e1b1a3dafc0e5e3e81a45c85d040` — `feat(menu): add preview menu and GD-Sync connection`.
 
-Creator feedback is accepted. The implementation commit is being prepared using explicit intended files and staged-diff inspection. The SDK release dependency is included intentionally; local keys, generated exports, private learner profile, `.godot`, system metadata, pre-existing planning files other than the changed checklist, and unrelated sibling work are excluded. Slice/checkpoint completion will be recorded only after the implementation commit succeeds.
+Creator feedback is accepted and the implementation commit succeeded. Reviewed the exact 152-file staged set, compared 117 unchanged vendor files against the pinned official source and reviewed the one narrow SDK patch. The supplied key values were absent from every staged file. The SDK release dependency was included intentionally; local keys, generated exports, private learner profile, `.godot`, system metadata, pre-existing planning files other than the changed checklist, and unrelated sibling work were excluded. New project files had no whitespace findings; existing upstream SDK whitespace was preserved rather than broadly reformatted.
+
+After that commit, slice 1 and only the early M01 hands-on checkpoint were checked. This report/checklist completion record is saved separately under `docs: record M01 completion and creator approval`. No new build or gameplay checks were run after creator acceptance because no game code changed.
 
 The existing parent repository contained modified `.DS_Store` files and untracked planning/SDK/backend work at entry. These were preserved. The learner profile remains ignored/untracked. No other slice or later checkpoint was changed.
 
