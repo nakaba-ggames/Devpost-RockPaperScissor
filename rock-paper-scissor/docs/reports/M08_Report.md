@@ -1,6 +1,6 @@
 # M08 — Submenus II: daily and weekly quests
 
-Status: **verified — implementation commit and completion recording follow**. Assigned M08/slice 8 only, recorded fast mode. M07 feature `40b0cc2`, completion `9f60234` and creator-approved rough Stats/Record composition are preserved. No new HUB audit, planned checkpoint, M09, Final Review or learning wrap-up is claimed.
+Status: **complete** for assigned functional M08 and authorized basic verification. Feature commit `052575c` succeeded before checking only slice 8. Assigned M08/slice 8 only, recorded fast mode. M07 feature `40b0cc2`, completion `9f60234` and creator-approved rough Stats/Record composition are preserved. No new HUB audit, planned checkpoint, M09, Final Review or learning wrap-up is claimed.
 
 ## Scope and approved references
 
@@ -84,7 +84,7 @@ Browser: [M08 localhost](http://localhost:3000/m08.html?build=m08-20261023-v2). 
 
 ## Commit(s) and checklist slice update
 
-All scoped checks passed; explicit intended-file/staged-diff review and implementation commit follow. Slice 8 remains unchecked until the feature commit succeeds. Planned message: `feat(quests): add fresh progress resets and reward views`. Only explicit M08 files will be staged after reviewing their diff; private learner profile remains ignored/untracked. Unrelated Finder metadata, sibling artwork and pre-existing untracked planning files remain outside M08.
+All scoped checks passed. Reviewed the exact **35-file** intended staged set, staged diffs, whitespace and a focused sensitive-content/path scan; no findings. Feature commit **`052575c` — `feat(quests): add fresh progress resets and reward views`** succeeded before checking only slice 8. This completion report/checklist update is recorded separately as `docs: record M08 completion and verification limits`. No game code changed after the verified export, so no repeat export or runtime check is needed for this documentation-only record. The private learner profile remains ignored/untracked. Unrelated Finder metadata, sibling artwork and pre-existing untracked planning files remain outside M08.
 
 ## Deferred checks and M09 handoff
 
