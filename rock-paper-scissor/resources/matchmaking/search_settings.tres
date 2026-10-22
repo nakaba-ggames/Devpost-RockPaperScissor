@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MatchmakingSettings" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/resources/matchmaking_settings.gd" id="1"]
+[resource]
+script = ExtResource("1")
+fallback_min_seconds = 30.0
+fallback_max_seconds = 45.0
+rating_policy_configured = false
+allowed_rating_gap = -1
+maximum_rating_gap = -1
+widening_points_per_second = -1.0

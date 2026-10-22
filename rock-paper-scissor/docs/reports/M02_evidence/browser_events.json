@@ -1,0 +1,182 @@
+[
+  {
+    "level": "log",
+    "message": "M02 search began: generation=1 scenario=0 fallback=42.227s",
+    "timestamp": "2026-10-22T14:35:58.783Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T14:35:59.066Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.018s",
+    "timestamp": "2026-10-22T14:36:02.802Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+    "timestamp": "2026-10-22T14:36:03.351Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 menu: return transition completed",
+    "timestamp": "2026-10-22T14:36:37.300Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=3 scenario=1 fallback=35.010s",
+    "timestamp": "2026-10-22T14:36:54.832Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T14:36:55.117Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 ordinary leave: search invalidated before return transition",
+    "timestamp": "2026-10-22T14:37:17.134Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 menu: return transition completed",
+    "timestamp": "2026-10-22T14:37:17.701Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=1 scenario=0 fallback=39.013s",
+    "timestamp": "2026-10-22T14:39:17.017Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T14:39:17.299Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.016s",
+    "timestamp": "2026-10-22T14:39:21.033Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+    "timestamp": "2026-10-22T14:39:21.584Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 menu: return transition completed",
+    "timestamp": "2026-10-22T14:39:30.415Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=3 scenario=1 fallback=38.576s",
+    "timestamp": "2026-10-22T14:39:39.667Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T14:39:39.951Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 ordinary leave: search invalidated before return transition",
+    "timestamp": "2026-10-22T14:39:43.855Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 menu: return transition completed",
+    "timestamp": "2026-10-22T14:39:44.415Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=1 scenario=1 fallback=44.416s",
+    "timestamp": "2026-10-22T14:43:36.081Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T14:43:36.366Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 ordinary leave: search invalidated before return transition",
+    "timestamp": "2026-10-22T14:43:40.802Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 menu: return transition completed",
+    "timestamp": "2026-10-22T14:43:41.370Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=1 scenario=1 fallback=35.397s",
+    "timestamp": "2026-10-22T14:47:54.064Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T14:47:54.349Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 ordinary leave: search invalidated before return transition",
+    "timestamp": "2026-10-22T14:47:58.321Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 menu: return transition completed",
+    "timestamp": "2026-10-22T14:47:58.886Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=3 scenario=0 fallback=37.438s",
+    "timestamp": "2026-10-22T14:48:17.801Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T14:48:18.080Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 match reserved: generation=3 kind=scripted_opponent elapsed=4.021s",
+    "timestamp": "2026-10-22T14:48:21.819Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 handoff ready: generation=3 ready_count=1 transition completed",
+    "timestamp": "2026-10-22T14:48:22.350Z",
+    "url": "http://localhost:3000/index.js"
+  }
+]

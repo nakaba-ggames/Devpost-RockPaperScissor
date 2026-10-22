@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SearchFixture" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/development/search_fixture.gd" id="1"]
+[resource]
+script = ExtResource("1")
+found_seconds = 4.0
+failure_seconds = 3.0
+opponent_id = "fixture-opponent"
+opponent_name = "Velvet"
+fallback_id = "fixture-bot"
+fallback_name = "Ember"
+overall_points = 0

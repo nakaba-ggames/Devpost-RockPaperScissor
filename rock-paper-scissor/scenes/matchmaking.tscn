@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3]
+[ext_resource type="Script" path="res://scripts/app/matchmaking.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/development/scripted_match_session.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/matchmaking/search_settings.tres" id="3"]
+[ext_resource type="Resource" path="res://resources/development/search_fixture.tres" id="4"]
+[ext_resource type="Resource" path="res://resources/presentation/search_motion.tres" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/ui/search_card.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/ui/primary_button.tscn" id="8"]
+[node name="Matchmaking" type="VBoxContainer"]
+custom_minimum_size = Vector2(490, 0)
+theme_override_constants/separation = 18
+script = ExtResource("1")
+motion = ExtResource("5")
+[node name="Session" type="Node" parent="."]
+script = ExtResource("2")
+settings = ExtResource("3")
+fixture = ExtResource("4")
+[node name="Dots" type="Timer" parent="."]
+[node name="Search" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+[node name="CardSpace" type="CenterContainer" parent="Search"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+[node name="SearchCard" parent="Search/CardSpace" instance=ExtResource("6")]
+layout_mode = 2
+[node name="Status" type="Label" parent="Search"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Looking for Opponent"
+horizontal_alignment = 1
+autowrap_mode = 2
+[node name="DotLabel" type="Label" parent="Search"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+[node name="Leave" parent="Search" instance=ExtResource("7")]
+layout_mode = 2
+text = "Leave search"
+[node name="Destination" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 24
+[node name="Title" type="Label" parent="Destination"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "MATCH READY"
+horizontal_alignment = 1
+[node name="Opponent" type="Label" parent="Destination"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+[node name="Detail" type="Label" parent="Destination"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 2
+[node name="Return" parent="Destination" instance=ExtResource("8")]
+layout_mode = 2
+text = "Return to menu • development"

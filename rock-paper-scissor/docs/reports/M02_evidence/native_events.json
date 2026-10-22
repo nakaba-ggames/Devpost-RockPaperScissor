@@ -1,0 +1,80 @@
+[
+  {
+    "id": 6,
+    "level": "info",
+    "message": "M02 search began: generation=1 scenario=0 fallback=32.183s",
+    "timestamp_unix": 1792679654
+  },
+  {
+    "id": 7,
+    "level": "info",
+    "message": "M02 search: entry transition completed",
+    "timestamp_unix": 1792679655
+  },
+  {
+    "id": 8,
+    "level": "info",
+    "message": "M02 ordinary leave: search invalidated before return transition",
+    "timestamp_unix": 1792679655
+  },
+  {
+    "id": 9,
+    "level": "info",
+    "message": "M02 menu: return transition completed",
+    "timestamp_unix": 1792679656
+  },
+  {
+    "id": 10,
+    "level": "info",
+    "message": "M02 search began: generation=3 scenario=0 fallback=40.462s",
+    "timestamp_unix": 1792679669
+  },
+  {
+    "id": 11,
+    "level": "info",
+    "message": "M02 search: entry transition completed",
+    "timestamp_unix": 1792679669
+  },
+  {
+    "id": 12,
+    "level": "info",
+    "message": "M02 match reserved: generation=3 kind=scripted_opponent elapsed=4.017s",
+    "timestamp_unix": 1792679673
+  },
+  {
+    "id": 13,
+    "level": "info",
+    "message": "M02 handoff ready: generation=3 ready_count=1 transition completed",
+    "timestamp_unix": 1792679673
+  },
+  {
+    "id": 16,
+    "level": "info",
+    "message": "M02 menu: return transition completed",
+    "timestamp_unix": 1792679679
+  },
+  {
+    "id": 17,
+    "level": "info",
+    "message": "M02 search began: generation=5 scenario=1 fallback=40.855s",
+    "timestamp_unix": 1792679689
+  },
+  {
+    "id": 18,
+    "level": "info",
+    "message": "M02 search: entry transition completed",
+    "timestamp_unix": 1792679689
+  },
+  {
+    "id": 20,
+    "level": "info",
+    "message": "M02 match reserved: generation=5 kind=development_bot elapsed=40.867s",
+    "timestamp_unix": 1792679730
+  },
+  {
+    "id": 21,
+    "level": "info",
+    "message": "M02 handoff ready: generation=5 ready_count=2 transition completed",
+    "timestamp_unix": 1792679731
+  }
+]

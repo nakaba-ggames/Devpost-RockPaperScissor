@@ -9,6 +9,8 @@ extends Control
 @onready var name_input: LineEdit = %DisplayName
 @onready var continue_button: Button = %Continue
 @onready var feedback: Label = %Feedback
+@onready var matchmaking: VBoxContainer = %Matchmaking
+var menu_profile: PreviewProfile
 var screen_tween: Tween
 var feedback_tween: Tween
 var can_continue: bool = false
@@ -32,7 +34,8 @@ func _ready() -> void:
 	%RetryEntry.pressed.connect(_restart_entry)
 	%NewPreview.pressed.connect(provider.clear_local_data)
 	%RetryConnection.pressed.connect(service.retry)
-	%Play.pressed.connect(_temporary.bind("Play", "Matchmaking arrives in M02."))
+	%Play.pressed.connect(_play)
+	matchmaking.return_requested.connect(_return_from_search)
 	%Leaderboard.pressed.connect(_temporary.bind("Leaderboard", "Available in M07."))
 	%Record.pressed.connect(_temporary.bind("Record", "Available in M07; layout reserved to the creator."))
 	%Stats.pressed.connect(_temporary.bind("Detailed Stats", "Available in M07; layout reserved to the creator."))
@@ -88,6 +91,7 @@ func _continue() -> void:
 	provider.enter_menu()
 
 func _menu_ready(profile: PreviewProfile) -> void:
+	menu_profile = profile
 	%PlayerName.text = profile.display_name
 	%Points.text = "%d Overall Points" % profile.overall_points
 	%DailyQuest.text = profile.daily_quest_text
@@ -161,3 +165,42 @@ func _connection_changed(text: String) -> void:
 	%ConnectionStatus.text = text
 	%RetryConnection.visible = text.contains("failed") or text.contains("disconnected")
 	_fade_in(%ConnectionStatus)
+
+func _play() -> void:
+	if changing_screen or not menu.visible or menu_profile == null:
+		return
+	changing_screen = true
+	feedback.modulate.a = 0.0
+	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
+	screen_tween.tween_property(menu, "modulate:a", 0.0, motion.fade_seconds)
+	await screen_tween.finished
+	menu.hide()
+	var player := MatchParticipant.new()
+	player.player_id = menu_profile.player_id
+	player.display_name = menu_profile.display_name
+	player.overall_points = menu_profile.overall_points
+	matchmaking.show()
+	matchmaking.modulate.a = 0.0
+	matchmaking.start(player, %SearchScenario.selected)
+	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
+	screen_tween.tween_property(matchmaking, "modulate:a", 1.0, motion.fade_seconds)
+	await screen_tween.finished
+	changing_screen = false
+	print("M02 search: entry transition completed")
+
+func _return_from_search() -> void:
+	# Session invalidation/release happens synchronously before this animation.
+	changing_screen = true
+	if screen_tween:
+		screen_tween.kill()
+	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
+	screen_tween.tween_property(matchmaking, "modulate:a", 0.0, motion.fade_seconds)
+	await screen_tween.finished
+	matchmaking.hide()
+	menu.modulate.a = 0.0
+	menu.show()
+	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
+	screen_tween.tween_property(menu, "modulate:a", 1.0, motion.fade_seconds)
+	await screen_tween.finished
+	changing_screen = false
+	print("M02 menu: return transition completed")

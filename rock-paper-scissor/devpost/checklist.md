@@ -30,7 +30,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
   PRD ref: `prd.md > Ranked Matchmaking`; `prd.md > The Core Journey`.
   Spec ref: `spec.md > Ranked Matchmaking Coordinator`; `spec.md > GD-Sync Integration`; `spec.md > Live Match Messages`.
   Build: Execute M02 scope and completion criteria in docs/Milestones.md; use only the assigned development/live providers and creator inputs defined there.
-  Verify (mechanical): Run menu-to-search and all scripted outcomes; cancel just before and after a found event and prove only one arena context exists. Inspect configured timing/resources and test the normal wait. Use MCP and an affected-path browser smoke check.
+  Verify (mechanical): Creator-authorized M02 reduction: focused changed-scene/script diagnostics; normal menu → search → leave → menu; normal scripted found → one match-ready context; one ordinary unsuccessful search through the real configured randomized 30–45-second wait → development bot context; affected-path single-threaded release-browser smoke covering layout and animation completion; focused export-dependency/assertion review. Failure, cancellation-at-arrival, duplicate/late-callback injection and broader edge checks are deferred, not passed. See Revisions and M02_Report.md.
   Learner check: Tap Play, leave the search, repeat it, and try the scripted found/timeout paths; report whether the sequence feels close to the intended live flow.
   Commit: `feat(matchmaking): add cancellable simulated search flow`
 
@@ -162,6 +162,9 @@ Reflection: not offered yet; personal answers belong only in the ignored learner
 Activity mode: not chosen; use an appropriate focused investigation or prior practice for this experienced planning-first creator.
 
 ## Revisions
+
+- 2026-10-22, M02: creator explicitly limits verification to the six basic checks recorded in slice 2 above. This overrides M02's broader original verification wording in Milestones.md. No full suite, broad regression, stress tests, browser/device matrix, cancellation-at-arrival races, late-callback injection, deliberate errors or malformed-input checks were run. Safeguards and failure handling are implemented; their deferred edge behavior is unverified.
+- 2026-10-22, M02: fast mode continues. Only development fixtures are supplied; production rating-gap/widening values remain unset in search_settings.tres. Final matchmaking choreography remains creator-owned via search_card.tscn's CreatorAnimation hook. The M02 creator try-out is provided in the report; feedback is pending and no hands-on checkpoint is marked performed.
 
 - 2026-10-22, M01: creator explicitly limits verification to changed-scene diagnostics, one normal editor entry/menu flow, one single-threaded release-browser smoke flow, one ordinary reload, one local-only Clear Data reset, and focused export/assertion checks. Broad regression, failure/disconnect/timeout injection, stress/race/malformed-input checks and device/browser matrix are deferred to a dedicated later session; none may be marked performed.
 - 2026-10-22, M01: creator selected fast mode and has no strict naming rules for this preview. Use trimmed, nonempty local display names; production validation remains M10. Final title/menu choreography and allegiance art remain creator-owned.
