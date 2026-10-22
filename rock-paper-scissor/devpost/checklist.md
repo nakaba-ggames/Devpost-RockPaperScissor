@@ -24,7 +24,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
   Learner check: Open the browser build, enter the menu, try the buttons and basic motion, and verify that the connection indicator reflects a real GD-Sync connection.
   Commit: `feat(menu): add preview menu and GD-Sync connection`
 
-- [ ] **2. Play and simulated matchmaking with live-shaped behavior**
+- [x] **2. Play and simulated matchmaking with live-shaped behavior**
   Becomes usable: Play opens an animated search, cancellation works, and a controlled development search outcome enters a match-ready arena context.
   Why now: Adds the next actual-flow step while the full live match transport remains in its requested later milestone.
   PRD ref: `prd.md > Ranked Matchmaking`; `prd.md > The Core Journey`.
@@ -165,6 +165,7 @@ Activity mode: not chosen; use an appropriate focused investigation or prior pra
 
 - 2026-10-22, M02: creator explicitly limits verification to the six basic checks recorded in slice 2 above. This overrides M02's broader original verification wording in Milestones.md. No full suite, broad regression, stress tests, browser/device matrix, cancellation-at-arrival races, late-callback injection, deliberate errors or malformed-input checks were run. Safeguards and failure handling are implemented; their deferred edge behavior is unverified.
 - 2026-10-22, M02: fast mode continues. Only development fixtures are supplied; production rating-gap/widening values remain unset in search_settings.tres. Final matchmaking choreography remains creator-owned via search_card.tscn's CreatorAnimation hook. The M02 creator try-out is provided in the report; feedback is pending and no hands-on checkpoint is marked performed.
+- 2026-10-22, M02 implementation complete: authorized basic checks passed and feature commit `2425b35` succeeded before checking slice 2. Evidence and exact launch/creator try-out are in `docs/reports/M02_Report.md`. Fast mode has no planned M02 hands-on checkpoint; actual creator feedback remains pending. Deferred edge checks and final creator animation/tuning are not marked complete. No M03 work was started.
 
 - 2026-10-22, M01: creator explicitly limits verification to changed-scene diagnostics, one normal editor entry/menu flow, one single-threaded release-browser smoke flow, one ordinary reload, one local-only Clear Data reset, and focused export/assertion checks. Broad regression, failure/disconnect/timeout injection, stress/race/malformed-input checks and device/browser matrix are deferred to a dedicated later session; none may be marked performed.
 - 2026-10-22, M01: creator selected fast mode and has no strict naming rules for this preview. Use trimmed, nonempty local display names; production validation remains M10. Final title/menu choreography and allegiance art remain creator-owned.

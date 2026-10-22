@@ -1,6 +1,6 @@
 # M02 — Play and simulated matchmaking with live-shaped behavior
 
-Status: implementation and authorized mechanical checks complete; commit/checklist recording follows below. Creator feedback and final authoring are pending.
+Status: complete for the assigned M02 scope and creator-authorized basic verification. Feature committed; slice 2 checked. Creator feedback and final authoring remain pending and are not claimed complete.
 
 ## Scope and approved references
 
@@ -101,7 +101,7 @@ The SDK still embeds connection configuration in the exported PCK. **Localhost-o
 
 ## Commits and checklist slice update
 
-Planned feature commit: `feat(matchmaking): add cancellable simulated search flow`. Only explicit M02 source/resource/scene/evidence/report files and checklist revisions are staged, after reviewing the intended diff. The implementation commit hash and subsequent slice-2 completion record are filled after the commit succeeds. Other slices and hands-on checkpoint boxes remain untouched.
+Feature commit: `2425b35` — `feat(matchmaking): add cancellable simulated search flow`. Reviewed the exact 39-file staged set and source/resource/scene diff; whitespace checks and a local credential-string scan passed. Only explicit M02 source/resource/scene/evidence/report files and checklist revisions were committed. After the feature commit succeeded, only slice 2 was checked, under the authorized mechanical-verification reduction; fast mode has no planned M02 hands-on checkpoint. Other slices and hands-on checkpoint boxes remain untouched. This report/checklist completion record is saved separately as `docs: record M02 completion and verification limits`.
 
 Pre-existing `.DS_Store` changes, sibling backend image/metadata, untracked planning documents and M01 evidence imports are preserved and excluded. The learner profile, local GD-Sync keys and generated credential-bearing exports remain ignored/untracked. No blanket staging is used.
 
