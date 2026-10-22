@@ -8,6 +8,11 @@
 [ext_resource type="Script" uid="uid://drj0whha0c15" path="res://scripts/development/scripted_option_opponent.gd" id="6"]
 [ext_resource type="Resource" path="res://resources/development/arena_fixture.tres" id="7"]
 
+[ext_resource type="Script" path="res://scripts/development/local_preview_chat.gd" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/ui/arena_chat.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/ui/speech_bubble.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="11"]
+
 [node name="Arena" unique_id=494029415 instance=ExtResource("1")]
 layout_mode = 3
 anchors_preset = 0
@@ -25,3 +30,33 @@ rules = ExtResource("5")
 [node name="DevelopmentOpponent" type="Node" parent="." index="18" unique_id=2089189068]
 script = ExtResource("6")
 fixture = ExtResource("7")
+
+[node name="OpponentBubble" parent="." instance=ExtResource("10")]
+visible = false
+layout_mode = 0
+z_index = 2
+offset_left = 45.0
+offset_top = 190.0
+offset_right = 405.0
+offset_bottom = 264.0
+[node name="PlayerBubble" parent="." instance=ExtResource("10")]
+visible = false
+layout_mode = 0
+z_index = 2
+offset_left = 45.0
+offset_top = 550.0
+offset_right = 405.0
+offset_bottom = 624.0
+[node name="ChatTrigger" parent="." instance=ExtResource("11")]
+layout_mode = 0
+z_index = 4
+custom_minimum_size = Vector2(0, 0)
+offset_left = 444.0
+offset_top = 324.0
+offset_right = 490.0
+offset_bottom = 472.0
+theme_override_font_sizes/font_size = 18
+text = "C\nH\nA\nT"
+[node name="ChatOverlay" parent="." instance=ExtResource("9")]
+[node name="ChatSession" type="Node" parent="."]
+script = ExtResource("8")

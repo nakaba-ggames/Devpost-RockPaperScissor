@@ -1,0 +1,474 @@
+{
+  "completed": {
+    "phase": "m04_complete",
+    "history": {
+      "actors": [
+        {
+          "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+          "claimPhases": {
+            "identity_claim": {
+              "defaulted": false,
+              "locked": true,
+              "lockedElapsedMsec": 34783,
+              "eventCount": 2
+            },
+            "switch_claim": {
+              "defaulted": false,
+              "locked": true,
+              "lockedElapsedMsec": 51398,
+              "eventCount": 2
+            }
+          },
+          "defaulted": false,
+          "events": [
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 2800,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "optionElapsedMsec": 83,
+              "payload": {
+                "initialCard": "Rock"
+              },
+              "phase": "option",
+              "revised": false,
+              "revision": 0,
+              "sequence": 1
+            },
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 27433,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "identityClaim": "Rock"
+              },
+              "phase": "identity_claim",
+              "phaseElapsedMsec": 7650,
+              "revised": false,
+              "revision": 0,
+              "sequence": 6
+            },
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 28617,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "identityClaim": "Paper"
+              },
+              "phase": "identity_claim",
+              "phaseElapsedMsec": 8834,
+              "revised": true,
+              "revision": 1,
+              "sequence": 7
+            },
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 44750,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "switchClaim": "keep"
+              },
+              "phase": "switch_claim",
+              "phaseElapsedMsec": 8366,
+              "revised": false,
+              "revision": 0,
+              "sequence": 10
+            },
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 45649,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "switchClaim": "switch"
+              },
+              "phase": "switch_claim",
+              "phaseElapsedMsec": 9265,
+              "revised": true,
+              "revision": 1,
+              "sequence": 11
+            }
+          ],
+          "identityClaim": "Paper",
+          "initialCard": "Rock",
+          "locked": true,
+          "lockedElapsedMsec": 17733,
+          "startingOrder": [
+            "Rock",
+            "Scissor",
+            "Paper"
+          ],
+          "switchClaim": "switch"
+        },
+        {
+          "actorId": "fixture-opponent",
+          "claimPhases": {
+            "identity_claim": {
+              "defaulted": false,
+              "locked": true,
+              "lockedElapsedMsec": 34783,
+              "eventCount": 2
+            },
+            "switch_claim": {
+              "defaulted": false,
+              "locked": true,
+              "lockedElapsedMsec": 51398,
+              "eventCount": 2
+            }
+          },
+          "defaulted": false,
+          "events": [
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 5733,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "optionElapsedMsec": 3016,
+              "payload": {
+                "initialCard": "Rock"
+              },
+              "phase": "option",
+              "revised": false,
+              "revision": 0,
+              "sequence": 2
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 9732,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "optionElapsedMsec": 7015,
+              "payload": {
+                "initialCard": "Paper"
+              },
+              "phase": "option",
+              "revised": true,
+              "revision": 1,
+              "sequence": 3
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 22798,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "identityClaim": "Rock"
+              },
+              "phase": "identity_claim",
+              "phaseElapsedMsec": 3015,
+              "revised": false,
+              "revision": 0,
+              "sequence": 4
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 26799,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "identityClaim": "Scissor"
+              },
+              "phase": "identity_claim",
+              "phaseElapsedMsec": 7016,
+              "revised": true,
+              "revision": 1,
+              "sequence": 5
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 39400,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "switchClaim": "keep"
+              },
+              "phase": "switch_claim",
+              "phaseElapsedMsec": 3016,
+              "revised": false,
+              "revision": 0,
+              "sequence": 8
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 43400,
+              "kind": "decision",
+              "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+              "payload": {
+                "switchClaim": "switch"
+              },
+              "phase": "switch_claim",
+              "phaseElapsedMsec": 7016,
+              "revised": true,
+              "revision": 1,
+              "sequence": 9
+            }
+          ],
+          "identityClaim": "Scissor",
+          "initialCard": "Paper",
+          "locked": true,
+          "lockedElapsedMsec": 17733,
+          "startingOrder": [
+            "Paper",
+            "Scissor",
+            "Rock"
+          ],
+          "switchClaim": "switch"
+        }
+      ],
+      "claimTiming": {
+        "identity_claim": {
+          "deadline": 34783,
+          "locked": 34783,
+          "started": 19783
+        },
+        "switch_claim": {
+          "deadline": 51384,
+          "locked": 51398,
+          "started": 36384
+        }
+      },
+      "claimsPresentationComplete": true,
+      "condition": 0,
+      "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+      "optionDeadline": 17717,
+      "optionLocked": 17733,
+      "optionStarted": 2717,
+      "presentationComplete": true,
+      "rulesRevision": "m04-claims-v1"
+    },
+    "messagesAtCompletion": [
+      {
+        "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+        "delivery": "local_preview",
+        "matchId": "dev-c5d7266844a2f69385619203e17738d4",
+        "sequence": 1,
+        "text": "Claim phase preview"
+      }
+    ],
+    "sameReservation": true
+  },
+  "idle": {
+    "phase": "m04_complete",
+    "history": {
+      "actors": [
+        {
+          "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+          "claimPhases": {
+            "identity_claim": {
+              "defaulted": true,
+              "locked": true,
+              "lockedElapsedMsec": 34800,
+              "eventCount": 1
+            },
+            "switch_claim": {
+              "defaulted": true,
+              "locked": true,
+              "lockedElapsedMsec": 51400,
+              "eventCount": 1
+            }
+          },
+          "defaulted": true,
+          "events": [
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 17717,
+              "kind": "default",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "optionElapsedMsec": 15000,
+              "payload": {
+                "initialCard": "Scissor"
+              },
+              "phase": "option",
+              "revised": false,
+              "revision": 0,
+              "sequence": 3
+            },
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 34800,
+              "kind": "default",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "payload": {
+                "identityClaim": "Scissor"
+              },
+              "phase": "identity_claim",
+              "phaseElapsedMsec": 15016,
+              "revised": false,
+              "revision": 0,
+              "sequence": 6
+            },
+            {
+              "actorId": "preview-89609841fbdfe9c5e18fbb4d41c5d553",
+              "elapsedMsec": 51400,
+              "kind": "default",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "payload": {
+                "switchClaim": "keep"
+              },
+              "phase": "switch_claim",
+              "phaseElapsedMsec": 15001,
+              "revised": false,
+              "revision": 0,
+              "sequence": 9
+            }
+          ],
+          "identityClaim": "Scissor",
+          "initialCard": "Scissor",
+          "locked": true,
+          "lockedElapsedMsec": 17717,
+          "startingOrder": [
+            "Scissor",
+            "Rock",
+            "Paper"
+          ],
+          "switchClaim": "keep"
+        },
+        {
+          "actorId": "fixture-opponent",
+          "claimPhases": {
+            "identity_claim": {
+              "defaulted": false,
+              "locked": true,
+              "lockedElapsedMsec": 34800,
+              "eventCount": 2
+            },
+            "switch_claim": {
+              "defaulted": false,
+              "locked": true,
+              "lockedElapsedMsec": 51400,
+              "eventCount": 2
+            }
+          },
+          "defaulted": false,
+          "events": [
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 5717,
+              "kind": "decision",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "optionElapsedMsec": 3000,
+              "payload": {
+                "initialCard": "Rock"
+              },
+              "phase": "option",
+              "revised": false,
+              "revision": 0,
+              "sequence": 1
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 9717,
+              "kind": "decision",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "optionElapsedMsec": 7000,
+              "payload": {
+                "initialCard": "Paper"
+              },
+              "phase": "option",
+              "revised": true,
+              "revision": 1,
+              "sequence": 2
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 22784,
+              "kind": "decision",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "payload": {
+                "identityClaim": "Rock"
+              },
+              "phase": "identity_claim",
+              "phaseElapsedMsec": 3000,
+              "revised": false,
+              "revision": 0,
+              "sequence": 4
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 26784,
+              "kind": "decision",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "payload": {
+                "identityClaim": "Scissor"
+              },
+              "phase": "identity_claim",
+              "phaseElapsedMsec": 7000,
+              "revised": true,
+              "revision": 1,
+              "sequence": 5
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 39399,
+              "kind": "decision",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "payload": {
+                "switchClaim": "keep"
+              },
+              "phase": "switch_claim",
+              "phaseElapsedMsec": 3000,
+              "revised": false,
+              "revision": 0,
+              "sequence": 7
+            },
+            {
+              "actorId": "fixture-opponent",
+              "elapsedMsec": 43400,
+              "kind": "decision",
+              "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+              "payload": {
+                "switchClaim": "switch"
+              },
+              "phase": "switch_claim",
+              "phaseElapsedMsec": 7001,
+              "revised": true,
+              "revision": 1,
+              "sequence": 8
+            }
+          ],
+          "identityClaim": "Scissor",
+          "initialCard": "Paper",
+          "locked": true,
+          "lockedElapsedMsec": 17717,
+          "startingOrder": [
+            "Paper",
+            "Scissor",
+            "Rock"
+          ],
+          "switchClaim": "switch"
+        }
+      ],
+      "claimTiming": {
+        "identity_claim": {
+          "deadline": 34784,
+          "locked": 34800,
+          "started": 19784
+        },
+        "switch_claim": {
+          "deadline": 51399,
+          "locked": 51400,
+          "started": 36399
+        }
+      },
+      "claimsPresentationComplete": true,
+      "condition": 0,
+      "matchId": "dev-8a0b10fe08a8b25e97f5488153c91cba",
+      "optionDeadline": 17717,
+      "optionLocked": 17717,
+      "optionStarted": 2717,
+      "presentationComplete": true,
+      "rulesRevision": "m04-claims-v1"
+    },
+    "localBubble": "I'll keep my choosing",
+    "messages": []
+  },
+  "afterDevelopmentReturn": {
+    "messages": [],
+    "chatMatchId": "",
+    "context": null,
+    "source": "MCP runtime expression immediately after Return"
+  }
+}

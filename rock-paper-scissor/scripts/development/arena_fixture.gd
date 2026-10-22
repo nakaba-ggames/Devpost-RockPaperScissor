@@ -6,3 +6,7 @@ extends Resource
 @export var opponent_revision_seconds: float = 7.0
 @export_enum("Rock", "Paper", "Scissor") var opponent_initial: String = "Rock"
 @export_enum("Rock", "Paper", "Scissor") var opponent_revised: String = "Paper"
+@export_enum("Rock", "Paper", "Scissor") var opponent_identity: String = "Rock"
+@export_enum("Rock", "Paper", "Scissor") var opponent_identity_revised: String = "Scissor"
+@export_enum("keep", "switch") var opponent_switch: String = "keep"
+@export_enum("keep", "switch") var opponent_switch_revised: String = "switch"

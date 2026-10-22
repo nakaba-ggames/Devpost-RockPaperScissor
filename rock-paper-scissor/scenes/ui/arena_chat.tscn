@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/modal_shell.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="2"]
+[node name="ArenaChat" instance=ExtResource("1")]
+visible = false
+z_index = 20
+[node name="Title" type="Label" parent="Content" index="0"]
+layout_mode = 2
+text = "ARENA CHAT"
+horizontal_alignment = 1
+[node name="Notice" type="Label" parent="Content" index="1"]
+layout_mode = 2
+text = "Local preview only • no peer delivery\nThe phase clock keeps running."
+horizontal_alignment = 1
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 18
+[node name="Scroll" type="ScrollContainer" parent="Content" index="2"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+[node name="Messages" type="Label" parent="Content/Scroll" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 2
+text = "No messages this match."
+[node name="Input" type="LineEdit" parent="Content" index="3"]
+layout_mode = 2
+placeholder_text = "Message (local preview)"
+[node name="Send" parent="Content" index="4" instance=ExtResource("2")]
+layout_mode = 2
+text = "Send local preview"
+[node name="Close" parent="Content" index="5" instance=ExtResource("2")]
+layout_mode = 2
+text = "Close chat"

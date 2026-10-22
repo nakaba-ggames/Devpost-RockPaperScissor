@@ -1,0 +1,275 @@
+{
+  "events": [
+    {
+      "level": "log",
+      "message": "Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org",
+      "timestamp": "2026-10-22T17:09:28.674Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+      "timestamp": "2026-10-22T17:09:28.768Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+      "timestamp": "2026-10-22T17:09:28.806Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M01 engine: 4.7-stable (official)",
+      "timestamp": "2026-10-22T17:09:28.918Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "timestamp": "2026-10-22T17:09:28.918Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M01 GD-Sync: actual SDK connected signal received",
+      "timestamp": "2026-10-22T17:09:36.160Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M01 menu: temporary transition completed",
+      "timestamp": "2026-10-22T17:09:46.226Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search began: generation=1 scenario=0 fallback=37.093s",
+      "timestamp": "2026-10-22T17:10:00.510Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search: entry transition completed",
+      "timestamp": "2026-10-22T17:10:00.794Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.017s",
+      "timestamp": "2026-10-22T17:10:04.529Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+      "timestamp": "2026-10-22T17:10:05.079Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+      "timestamp": "2026-10-22T17:10:07.494Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option locked: elapsed=15000ms; choices retained privately",
+      "timestamp": "2026-10-22T17:10:22.495Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "Option presentation complete; same context and reservation retained",
+      "timestamp": "2026-10-22T17:10:24.076Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim started: full 15-second window",
+      "timestamp": "2026-10-22T17:10:24.546Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim locked after 15000ms",
+      "timestamp": "2026-10-22T17:10:39.545Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim started: full 15-second window",
+      "timestamp": "2026-10-22T17:10:41.129Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim locked after 15014ms",
+      "timestamp": "2026-10-22T17:10:56.149Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 complete: M05 boundary; context/history/reservation retained; no round saved",
+      "timestamp": "2026-10-22T17:10:58.077Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 menu: return transition completed",
+      "timestamp": "2026-10-22T17:11:21.143Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search began: generation=3 scenario=0 fallback=30.116s",
+      "timestamp": "2026-10-22T17:11:39.211Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search: entry transition completed",
+      "timestamp": "2026-10-22T17:11:39.494Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 match reserved: generation=3 kind=scripted_opponent elapsed=4.019s",
+      "timestamp": "2026-10-22T17:11:43.230Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 handoff ready: generation=3 ready_count=2 transition completed",
+      "timestamp": "2026-10-22T17:11:43.777Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+      "timestamp": "2026-10-22T17:11:46.209Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option locked: elapsed=15002ms; choices retained privately",
+      "timestamp": "2026-10-22T17:12:01.213Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "Option presentation complete; same context and reservation retained",
+      "timestamp": "2026-10-22T17:12:02.796Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim started: full 15-second window",
+      "timestamp": "2026-10-22T17:12:03.262Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim locked after 15015ms",
+      "timestamp": "2026-10-22T17:12:18.277Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim started: full 15-second window",
+      "timestamp": "2026-10-22T17:12:19.862Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim locked after 15015ms",
+      "timestamp": "2026-10-22T17:12:34.878Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 complete: M05 boundary; context/history/reservation retained; no round saved",
+      "timestamp": "2026-10-22T17:12:36.809Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 menu: return transition completed",
+      "timestamp": "2026-10-22T17:12:56.512Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search began: generation=5 scenario=0 fallback=38.518s",
+      "timestamp": "2026-10-22T17:13:15.992Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search: entry transition completed",
+      "timestamp": "2026-10-22T17:13:16.278Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 match reserved: generation=5 kind=scripted_opponent elapsed=4.020s",
+      "timestamp": "2026-10-22T17:13:20.015Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 handoff ready: generation=5 ready_count=3 transition completed",
+      "timestamp": "2026-10-22T17:13:20.561Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+      "timestamp": "2026-10-22T17:13:22.995Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option locked: elapsed=15000ms; choices retained privately",
+      "timestamp": "2026-10-22T17:13:37.997Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "Option presentation complete; same context and reservation retained",
+      "timestamp": "2026-10-22T17:13:39.594Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim started: full 15-second window",
+      "timestamp": "2026-10-22T17:13:40.061Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim locked after 15001ms",
+      "timestamp": "2026-10-22T17:13:55.062Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim started: full 15-second window",
+      "timestamp": "2026-10-22T17:13:56.664Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim locked after 15013ms",
+      "timestamp": "2026-10-22T17:14:11.677Z",
+      "url": "http://localhost:3000/m04.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 complete: M05 boundary; context/history/reservation retained; no round saved",
+      "timestamp": "2026-10-22T17:14:13.643Z",
+      "url": "http://localhost:3000/m04.js"
+    }
+  ],
+  "issues": []
+}

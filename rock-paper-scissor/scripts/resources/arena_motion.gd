@@ -18,3 +18,8 @@ extends Resource
 @export var feedback_start_scale: Vector2 = Vector2(0.85, 0.85)
 @export var transition: Tween.TransitionType = Tween.TRANS_CUBIC
 @export var ease: Tween.EaseType = Tween.EASE_OUT
+@export var bubble_seconds: float = 0.35
+@export var bubble_start_scale: Vector2 = Vector2(0.92, 0.92)
+@export var unused_card_exit_distance: float = 95.0
+@export var chat_seconds: float = 0.25
+@export var chat_slide_distance: float = 34.0
