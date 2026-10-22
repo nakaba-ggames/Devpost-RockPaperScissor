@@ -3,6 +3,7 @@ signal return_requested
 signal option_complete(context: MatchContext)
 signal claims_complete(context: MatchContext)
 signal round_complete(context: MatchContext)
+signal result_acknowledged(submission: Dictionary, receipt: Dictionary)
 var candidate: String = ""
 @export var motion: ArenaMotion
 @onready var coordinator: OptionCoordinator = $Coordinator
@@ -36,9 +37,20 @@ func _ready() -> void:
 	$ChatOverlay/Content/Send.pressed.connect(_send_chat)
 	$ChatOverlay/Content/Input.text_submitted.connect(_submit_chat)
 	chat_session.message_received.connect(_chat_message)
+	$ReceiptGate.accepted.connect(_reveal_accepted)
+	$ReceiptGate.state_changed.connect($Reveal.waiting)
+	$Reveal/Retry.pressed.connect($ReceiptGate.retry)
+	$Reveal.continue_requested.connect(_leave)
+	$Reveal.retreat_requested.connect(_retreat_cards)
+	$Reveal.outcome_requested.connect(_clear_table_for_outcome)
 
 func begin(match_context: MatchContext, selected_condition: int) -> void:
 	context = match_context
+	$Reveal.reset()
+	$ReceiptGate.dispose()
+	for node in [$Phase, $Clock, $Tendency, $LocalChoice, $PlayerTell, $OpponentTell, $ChatTrigger, $PlayerName, $OpponentName]:
+		node.show()
+		node.modulate.a = 1.0
 	chat_session.begin(context)
 	set_chat_open_allowed(true)
 	$ChatOverlay.hide()
@@ -231,15 +243,10 @@ func _locked(locked_phase: String) -> void:
 		_prepare_final()
 	else:
 		$ConfirmSwitch.hide()
-		$Phase.text = "LOCAL ROUND COMPLETE"
-		$Boundary.text = "M05 development boundary • Simulated receipt only.\nM06 reveal pending. No points or history saved."
-		$Return.show()
-		$Return.modulate.a = 0.0
-		presentation_tween = _tween()
-		presentation_tween.tween_property($Return, "modulate:a", 1.0, motion.intro_fade_seconds)
-		await presentation_tween.finished
 		coordinator.finish_final_presentation()
 		round_complete.emit(context)
+		set_chat_open_allowed(false)
+		$ReceiptGate.begin(context)
 
 func _prepare_claim(next_phase: String) -> void:
 	$Phase.text = "CLAIM • IDENTITY"
@@ -302,8 +309,7 @@ func _update_bubble(actor_id: String, phase_name: String) -> void:
 	bubble.scale = motion.bubble_start_scale
 	tween.tween_property(bubble, "scale", Vector2.ONE, motion.bubble_seconds)
 
-# Future cinematic may disable opening. Existing-overlay close choreography is
-# creator-owned: this gate deliberately leaves an already-open overlay alone.
+# New opening is gated independently of creator-configured overlay handling.
 func set_chat_open_allowed(allowed: bool) -> void:
 	chat_open_allowed = allowed
 	$ChatTrigger.disabled = not allowed
@@ -362,12 +368,49 @@ func _tween() -> Tween:
 	return create_tween().set_trans(motion.transition).set_ease(motion.ease)
 
 func _leave() -> void:
+	if context != null and not context.result_submission.is_empty() and $Reveal.state != "complete":
+		return
 	# Only leaves this context; matchmaking releases its reservation by match ID.
+	$ReceiptGate.dispose()
+	$Reveal.reset()
 	chat_session.dispose()
 	$ChatOverlay.hide()
+	$ChatOverlay/Content/Input.clear()
+	$ChatOverlay/Content/Scroll/Messages.text = ""
 	coordinator.leave_context()
 	context = null
 	return_requested.emit()
+
+func _reveal_accepted(submission: Dictionary, receipt: Dictionary) -> void:
+	# Credit belongs to the provider even if presentation is subsequently closed.
+	result_acknowledged.emit(submission, receipt)
+	if $Reveal.tuning.authoring_agreed and $Reveal.tuning.close_existing_chat:
+		if $ChatOverlay.visible:
+			chat_closing = false
+			await _close_chat()
+	$Reveal.present(submission, receipt, context.local_player.player_id)
+
+func _retreat_cards(seconds: float) -> void:
+	var retreat := _tween().set_parallel(true)
+	for node in [$Phase, $Clock, $Tendency, $LocalChoice, $PlayerTell, $OpponentTell, $ChatTrigger, $PlayerBubble, $OpponentBubble, $PlayerName, $OpponentName]:
+		retreat.tween_property(node, "modulate:a", 0.0, seconds)
+	for side in ["PlayerCards", "OpponentCards"]:
+		var actor_id := context.opponent.player_id
+		if side == "PlayerCards":
+			actor_id = context.local_player.player_id
+		var actor_history: Dictionary = {}
+		for actor in context.result_submission.history.actors:
+			if actor.actorId == actor_id:
+				actor_history = actor
+		var index: int = actor_history.startingOrder.find(actor_history.initialCard)
+		var card: Control = get_node(side).get_child(index)
+		retreat.tween_property(card, "position", _home_position(side, 1), seconds)
+
+func _clear_table_for_outcome(seconds: float) -> void:
+	var fade := _tween().set_parallel(true)
+	for side in ["PlayerCards", "OpponentCards"]:
+		for card in get_node(side).get_children():
+			fade.tween_property(card, "modulate:a", 0.0, seconds)
 
 func _prepare_final() -> void:
 	$Phase.text = "CHANGE • FINAL CHOICE"

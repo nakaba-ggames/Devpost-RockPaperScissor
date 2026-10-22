@@ -38,6 +38,7 @@ func _ready() -> void:
 	%Play.pressed.connect(_play)
 	matchmaking.return_requested.connect(_return_from_search)
 	matchmaking.match_ready.connect(_arena_entered)
+	matchmaking.get_node("Arena").result_acknowledged.connect(provider.apply_acknowledged_result)
 	%Leaderboard.pressed.connect(_temporary.bind("Leaderboard", "Available in M07."))
 	%Record.pressed.connect(_temporary.bind("Record", "Available in M07; layout reserved to the creator."))
 	%Stats.pressed.connect(_temporary.bind("Detailed Stats", "Available in M07; layout reserved to the creator."))
@@ -104,7 +105,16 @@ N/A"
 %.0f%%" % (100.0 * profile.wins / profile.games_played)
 	%WinStreak.text = "Win Streak
 %d" % profile.win_streak
-	_transition_to_menu()
+	var allegiance := "Human • no wins"
+	if profile.lying_wins > profile.honest_wins:
+		allegiance = "Devil"
+	elif profile.honest_wins > profile.lying_wins:
+		allegiance = "Angel"
+	elif profile.wins > 0:
+		allegiance = "Angel / Devil"
+	$Margin/Stack/Body/Menu/Summary/Center/AllegianceLabel.text = allegiance + "\nTemp. icon"
+	if entry.visible:
+		_transition_to_menu()
 
 func _transition_to_menu() -> void:
 	# Temporary fade only; the creator owns final opening choreography.
@@ -200,6 +210,7 @@ func _return_from_search() -> void:
 	screen_tween.tween_property(matchmaking, "modulate:a", 0.0, motion.fade_seconds)
 	await screen_tween.finished
 	matchmaking.hide()
+	provider.enter_menu()
 	_arena_chrome(true)
 	menu.modulate.a = 0.0
 	menu.show()

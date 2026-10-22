@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/resources/reveal_tuning.gd" id="1"]
+[resource]
+script = ExtResource("1")
+authoring_agreed = true
+temporary_outcome_agreed = true
+dim_alpha = 0.3
+final_dim_alpha = 1.0
+black_hold_seconds = 0.35
+close_existing_chat = true
+allow_skip_narration = false
+retreat_seconds = 0.55
+fade_seconds = 0.4
+curtain_seconds = 0.8
+text_hold_seconds = 2.2
+outcome_seconds = 0.7
+outcome_hold_seconds = 1.0
+continue_seconds = 0.35
+receipt_timeout_seconds = 10.0
+retry_seconds = 1.0
+status_pulse_seconds = 0.65
+projector_cycle_seconds = 0.16
+projector_min_alpha = 0.04
+projector_max_alpha = 0.1
+outcome_start_scale = Vector2(0.86, 0.86)
+transition = 2
+ease = 2

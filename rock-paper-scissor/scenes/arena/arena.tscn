@@ -17,6 +17,9 @@
 [ext_resource type="Script" path="res://scripts/development/local_result_sink.gd" id="13"]
 [ext_resource type="Script" path="res://scripts/arena/submission_particles.gd" id="14"]
 [ext_resource type="Resource" path="res://resources/presentation/submission_effect.tres" id="15"]
+[ext_resource type="PackedScene" path="res://scenes/ui/reveal.tscn" id="16"]
+[ext_resource type="Script" path="res://scripts/results/receipt_gate.gd" id="17"]
+[ext_resource type="Resource" path="res://resources/presentation/reveal_tuning.tres" id="18"]
 
 [node name="Arena" unique_id=494029415 instance=ExtResource("1")]
 layout_mode = 3
@@ -89,3 +92,9 @@ emitting = false
 z_index = 2
 script = ExtResource("14")
 settings = ExtResource("15")
+
+[node name="Reveal" parent="." instance=ExtResource("16")]
+[node name="ReceiptGate" type="Node" parent="." node_paths=PackedStringArray("sink")]
+script = ExtResource("17")
+sink = NodePath("../ResultSink")
+tuning = ExtResource("18")

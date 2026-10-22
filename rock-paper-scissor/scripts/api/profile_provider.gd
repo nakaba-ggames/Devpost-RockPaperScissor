@@ -17,5 +17,8 @@ func save_display_name(_display_name: String) -> void:
 func enter_menu() -> void:
 	pass
 
+func apply_acknowledged_result(_submission: Dictionary, _receipt: Dictionary) -> bool:
+	return false
+
 func clear_local_data() -> void:
 	pass

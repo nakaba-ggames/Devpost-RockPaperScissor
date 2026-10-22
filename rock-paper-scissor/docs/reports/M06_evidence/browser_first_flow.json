@@ -1,0 +1,218 @@
+[
+  {
+    "level": "log",
+    "message": "Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org",
+    "timestamp": "2026-10-22T20:22:51.159Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "timestamp": "2026-10-22T20:22:51.344Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "timestamp": "2026-10-22T20:22:51.496Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 engine: 4.7-stable (official)",
+    "timestamp": "2026-10-22T20:22:51.724Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-22T20:22:51.724Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 GD-Sync: actual SDK connected signal received",
+    "timestamp": "2026-10-22T20:22:58.965Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 menu: temporary transition completed",
+    "timestamp": "2026-10-22T20:23:03.063Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search began: generation=1 scenario=0 fallback=41.466s",
+    "timestamp": "2026-10-22T20:23:13.698Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 search: entry transition completed",
+    "timestamp": "2026-10-22T20:23:13.979Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.016s",
+    "timestamp": "2026-10-22T20:23:17.716Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+    "timestamp": "2026-10-22T20:23:18.264Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+    "timestamp": "2026-10-22T20:23:20.697Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M03 Option locked: elapsed=15000ms; choices retained privately",
+    "timestamp": "2026-10-22T20:23:35.697Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "Option presentation complete; same context and reservation retained",
+    "timestamp": "2026-10-22T20:23:37.280Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 identity_claim started: full 15-second window",
+    "timestamp": "2026-10-22T20:23:37.748Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 identity_claim locked after 15000ms",
+    "timestamp": "2026-10-22T20:23:52.747Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 switch_claim started: full 15-second window",
+    "timestamp": "2026-10-22T20:23:54.332Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 switch_claim locked after 15015ms",
+    "timestamp": "2026-10-22T20:24:09.346Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M04 complete: M05 boundary; context/history/reservation retained; no round saved",
+    "timestamp": "2026-10-22T20:24:10.929Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 final choice started: full 15-second window",
+    "timestamp": "2026-10-22T20:24:10.930Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 receipt: simulated=true persisted=false",
+    "timestamp": "2026-10-22T20:24:25.947Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 final locked after 15015ms; history/result frozen; no persistent credit",
+    "timestamp": "2026-10-22T20:24:25.947Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 complete: M06 handoff ready; simulated receipt only; reservation retained",
+    "timestamp": "2026-10-22T20:24:27.529Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 preview applied once: outcome=loss points=0 session-only; no persistence",
+    "timestamp": "2026-10-22T20:24:27.529Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 receipt accepted before cinematic: simulated=true serverAcknowledged=false persisted=false",
+    "timestamp": "2026-10-22T20:24:27.530Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Someone began with Rock.",
+    "timestamp": "2026-10-22T20:24:29.296Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Velvet began with Paper.",
+    "timestamp": "2026-10-22T20:24:32.312Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Someone claimed Paper. / Deceptive about the initial Rock.",
+    "timestamp": "2026-10-22T20:24:35.747Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Velvet claimed Scissor. / Deceptive about the initial Paper.",
+    "timestamp": "2026-10-22T20:24:38.763Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Someone promised to keep. / Truthful about the final action.",
+    "timestamp": "2026-10-22T20:24:42.196Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Velvet promised to keep. / Truthful about the final action.",
+    "timestamp": "2026-10-22T20:24:45.215Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Someone chose to keep. / Rock → Rock. / No input: the phase default applied.",
+    "timestamp": "2026-10-22T20:24:48.648Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 narrative: Velvet chose to keep. / Paper → Paper.",
+    "timestamp": "2026-10-22T20:24:51.665Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 outcome begins: treatment alpha=0.0",
+    "timestamp": "2026-10-22T20:24:56.281Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 presentation complete: Tap To Continue available",
+    "timestamp": "2026-10-22T20:24:58.363Z",
+    "url": "http://localhost:3000/m06.js"
+  },
+  {
+    "level": "log",
+    "message": "M02 menu: return transition completed",
+    "timestamp": "2026-10-22T20:25:26.913Z",
+    "url": "http://localhost:3000/m06.js"
+  }
+]

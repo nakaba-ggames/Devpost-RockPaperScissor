@@ -8,4 +8,8 @@ extends Resource
 @export var wins: int = 0
 @export var games_played: int = 0
 @export var win_streak: int = 0
+@export var losses: int = 0
+@export var draws: int = 0
+@export var honest_wins: int = 0
+@export var lying_wins: int = 0
 @export var daily_quest_text: String = "Daily quest • not available in M01"

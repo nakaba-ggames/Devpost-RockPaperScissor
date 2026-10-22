@@ -1,0 +1,97 @@
+{
+  "examples": [
+    {
+      "example": "truthful Keep / win",
+      "localBeats": [
+        "You began with Rock.",
+        "You claimed Rock.\nTruthful about the initial Rock.",
+        "You promised to keep.\nTruthful about the final action.",
+        "You chose to keep.\nRock \u2192 Rock."
+      ],
+      "result": {
+        "actorId": "a",
+        "actualSwitch": false,
+        "classification": "honest",
+        "conditionFulfilled": false,
+        "finalCard": "Rock",
+        "honestMatchCount": 1,
+        "identityTruth": true,
+        "initialCard": "Rock",
+        "intentionTruth": true,
+        "lyingMatchCount": 0,
+        "outcome": "win",
+        "points": 10
+      }
+    },
+    {
+      "example": "deceptive identity and Switch promise / loss",
+      "localBeats": [
+        "You began with Rock.",
+        "You claimed Paper.\nDeceptive about the initial Rock.",
+        "You promised to switch.\nDeceptive about the final action.",
+        "You chose to keep.\nRock \u2192 Rock."
+      ],
+      "result": {
+        "actorId": "a",
+        "actualSwitch": false,
+        "classification": "lying",
+        "conditionFulfilled": true,
+        "finalCard": "Rock",
+        "honestMatchCount": 0,
+        "identityTruth": false,
+        "initialCard": "Rock",
+        "intentionTruth": false,
+        "lyingMatchCount": 1,
+        "outcome": "loss",
+        "points": 0
+      }
+    },
+    {
+      "example": "truthful Switch / draw",
+      "localBeats": [
+        "You began with Paper.",
+        "You claimed Paper.\nTruthful about the initial Paper.",
+        "You promised to switch.\nTruthful about the final action.",
+        "You chose to switch.\nPaper \u2192 Rock."
+      ],
+      "result": {
+        "actorId": "a",
+        "actualSwitch": true,
+        "classification": "honest",
+        "conditionFulfilled": false,
+        "finalCard": "Rock",
+        "honestMatchCount": 1,
+        "identityTruth": true,
+        "initialCard": "Paper",
+        "intentionTruth": true,
+        "lyingMatchCount": 0,
+        "outcome": "draw",
+        "points": 3
+      }
+    },
+    {
+      "example": "default Keep contradicted by final leftmost / win",
+      "localBeats": [
+        "You began with Paper.",
+        "You claimed Paper.\nTruthful about the initial Paper.",
+        "You promised to keep.\nDeceptive about the final action.\nNo input: the phase default applied.",
+        "You chose to switch.\nPaper \u2192 Rock.\nNo input: the phase default applied."
+      ],
+      "result": {
+        "actorId": "a",
+        "actualSwitch": true,
+        "classification": "lying",
+        "conditionFulfilled": true,
+        "finalCard": "Rock",
+        "honestMatchCount": 0,
+        "identityTruth": true,
+        "initialCard": "Paper",
+        "intentionTruth": false,
+        "lyingMatchCount": 1,
+        "outcome": "win",
+        "points": 20
+      }
+    }
+  ],
+  "failures": []
+}
