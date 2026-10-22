@@ -1,6 +1,6 @@
 # M06 — Cinematic reveal, result and return to menu
 
-Status: **verified; creator checkpoint accepted**. Feature commit and completion recording are the remaining administrative steps; slice 6 and the integrated local core-journey checkpoint stay unchecked until the feature commit succeeds. Fast mode; M06 only. No M07 work or HUB audit.
+Status: **complete** for assigned functional M06, authorized basic verification and the actual creator checkpoint. Feature commit `23d8316` succeeded before checking slice 6 and the integrated local core-journey checkpoint. Fast mode; M06 only. No M07 work or HUB audit.
 
 ## Scope and approved references
 
@@ -72,6 +72,6 @@ The checkpoint requested feedback on suspense, narrative accuracy/clarity, pacin
 
 ## Commit/checklist and M07 handoff
 
-Required creator checkpoint is accepted. Implementation is **awaiting the feature commit**: `feat(reveal): add acknowledged narrative result flow`. Explicit intended-file/staged-diff review remains required before that commit. Slice 6 and integrated local checkpoint are unchecked; only M06 Revisions were added. Unrelated Finder metadata, sibling artwork, existing untracked planning documents, private profile, credentials and generated exports are excluded.
+Required creator checkpoint is accepted. Feature commit: **`23d8316` — `feat(reveal): add acknowledged narrative result flow`**. Reviewed the explicit 30-file intended staged set, staged diffs and whitespace before committing. The supplemental text/evidence scan was rerun after a binary-diff decoding limitation; it does not replace the staged review. Only after the feature commit succeeded were slice 6 and the integrated local checkpoint checked. This report/checklist completion record is saved separately as `docs: record M06 completion and creator checkpoint`. Unrelated Finder metadata, sibling artwork, existing untracked planning documents, private profile, credentials and generated exports remain excluded.
 
-No M07 implementation. No code changed after creator acceptance, so no verification was repeated. Review/stage explicit intended files, commit the verified feature, then check only slice 6 and the integrated local checkpoint and save their completion record. Handoff retains frozen result/receipt/provider seams and reservation cleanup; remaining authoring includes final outcome choreography, cinema art/audio, narrative presets and creator icons. Deferred delivery failures/duplicate/retry and later live/backend enforcement remain unverified for their assigned sessions.
+No M07 implementation. No code changed after creator acceptance, so no runtime verification or export was repeated. Only M06 documentation/progress was updated after its feature commit; Final Review, learning wrap-up and later milestones remain unchecked. Handoff retains frozen result/receipt/provider seams and reservation cleanup; remaining authoring includes final outcome choreography, cinema art/audio, narrative presets and creator icons. Deferred delivery failures/duplicate/retry and later live/backend enforcement remain unverified for their assigned sessions.

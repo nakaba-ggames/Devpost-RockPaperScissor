@@ -64,7 +64,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
   Learner check: Play honest and deceptive rounds, deliberately contradict Keep/Switch claims, and try an idle round; assess whether the choices create doubt.
   Commit: `feat(round): add final choice and local round resolution`
 
-- [ ] **6. Cinematic reveal, result and return to menu**
+- [x] **6. Cinematic reveal, result and return to menu**
   Becomes usable: A complete development match waits for its simulated receipt, tells the actual match story, presents the result, and returns to the menu.
   Why now: Completes the user-visible core journey before the peripheral submenus and late service integrations.
   PRD ref: `prd.md > Phase 5 — Narration, Reveal, and Result`; `prd.md > Arena Chat`; `prd.md > Main Menu and Player Information`.
@@ -137,7 +137,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — after M01: creator tried the menu, controls, initial motion, SDK connection presentation and local-only Clear Data testing reset. Feedback on 2026-10-22: “Yes, it works perfectly”. No adjustment requested; implementation committed as `2b773ac`.
-- [ ] Integrated local core journey explored — after M06: creator plays menu/search/deception/reveal/menu, shaping feel/narration before later UI/integrations.
+- [x] Integrated local core journey explored — after M06: creator accepts the functional local loop on 2026-10-23 and is satisfied with its tactile feel. No broken behavior or further M06 change requested; lack of art is intentional and no art is to be created here. Final authoring remains separate. Feature commit `23d8316`.
 - [ ] Live multiplayer explored — after M09: creator plays with a second real client and checks timing, chat, cancellation and pre-/post-receipt departures; preview persistence is explicitly identified.
 - [ ] Final kick-the-tires exploration and feedback completed — after M12 at the deployed HTTPS build with real backend data.
 
@@ -191,3 +191,5 @@ Activity mode: not chosen; use an appropriate focused investigation or prior pra
 - 2026-10-23, M06 functionality/basic checks: changed-script diagnostics, four frozen-history examples and ordinary release receipt/narration/result/menu passed. A card-back/text overlap found in the first release flow was fixed; a second export/reveal recheck confirmed the correction and automatic existing-chat closure. Delivery failures/retries/duplicates and broader checks remain unverified. Creator checkpoint launch/feedback requested; actual playthrough feedback and feature commit remain pending, so slice 6 and the integrated checkpoint remain unchecked. See `docs/reports/M06_Report.md`.
 
 - 2026-10-23, M06 creator checkpoint accepted: following the complete-local-loop feedback request, the creator is satisfied with the functional version and its tactile feel. No broken behavior or further M06 change requested. Missing art is intentional; **do not create any art here**. Final artwork/choreography and future narrative presets remain authoring work. Feature commit/completion recording follows; no additional tests or implementation were requested.
+
+- 2026-10-23, M06 complete: creator checkpoint accepted and feature commit `23d8316` (`feat(reveal): add acknowledged narrative result flow`) succeeded before checking only slice 6 and the integrated local core-journey checkpoint. Scoped verification, simulated acknowledgement/session-preview limits, creator choices/feedback and deferred checks are recorded in `docs/reports/M06_Report.md`. No art added, M07 work, Final Review or learning wrap-up.
