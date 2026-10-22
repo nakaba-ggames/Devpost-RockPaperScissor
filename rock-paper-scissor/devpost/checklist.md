@@ -74,7 +74,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
   Learner check: Play the complete local loop and judge suspense, clarity, pacing and the win/loss/draw payoff before later screens are built.
   Commit: `feat(reveal): add acknowledged narrative result flow`
 
-- [ ] **7. Submenus I — statistics, records and leaderboard**
+- [x] **7. Submenus I — statistics, records and leaderboard**
   Becomes usable: Menu buttons open functional statistics, record and four-category leaderboard views over the preview data-provider contract.
   Why now: Builds the read-oriented submenus together after a complete round can produce their data.
   PRD ref: `prd.md > Detailed Statistics and Records`; `prd.md > Opponent Statistics and Saved Records`; `prd.md > Leaderboard`; `prd.md > Main Menu and Player Information`.
@@ -199,3 +199,5 @@ Activity mode: not chosen; use an appropriate focused investigation or prior pra
 - 2026-10-23, M07 awaiting input: three provider-backed functional draft views, session records/aggregates and bounded pagination implemented; authorized basic evidence is recorded in `docs/reports/M07_Report.md`. Exported inherited margins were corrected through Resource-owned insets, and focused Back rendering required a separate child caption after redraw/focus attempts. Creator Stats/Record composition agreement and final human/hybrid icon paths remain pending; draft design is not final. No planned hands-on checkpoint claimed. Slice 7 remains unchecked and no feature/completion commit is made until essential layout input is resolved. No M08 work or alteration of M06/checkpoint evidence.
 
 - 2026-10-23, M07 creator layout approved: creator says the current rough functional Stats/Record composition is fine for later backend integration and plans their own visual overhaul. Essential layout input is resolved; final human/hybrid icon paths remain tracked. No new hands-on checkpoint or HUB audit is claimed. Proceed with the verified M07 implementation commit, then check only slice 7 and record completion. No code, export or repeated runtime verification is needed for this documentation-only approval response.
+
+- 2026-10-23, M07 complete: essential creator layout approval received and feature commit `40b0cc2` (`feat(submenus): add stats records and leaderboards`) succeeded before checking only slice 7. Basic verification, preview/fixture contracts, session-only history, export fixes, actual feedback, deferred checks and missing final icon paths are recorded in `docs/reports/M07_Report.md`. The creator retains the later visual overhaul; no extra hands-on checkpoint, final polish, HUB audit, M08, Final Review or learning wrap-up is claimed. Completion documentation is recorded separately.

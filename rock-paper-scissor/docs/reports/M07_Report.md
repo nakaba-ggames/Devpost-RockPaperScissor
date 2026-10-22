@@ -1,6 +1,6 @@
 # M07 — Submenus I: statistics, records and leaderboard
 
-Status: **partial — Git completion in progress**. Creator approved the rough functional Detailed Stats/Record composition for later backend integration and plans their own visual overhaul. Scoped verification is complete; slice 7 remains unchecked until the implementation commit succeeds. Fast mode; M07 only. No M08 implementation, new M06 acceptance, checkpoint completion or HUB audit.
+Status: **complete** for assigned functional M07 and authorized basic verification. Creator approved the rough functional Detailed Stats/Record composition for later backend integration and plans their own visual overhaul. Feature commit `40b0cc2` succeeded before checking only slice 7. Fast mode; M07 only. No M08 implementation, new M06 acceptance, checkpoint completion or HUB audit.
 
 ## Scope and approved references
 
@@ -75,9 +75,9 @@ Press **F5**, continue/name the preview, then open **Detailed Stats**, **Record*
 
 Short creator try-out: open each view and return with Back; inspect both initial and final values, final-card dimming and scrolling; switch all four leaderboard categories and press More. Assess whether the information is clear without excessive text. The functional composition is approved; further visual overhaul remains creator-owned.
 
-Reviewing the explicit intended source/document/evidence set and staged diff before the planned feature commit. See `M07_evidence/change_review.json`.
+Reviewed the explicit 32-file intended staged set, staged diffs and whitespace before committing; the scoped staged privacy/path scan found no sensitive or unrelated content. See `M07_evidence/change_review.json`.
 
-The essential layout input is resolved. The planned `feat(submenus): add stats records and leaderboards` implementation commit follows staged review; only after it succeeds will slice 7 be checked in a separate completion record. M06/checkpoint evidence, later slices, Final Review and learning wrap-up are unchanged. Unrelated Finder metadata, sibling artwork and pre-existing untracked planning documents remain outside this change; learner profile/credentials remain ignored and untracked.
+The essential layout input is resolved. Feature commit **`40b0cc2` — `feat(submenus): add stats records and leaderboards`** succeeded before checking only slice 7. The completion update is saved separately as `docs: record M07 completion and creator layout approval`. No code changed after creator approval, so no export or runtime verification was repeated for this documentation-only response. M06/checkpoint evidence, later slices, Final Review and learning wrap-up are unchanged. Unrelated Finder metadata, sibling artwork and pre-existing untracked planning documents remain outside this change; learner profile/credentials remain ignored and untracked.
 
 ## Deferred checks and M08 handoff
 
