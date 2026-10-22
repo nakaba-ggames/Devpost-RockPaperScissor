@@ -1,6 +1,6 @@
 extends Control
 ## Shared read-only presentation; no gameplay-node reads or history calculation.
-@export_enum("stats", "records", "leaderboard") var view_kind: String = "stats"
+@export_enum("stats", "records", "leaderboard", "quests") var view_kind: String = "stats"
 @export var view_title: String = "Detailed Stats"
 @export var tuning: Resource
 const METRICS: Array[String] = ["overallPoints", "winRate", "lieCount", "honestCount"]
@@ -32,6 +32,9 @@ func _ready() -> void:
 	more.pressed.connect(_load_more)
 	retry.pressed.connect(_retry)
 	category.item_selected.connect(_category_changed)
+	if view_kind == "quests":
+		$Content/DevClock/Daily.pressed.connect(_advance_clock.bind("daily"))
+		$Content/DevClock/Weekly.pressed.connect(_advance_clock.bind("weekly"))
 
 func open(source: ProfileProvider) -> void:
 	provider = source
@@ -111,6 +114,8 @@ func _query(cursor: String) -> void:
 		response = await provider.request_stats()
 	elif view_kind == "records":
 		response = await provider.request_records(cursor, tuning.page_size)
+	elif view_kind == "quests":
+		response = await provider.request_quests()
 	else:
 		response = await provider.request_leaderboard(METRICS[category.selected], cursor, tuning.page_size)
 	if ticket != generation or not visible:
@@ -123,6 +128,8 @@ func _query(cursor: String) -> void:
 	status.text = ""
 	if view_kind == "stats":
 		_render_stats(response)
+	elif view_kind == "quests":
+		_render_quests(response)
 	else:
 		next_cursor = response.nextCursor
 		more.visible = not next_cursor.is_empty()
@@ -240,3 +247,27 @@ func _prepare_back_caption() -> void:
 	caption.add_theme_color_override("font_color", back.get_theme_color("font_color"))
 	back.add_child(caption)
 	caption.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+func _render_quests(data: Dictionary) -> void:
+	$Content/DevClock.visible = data.developmentOnly
+	if data.has("serverTime"):
+		var local_time := Time.get_datetime_string_from_unix_time(int(data.serverTime) + 7 * 3600).replace("T", " ")
+		status.text = "Dev time • %s GMT+7\nReset 05:00 daily / Monday weekly" % local_time
+	_label("Weekly objectives", rows, true)
+	for quest in data.weeklyQuests:
+		_render_quest(quest)
+	if data.weeklyQuests.is_empty():
+		_label("No weekly objectives configured.")
+	_label("Today's daily history", rows, true)
+	_label("Completed rewards arrive on menu entry.")
+	for quest in data.dailyHistory:
+		_render_quest(quest)
+
+func _render_quest(quest: Dictionary) -> void:
+	_label("%s\n%d/%d • %s • +%d points" % [quest.title, quest.progress, quest.target, str(quest.state).capitalize(), quest.rewardPoints])
+
+func _advance_clock(period: String) -> void:
+	if busy or moving:
+		return
+	provider.development_advance_quest_clock(period)
+	_query("")

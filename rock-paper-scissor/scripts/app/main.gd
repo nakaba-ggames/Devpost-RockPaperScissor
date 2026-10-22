@@ -24,6 +24,7 @@ func _ready() -> void:
 		print("M01 browser: ", browser_info.userAgent)
 	provider.identity_ready.connect(_identity_ready)
 	provider.menu_ready.connect(_menu_ready)
+	provider.menu_snapshot_updated.connect(_quest_menu_snapshot)
 	provider.request_failed.connect(_request_failed)
 	provider.local_data_cleared.connect(_local_cleared)
 	service.status_changed.connect(_connection_changed)
@@ -42,7 +43,7 @@ func _ready() -> void:
 	%Leaderboard.pressed.connect(_open_data.bind($LeaderboardView))
 	%Record.pressed.connect(_open_data.bind($Records))
 	%Stats.pressed.connect(_open_data.bind($DetailedStats))
-	%Quests.pressed.connect(_temporary.bind("Quests", "Available in M08."))
+	%Quests.pressed.connect(_open_data.bind($QuestsView))
 	_restart_entry()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -165,7 +166,7 @@ func _request_failed(kind: String, detail: String) -> void:
 	# Name/storage errors keep the current screen so the user can retry.
 
 func _local_cleared() -> void:
-	for view in [$DetailedStats, $Records, $LeaderboardView]:
+	for view in [$DetailedStats, $Records, $LeaderboardView, $QuestsView]:
 		view.reset()
 	name_input.clear()
 	if screen_tween:
@@ -222,7 +223,8 @@ func _return_from_search() -> void:
 	changing_screen = false
 	print("M02 menu: return transition completed")
 
-func _arena_entered(_context: MatchContext) -> void:
+func _arena_entered(context: MatchContext) -> void:
+	provider.begin_preview_match(context.match_id)
 	_arena_chrome(false)
 
 func _arena_chrome(shown: bool) -> void:
@@ -235,3 +237,13 @@ func _open_data(view: Control) -> void:
 	if changing_screen or not menu.visible:
 		return
 	view.open(provider)
+
+func _quest_menu_snapshot(snapshot: Dictionary) -> void:
+	%Points.text = "%d Overall Points" % snapshot.profile.overallPoints
+	var daily: Dictionary = snapshot.dailyQuest
+	if daily.is_empty():
+		%DailyQuest.text = "Daily • no preview catalogue"
+	else:
+		%DailyQuest.text = "Daily • %s  %d/%d • +%d" % [daily.title, daily.progress, daily.target, daily.rewardPoints]
+	if menu.visible:
+		_fade_in(%DailyQuest)

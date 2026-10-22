@@ -15,6 +15,9 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/leaderboard.tscn" id="11_board"]
 [ext_resource type="Resource" path="res://resources/development/leaderboard_roster.tres" id="12_roster"]
 
+[ext_resource type="PackedScene" path="res://scenes/ui/quests.tscn" id="13_quests"]
+[ext_resource type="Resource" path="res://resources/quests/development_catalogue.tres" id="14_catalogue"]
+
 [sub_resource type="Theme" id="Theme"]
 default_font_size = 22
 
@@ -33,6 +36,7 @@ motion = ExtResource("2")
 script = ExtResource("3")
 motion = ExtResource("2")
 roster = ExtResource("12_roster")
+quest_catalogue = ExtResource("14_catalogue")
 
 [node name="ServiceConnection" type="Node" parent="." unique_id=825920571]
 script = ExtResource("4")
@@ -166,7 +170,8 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 19
-text = "Daily quest • not available in M01"
+text = "Daily • preparing preview quest"
+autowrap_mode = 2
 horizontal_alignment = 1
 
 [node name="Summary" type="HBoxContainer" parent="Margin/Stack/Body/Menu" unique_id=1823832453]
@@ -325,3 +330,5 @@ horizontal_alignment = 1
 [node name="DetailedStats" parent="." instance=ExtResource("9_stats")]
 [node name="Records" parent="." instance=ExtResource("10_records")]
 [node name="LeaderboardView" parent="." instance=ExtResource("11_board")]
+
+[node name="QuestsView" parent="." instance=ExtResource("13_quests")]

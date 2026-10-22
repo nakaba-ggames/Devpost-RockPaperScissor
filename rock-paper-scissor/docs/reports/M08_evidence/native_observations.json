@@ -1,0 +1,31 @@
+{
+  "label": "M08 focused MCP observations",
+  "projectRoot": "/Users/karinauval/Godot-Projects/Devpost-MadeWIthAI-Jam/Devpost-RockPaperScissor/rock-paper-scissor",
+  "projectKeyMatched": true,
+  "questScene": "res://scenes/ui/quests.tscn",
+  "inheritedShell": [
+    "Backdrop",
+    "Panel",
+    "Content/Header/Title",
+    "Content/Header/Back",
+    "Content/Scroll/Rows",
+    "Content/DevClock/Daily",
+    "Content/DevClock/Weekly"
+  ],
+  "ordinaryOpen": {
+    "rows": 7,
+    "moving": false,
+    "backCaption": "Back",
+    "scrollMax": 472
+  },
+  "diagnostics": {
+    "changedGameScripts": 9,
+    "scopedRunner": 1,
+    "valid": true,
+    "diagnostics": []
+  },
+  "limitations": [
+    "Advanced refresh activation returned tools that were unavailable in this harness. Headless import registered new classes; explicit script preloads eliminated stale class-name checks.",
+    "No native ordinary match repeated; ordinary acknowledged flow is observed once in release browser."
+  ]
+}

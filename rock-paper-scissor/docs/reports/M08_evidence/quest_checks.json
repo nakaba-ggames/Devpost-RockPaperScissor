@@ -1,0 +1,1171 @@
+{
+	"Monday weekly": {
+		"at0459": {
+			"dailyHistory": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965540,
+						"afterEventSequence": 0
+					},
+					"completedAt": 1792965540,
+					"contributionIds": [
+						"m08-labelled-8"
+					],
+					"definitionId": "preview-scissors",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "daily",
+					"periodStart": 1792879200,
+					"progress": 1,
+					"questInstanceId": "preview-quest-cff8f7481f661e631bba900845d460a1",
+					"rewardPoints": 1,
+					"state": "completed",
+					"target": 1,
+					"title": "Phase 1: Play Scissors"
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965540,
+						"afterEventSequence": 1
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-wins",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "daily",
+					"periodStart": 1792879200,
+					"progress": 0,
+					"questInstanceId": "preview-quest-7d7a5374fb232e11f22c9190321cc7db",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Win 3 matches"
+				}
+			],
+			"dailyQuest": {
+				"activationBoundary": {
+					"activatedAt": 1792965540,
+					"afterEventSequence": 1
+				},
+				"completedAt": -1,
+				"contributionIds": [],
+				"definitionId": "preview-wins",
+				"expired": false,
+				"expiresAt": 1792965600,
+				"ownerId": "m08-controlled",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792879200,
+				"progress": 0,
+				"questInstanceId": "preview-quest-7d7a5374fb232e11f22c9190321cc7db",
+				"rewardPoints": 3,
+				"state": "active",
+				"target": 3,
+				"title": "Win 3 matches"
+			},
+			"developmentOnly": true,
+			"periods": {
+				"daily": 1792879200,
+				"weekly": 1792360800
+			},
+			"rulesRevision": "m08-creator-approved-preview-v1",
+			"serverTime": 1792965540,
+			"timeAuthority": "development preview",
+			"weeklyQuests": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965540,
+						"afterEventSequence": 0
+					},
+					"completedAt": 1792965540,
+					"contributionIds": [
+						"m08-labelled-8"
+					],
+					"definitionId": "clock-one-play",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 1,
+					"questInstanceId": "preview-quest-4cea0338df27c9492771fee2ea74a28e",
+					"rewardPoints": 2,
+					"state": "completed",
+					"target": 1,
+					"title": ""
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965540,
+						"afterEventSequence": 0
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_switch",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 0,
+					"questInstanceId": "preview-quest-99a3238aea1ab87add14d79402ed9946",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Switch initial card 3 times"
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965540,
+						"afterEventSequence": 0
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_lie",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 0,
+					"questInstanceId": "preview-quest-bddcde82e909b80ea0bc79086f678cf9",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Lie in 3 matches"
+				}
+			]
+		},
+		"at0501": {
+			"dailyHistory": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965600,
+						"afterEventSequence": 1
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-scissors",
+					"expired": false,
+					"expiresAt": 1793052000,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "daily",
+					"periodStart": 1792965600,
+					"progress": 0,
+					"questInstanceId": "preview-quest-fcb250a9b000062f4a0d0b6ef3c30f09",
+					"rewardPoints": 1,
+					"state": "active",
+					"target": 1,
+					"title": "Phase 1: Play Scissors"
+				}
+			],
+			"dailyQuest": {
+				"activationBoundary": {
+					"activatedAt": 1792965600,
+					"afterEventSequence": 1
+				},
+				"completedAt": -1,
+				"contributionIds": [],
+				"definitionId": "preview-scissors",
+				"expired": false,
+				"expiresAt": 1793052000,
+				"ownerId": "m08-controlled",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792965600,
+				"progress": 0,
+				"questInstanceId": "preview-quest-fcb250a9b000062f4a0d0b6ef3c30f09",
+				"rewardPoints": 1,
+				"state": "active",
+				"target": 1,
+				"title": "Phase 1: Play Scissors"
+			},
+			"developmentOnly": true,
+			"grants": [],
+			"periods": {
+				"daily": 1792965600,
+				"weekly": 1792965600
+			},
+			"profile": {
+				"allegiance": "Human",
+				"displayName": "M08 controlled",
+				"draws": 1,
+				"honestCount": 1,
+				"honestWinPercent": null,
+				"initialCards": {
+					"Paper": 0.0,
+					"Rock": 0.0,
+					"Scissor": 100.0
+				},
+				"lieCount": 0,
+				"liePercent": 0.0,
+				"losses": 0,
+				"lyingWinPercent": null,
+				"matches": 1,
+				"overallPoints": 3,
+				"playerId": "m08-controlled",
+				"switchPercent": 0.0,
+				"winRate": 0.0,
+				"winStreak": 0,
+				"winningCards": {
+					"Paper": null,
+					"Rock": null,
+					"Scissor": null
+				},
+				"wins": 0
+			},
+			"rulesRevision": "m08-creator-approved-preview-v1",
+			"serverTime": 1792965660,
+			"stats": {
+				"allegiance": "Human",
+				"displayName": "M08 controlled",
+				"draws": 1,
+				"honestCount": 1,
+				"honestWinPercent": null,
+				"initialCards": {
+					"Paper": 0.0,
+					"Rock": 0.0,
+					"Scissor": 100.0
+				},
+				"lieCount": 0,
+				"liePercent": 0.0,
+				"losses": 0,
+				"lyingWinPercent": null,
+				"matches": 1,
+				"overallPoints": 3,
+				"playerId": "m08-controlled",
+				"switchPercent": 0.0,
+				"winRate": 0.0,
+				"winStreak": 0,
+				"winningCards": {
+					"Paper": null,
+					"Rock": null,
+					"Scissor": null
+				},
+				"wins": 0
+			},
+			"timeAuthority": "development preview",
+			"weeklyQuests": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965600,
+						"afterEventSequence": 1
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_play",
+					"expired": false,
+					"expiresAt": 1793570400,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792965600,
+					"progress": 0,
+					"questInstanceId": "preview-quest-9079c649863dd1d12b6a0f115fd829ed",
+					"rewardPoints": 5,
+					"state": "active",
+					"target": 5,
+					"title": "Play 5 matches"
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965600,
+						"afterEventSequence": 1
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_switch",
+					"expired": false,
+					"expiresAt": 1793570400,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792965600,
+					"progress": 0,
+					"questInstanceId": "preview-quest-d0e1f5e4c7c3e36cecee218670aad35a",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Switch initial card 3 times"
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792965600,
+						"afterEventSequence": 1
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_lie",
+					"expired": false,
+					"expiresAt": 1793570400,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792965600,
+					"progress": 0,
+					"questInstanceId": "preview-quest-83e58a71bc8fcd74601ea08420f94cad",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Lie in 3 matches"
+				}
+			]
+		},
+		"expiredUnfinished": {
+			"activationBoundary": {
+				"activatedAt": 1792965540,
+				"afterEventSequence": 1
+			},
+			"completedAt": -1,
+			"contributionIds": [],
+			"definitionId": "preview-wins",
+			"expired": true,
+			"expiresAt": 1792965600,
+			"ownerId": "m08-controlled",
+			"paidAt": -1,
+			"periodKind": "daily",
+			"periodStart": 1792879200,
+			"progress": 0,
+			"questInstanceId": "preview-quest-7d7a5374fb232e11f22c9190321cc7db",
+			"rewardPoints": 3,
+			"state": "expired",
+			"target": 3,
+			"title": "Win 3 matches"
+		},
+		"expiredUnpaid": {
+			"activationBoundary": {
+				"activatedAt": 1792965540,
+				"afterEventSequence": 0
+			},
+			"completedAt": 1792965540,
+			"contributionIds": [
+				"m08-labelled-8"
+			],
+			"definitionId": "preview-scissors",
+			"expired": true,
+			"expiresAt": 1792965600,
+			"ownerId": "m08-controlled",
+			"paidAt": -1,
+			"periodKind": "daily",
+			"periodStart": 1792879200,
+			"progress": 1,
+			"questInstanceId": "preview-quest-cff8f7481f661e631bba900845d460a1",
+			"rewardPoints": 1,
+			"state": "expired",
+			"target": 1,
+			"title": "Phase 1: Play Scissors"
+		},
+		"paidInstance": {
+			"activationBoundary": {
+				"activatedAt": 1792965540,
+				"afterEventSequence": 0
+			},
+			"completedAt": 1792965540,
+			"contributionIds": [
+				"m08-labelled-9"
+			],
+			"definitionId": "preview-scissors",
+			"expired": false,
+			"expiresAt": 1792965600,
+			"ownerId": "m08-controlled",
+			"paidAt": 1792965540,
+			"periodKind": "daily",
+			"periodStart": 1792879200,
+			"progress": 1,
+			"questInstanceId": "preview-quest-942af9b0613607f6d53e63402d9a2cca",
+			"rewardPoints": 1,
+			"state": "paid",
+			"target": 1,
+			"title": "Phase 1: Play Scissors"
+		},
+		"retainedPaidPoints": 4,
+		"weeklyOld": {
+			"activationBoundary": {
+				"activatedAt": 1792965540,
+				"afterEventSequence": 0
+			},
+			"completedAt": 1792965540,
+			"contributionIds": [
+				"m08-labelled-8"
+			],
+			"definitionId": "clock-one-play",
+			"expired": true,
+			"expiresAt": 1792965600,
+			"ownerId": "m08-controlled",
+			"paidAt": -1,
+			"periodKind": "weekly",
+			"periodStart": 1792360800,
+			"progress": 1,
+			"questInstanceId": "preview-quest-4cea0338df27c9492771fee2ea74a28e",
+			"rewardPoints": 2,
+			"state": "expired",
+			"target": 1,
+			"title": ""
+		}
+	},
+	"daily": {
+		"at0459": {
+			"dailyHistory": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 0
+					},
+					"completedAt": 1792792740,
+					"contributionIds": [
+						"m08-labelled-6"
+					],
+					"definitionId": "preview-scissors",
+					"expired": false,
+					"expiresAt": 1792792800,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "daily",
+					"periodStart": 1792706400,
+					"progress": 1,
+					"questInstanceId": "preview-quest-88430073d7397f53377918a442ec10f5",
+					"rewardPoints": 1,
+					"state": "completed",
+					"target": 1,
+					"title": "Phase 1: Play Scissors"
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 1
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-wins",
+					"expired": false,
+					"expiresAt": 1792792800,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "daily",
+					"periodStart": 1792706400,
+					"progress": 0,
+					"questInstanceId": "preview-quest-29a4ed8c461d5c8aa5a22d8326ca30e3",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Win 3 matches"
+				}
+			],
+			"dailyQuest": {
+				"activationBoundary": {
+					"activatedAt": 1792792740,
+					"afterEventSequence": 1
+				},
+				"completedAt": -1,
+				"contributionIds": [],
+				"definitionId": "preview-wins",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "m08-controlled",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 0,
+				"questInstanceId": "preview-quest-29a4ed8c461d5c8aa5a22d8326ca30e3",
+				"rewardPoints": 3,
+				"state": "active",
+				"target": 3,
+				"title": "Win 3 matches"
+			},
+			"developmentOnly": true,
+			"periods": {
+				"daily": 1792706400,
+				"weekly": 1792360800
+			},
+			"rulesRevision": "m08-creator-approved-preview-v1",
+			"serverTime": 1792792740,
+			"timeAuthority": "development preview",
+			"weeklyQuests": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 0
+					},
+					"completedAt": 1792792740,
+					"contributionIds": [
+						"m08-labelled-6"
+					],
+					"definitionId": "clock-one-play",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 1,
+					"questInstanceId": "preview-quest-c3383cac863fa2d3198026e9c0585eb8",
+					"rewardPoints": 2,
+					"state": "completed",
+					"target": 1,
+					"title": ""
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 0
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_switch",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 0,
+					"questInstanceId": "preview-quest-7050314944ffb55c44b6dddfa1733d98",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Switch initial card 3 times"
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 0
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_lie",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 0,
+					"questInstanceId": "preview-quest-44f5484da022bbd451fba722143cd2a7",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Lie in 3 matches"
+				}
+			]
+		},
+		"at0501": {
+			"dailyHistory": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792800,
+						"afterEventSequence": 1
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-scissors",
+					"expired": false,
+					"expiresAt": 1792879200,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "daily",
+					"periodStart": 1792792800,
+					"progress": 0,
+					"questInstanceId": "preview-quest-fd313cd692939973e831d753010c0297",
+					"rewardPoints": 1,
+					"state": "active",
+					"target": 1,
+					"title": "Phase 1: Play Scissors"
+				}
+			],
+			"dailyQuest": {
+				"activationBoundary": {
+					"activatedAt": 1792792800,
+					"afterEventSequence": 1
+				},
+				"completedAt": -1,
+				"contributionIds": [],
+				"definitionId": "preview-scissors",
+				"expired": false,
+				"expiresAt": 1792879200,
+				"ownerId": "m08-controlled",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792792800,
+				"progress": 0,
+				"questInstanceId": "preview-quest-fd313cd692939973e831d753010c0297",
+				"rewardPoints": 1,
+				"state": "active",
+				"target": 1,
+				"title": "Phase 1: Play Scissors"
+			},
+			"developmentOnly": true,
+			"grants": [
+				{
+					"points": 2,
+					"questInstanceId": "preview-quest-c3383cac863fa2d3198026e9c0585eb8"
+				}
+			],
+			"periods": {
+				"daily": 1792792800,
+				"weekly": 1792360800
+			},
+			"profile": {
+				"allegiance": "Human",
+				"displayName": "M08 controlled",
+				"draws": 1,
+				"honestCount": 1,
+				"honestWinPercent": null,
+				"initialCards": {
+					"Paper": 0.0,
+					"Rock": 0.0,
+					"Scissor": 100.0
+				},
+				"lieCount": 0,
+				"liePercent": 0.0,
+				"losses": 0,
+				"lyingWinPercent": null,
+				"matches": 1,
+				"overallPoints": 5,
+				"playerId": "m08-controlled",
+				"switchPercent": 0.0,
+				"winRate": 0.0,
+				"winStreak": 0,
+				"winningCards": {
+					"Paper": null,
+					"Rock": null,
+					"Scissor": null
+				},
+				"wins": 0
+			},
+			"rulesRevision": "m08-creator-approved-preview-v1",
+			"serverTime": 1792792860,
+			"stats": {
+				"allegiance": "Human",
+				"displayName": "M08 controlled",
+				"draws": 1,
+				"honestCount": 1,
+				"honestWinPercent": null,
+				"initialCards": {
+					"Paper": 0.0,
+					"Rock": 0.0,
+					"Scissor": 100.0
+				},
+				"lieCount": 0,
+				"liePercent": 0.0,
+				"losses": 0,
+				"lyingWinPercent": null,
+				"matches": 1,
+				"overallPoints": 5,
+				"playerId": "m08-controlled",
+				"switchPercent": 0.0,
+				"winRate": 0.0,
+				"winStreak": 0,
+				"winningCards": {
+					"Paper": null,
+					"Rock": null,
+					"Scissor": null
+				},
+				"wins": 0
+			},
+			"timeAuthority": "development preview",
+			"weeklyQuests": [
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 0
+					},
+					"completedAt": 1792792740,
+					"contributionIds": [
+						"m08-labelled-6"
+					],
+					"definitionId": "clock-one-play",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": 1792792860,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 1,
+					"questInstanceId": "preview-quest-c3383cac863fa2d3198026e9c0585eb8",
+					"rewardPoints": 2,
+					"state": "paid",
+					"target": 1,
+					"title": ""
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 0
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_switch",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 0,
+					"questInstanceId": "preview-quest-7050314944ffb55c44b6dddfa1733d98",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Switch initial card 3 times"
+				},
+				{
+					"activationBoundary": {
+						"activatedAt": 1792792740,
+						"afterEventSequence": 0
+					},
+					"completedAt": -1,
+					"contributionIds": [],
+					"definitionId": "preview-weekly_lie",
+					"expired": false,
+					"expiresAt": 1792965600,
+					"ownerId": "m08-controlled",
+					"paidAt": -1,
+					"periodKind": "weekly",
+					"periodStart": 1792360800,
+					"progress": 0,
+					"questInstanceId": "preview-quest-44f5484da022bbd451fba722143cd2a7",
+					"rewardPoints": 3,
+					"state": "active",
+					"target": 3,
+					"title": "Lie in 3 matches"
+				}
+			]
+		},
+		"expiredUnfinished": {
+			"activationBoundary": {
+				"activatedAt": 1792792740,
+				"afterEventSequence": 1
+			},
+			"completedAt": -1,
+			"contributionIds": [],
+			"definitionId": "preview-wins",
+			"expired": true,
+			"expiresAt": 1792792800,
+			"ownerId": "m08-controlled",
+			"paidAt": -1,
+			"periodKind": "daily",
+			"periodStart": 1792706400,
+			"progress": 0,
+			"questInstanceId": "preview-quest-29a4ed8c461d5c8aa5a22d8326ca30e3",
+			"rewardPoints": 3,
+			"state": "expired",
+			"target": 3,
+			"title": "Win 3 matches"
+		},
+		"expiredUnpaid": {
+			"activationBoundary": {
+				"activatedAt": 1792792740,
+				"afterEventSequence": 0
+			},
+			"completedAt": 1792792740,
+			"contributionIds": [
+				"m08-labelled-6"
+			],
+			"definitionId": "preview-scissors",
+			"expired": true,
+			"expiresAt": 1792792800,
+			"ownerId": "m08-controlled",
+			"paidAt": -1,
+			"periodKind": "daily",
+			"periodStart": 1792706400,
+			"progress": 1,
+			"questInstanceId": "preview-quest-88430073d7397f53377918a442ec10f5",
+			"rewardPoints": 1,
+			"state": "expired",
+			"target": 1,
+			"title": "Phase 1: Play Scissors"
+		},
+		"paidInstance": {
+			"activationBoundary": {
+				"activatedAt": 1792792740,
+				"afterEventSequence": 0
+			},
+			"completedAt": 1792792740,
+			"contributionIds": [
+				"m08-labelled-7"
+			],
+			"definitionId": "preview-scissors",
+			"expired": false,
+			"expiresAt": 1792792800,
+			"ownerId": "m08-controlled",
+			"paidAt": 1792792740,
+			"periodKind": "daily",
+			"periodStart": 1792706400,
+			"progress": 1,
+			"questInstanceId": "preview-quest-630ff261b2028bdd18c535b986e772aa",
+			"rewardPoints": 1,
+			"state": "paid",
+			"target": 1,
+			"title": "Phase 1: Play Scissors"
+		},
+		"retainedPaidPoints": 4,
+		"weeklyOld": {
+			"activationBoundary": {
+				"activatedAt": 1792792740,
+				"afterEventSequence": 0
+			},
+			"completedAt": 1792792740,
+			"contributionIds": [
+				"m08-labelled-6"
+			],
+			"definitionId": "clock-one-play",
+			"expired": false,
+			"expiresAt": 1792965600,
+			"ownerId": "m08-controlled",
+			"paidAt": 1792792860,
+			"periodKind": "weekly",
+			"periodStart": 1792360800,
+			"progress": 1,
+			"questInstanceId": "preview-quest-c3383cac863fa2d3198026e9c0585eb8",
+			"rewardPoints": 2,
+			"state": "paid",
+			"target": 1,
+			"title": ""
+		}
+	},
+	"failures": [],
+	"isolatedLossDraw": {
+		"dailyHistory": [
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 0
+				},
+				"completedAt": 1792735200,
+				"contributionIds": [
+					"loss-fixture"
+				],
+				"definitionId": "",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "isolated-loss-draw",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 1,
+				"questInstanceId": "preview-quest-9089c3ae398597c818a67029ea97edcc",
+				"rewardPoints": 0,
+				"state": "completed",
+				"target": 1,
+				"title": ""
+			},
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 1
+				},
+				"completedAt": 1792735200,
+				"contributionIds": [
+					"draw-fixture"
+				],
+				"definitionId": "",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "isolated-loss-draw",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 1,
+				"questInstanceId": "preview-quest-20df3059bf8e88ef1d36210f8a9f46f9",
+				"rewardPoints": 0,
+				"state": "completed",
+				"target": 1,
+				"title": ""
+			},
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 2
+				},
+				"completedAt": -1,
+				"contributionIds": [],
+				"definitionId": "",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "isolated-loss-draw",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 0,
+				"questInstanceId": "preview-quest-9e8c1ce297b596c982b148e11fc0b604",
+				"rewardPoints": 0,
+				"state": "active",
+				"target": 1,
+				"title": ""
+			}
+		],
+		"dailyQuest": {
+			"activationBoundary": {
+				"activatedAt": 1792735200,
+				"afterEventSequence": 2
+			},
+			"completedAt": -1,
+			"contributionIds": [],
+			"definitionId": "",
+			"expired": false,
+			"expiresAt": 1792792800,
+			"ownerId": "isolated-loss-draw",
+			"paidAt": -1,
+			"periodKind": "daily",
+			"periodStart": 1792706400,
+			"progress": 0,
+			"questInstanceId": "preview-quest-9e8c1ce297b596c982b148e11fc0b604",
+			"rewardPoints": 0,
+			"state": "active",
+			"target": 1,
+			"title": ""
+		},
+		"developmentOnly": true,
+		"periods": {
+			"daily": 1792706400,
+			"weekly": 1792360800
+		},
+		"rulesRevision": "",
+		"serverTime": 1792735200,
+		"timeAuthority": "development preview",
+		"weeklyQuests": [
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 0
+				},
+				"completedAt": 1792735200,
+				"contributionIds": [
+					"loss-fixture"
+				],
+				"definitionId": "",
+				"expired": false,
+				"expiresAt": 1792965600,
+				"ownerId": "isolated-loss-draw",
+				"paidAt": -1,
+				"periodKind": "weekly",
+				"periodStart": 1792360800,
+				"progress": 1,
+				"questInstanceId": "preview-quest-2efe62913becbbf6564c27935eff71da",
+				"rewardPoints": 0,
+				"state": "completed",
+				"target": 1,
+				"title": ""
+			},
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 0
+				},
+				"completedAt": 1792735200,
+				"contributionIds": [
+					"draw-fixture"
+				],
+				"definitionId": "",
+				"expired": false,
+				"expiresAt": 1792965600,
+				"ownerId": "isolated-loss-draw",
+				"paidAt": -1,
+				"periodKind": "weekly",
+				"periodStart": 1792360800,
+				"progress": 1,
+				"questInstanceId": "preview-quest-622f7b85f20e375f35a1247b55b5ec19",
+				"rewardPoints": 0,
+				"state": "completed",
+				"target": 1,
+				"title": ""
+			}
+		]
+	},
+	"label": "M08 isolated development fixtures",
+	"sequence": {
+		"afterRewards": 48,
+		"first": {
+			"activationBoundary": {
+				"activatedAt": 1792735200,
+				"afterEventSequence": 0
+			},
+			"completedAt": -1,
+			"contributionIds": [],
+			"definitionId": "preview-scissors",
+			"expired": false,
+			"expiresAt": 1792792800,
+			"ownerId": "m08-controlled",
+			"paidAt": -1,
+			"periodKind": "daily",
+			"periodStart": 1792706400,
+			"progress": 0,
+			"questInstanceId": "preview-quest-4bb0e2b08b78ee5023ab58b8adee1ab7",
+			"rewardPoints": 1,
+			"state": "active",
+			"target": 1,
+			"title": "Phase 1: Play Scissors"
+		},
+		"grants": [
+			{
+				"points": 1,
+				"questInstanceId": "preview-quest-4bb0e2b08b78ee5023ab58b8adee1ab7"
+			},
+			{
+				"points": 3,
+				"questInstanceId": "preview-quest-e8afb8332090daf700794ea8df4a8c9d"
+			},
+			{
+				"points": 1,
+				"questInstanceId": "preview-quest-f14521ecdde60c92e83447fce17e10c2"
+			},
+			{
+				"points": 5,
+				"questInstanceId": "preview-quest-38d703b59ff26abe83683c3168d919ba"
+			}
+		],
+		"history": [
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 0
+				},
+				"completedAt": 1792735200,
+				"contributionIds": [
+					"m08-labelled-1"
+				],
+				"definitionId": "preview-scissors",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "m08-controlled",
+				"paidAt": 1792735200,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 1,
+				"questInstanceId": "preview-quest-4bb0e2b08b78ee5023ab58b8adee1ab7",
+				"rewardPoints": 1,
+				"state": "paid",
+				"target": 1,
+				"title": "Phase 1: Play Scissors"
+			},
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 1
+				},
+				"completedAt": 1792735200,
+				"contributionIds": [
+					"m08-labelled-2",
+					"m08-labelled-3",
+					"m08-labelled-4"
+				],
+				"definitionId": "preview-wins",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "m08-controlled",
+				"paidAt": 1792735200,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 3,
+				"questInstanceId": "preview-quest-e8afb8332090daf700794ea8df4a8c9d",
+				"rewardPoints": 3,
+				"state": "paid",
+				"target": 3,
+				"title": "Win 3 matches"
+			},
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 4
+				},
+				"completedAt": 1792735200,
+				"contributionIds": [
+					"m08-labelled-5"
+				],
+				"definitionId": "preview-scissors",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "m08-controlled",
+				"paidAt": 1792735200,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 1,
+				"questInstanceId": "preview-quest-f14521ecdde60c92e83447fce17e10c2",
+				"rewardPoints": 1,
+				"state": "paid",
+				"target": 1,
+				"title": "Phase 1: Play Scissors"
+			},
+			{
+				"activationBoundary": {
+					"activatedAt": 1792735200,
+					"afterEventSequence": 5
+				},
+				"completedAt": -1,
+				"contributionIds": [],
+				"definitionId": "preview-wins",
+				"expired": false,
+				"expiresAt": 1792792800,
+				"ownerId": "m08-controlled",
+				"paidAt": -1,
+				"periodKind": "daily",
+				"periodStart": 1792706400,
+				"progress": 0,
+				"questInstanceId": "preview-quest-70fe6d16b26d1b4dc4e8dfcd2f0ae4e1",
+				"rewardPoints": 3,
+				"state": "active",
+				"target": 3,
+				"title": "Win 3 matches"
+			}
+		],
+		"matchPoints": 38,
+		"repeated": {
+			"activationBoundary": {
+				"activatedAt": 1792735200,
+				"afterEventSequence": 4
+			},
+			"completedAt": -1,
+			"contributionIds": [],
+			"definitionId": "preview-scissors",
+			"expired": false,
+			"expiresAt": 1792792800,
+			"ownerId": "m08-controlled",
+			"paidAt": -1,
+			"periodKind": "daily",
+			"periodStart": 1792706400,
+			"progress": 0,
+			"questInstanceId": "preview-quest-f14521ecdde60c92e83447fce17e10c2",
+			"rewardPoints": 1,
+			"state": "active",
+			"target": 1,
+			"title": "Phase 1: Play Scissors"
+		},
+		"stats": {
+			"allegiance": "Angel",
+			"displayName": "M08 controlled",
+			"draws": 1,
+			"honestCount": 4,
+			"honestWinPercent": 100.0,
+			"initialCards": {
+				"Paper": 40.0,
+				"Rock": 0.0,
+				"Scissor": 60.0
+			},
+			"lieCount": 1,
+			"liePercent": 20.0,
+			"losses": 1,
+			"lyingWinPercent": 0.0,
+			"matches": 5,
+			"overallPoints": 48,
+			"playerId": "m08-controlled",
+			"switchPercent": 0.0,
+			"winRate": 60.0,
+			"winStreak": 3,
+			"winningCards": {
+				"Paper": 66.6666666666667,
+				"Rock": 0.0,
+				"Scissor": 33.3333333333333
+			},
+			"wins": 3
+		}
+	}
+}

@@ -1,0 +1,261 @@
+{
+  "label": "M08 basic release smoke, final v2",
+  "url": "http://localhost:3000/m08.html?build=m08-20261023-v2",
+  "observations": {
+    "ordinaryOpponent": "scripted/local-policy Velvet",
+    "initialChoice": "Scissor",
+    "outcome": "draw",
+    "simulated": true,
+    "persisted": false,
+    "matchPoints": 3,
+    "menuPoints": 4,
+    "newDaily": "Win 3 matches 0/3",
+    "dailyHistory": "Scissors 1/1 Paid; Win 3 0/3 Active",
+    "weeklyPlay": "1/5",
+    "dailyReset": "2026-10-24 05:00 GMT+7: fresh Scissors 0/1; prior history gone; weekly play 1/5",
+    "weeklyReset": "2026-10-26 Monday 05:00 GMT+7: all weekly counters zero; fresh daily",
+    "navigation": "Back closed with completed animation"
+  },
+  "logs": [
+    {
+      "level": "log",
+      "message": "M01 engine: 4.7-stable (official)",
+      "timestamp": "2026-10-22T22:45:35.720Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "timestamp": "2026-10-22T22:45:35.720Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M01 GD-Sync: actual SDK connected signal received",
+      "timestamp": "2026-10-22T22:45:42.943Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M01 menu: temporary transition completed",
+      "timestamp": "2026-10-22T22:45:43.260Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search began: generation=1 scenario=0 fallback=33.826s",
+      "timestamp": "2026-10-22T22:45:48.711Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 search: entry transition completed",
+      "timestamp": "2026-10-22T22:45:48.994Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 match reserved: generation=1 kind=scripted_opponent elapsed=4.016s",
+      "timestamp": "2026-10-22T22:45:52.729Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 handoff ready: generation=1 ready_count=1 transition completed",
+      "timestamp": "2026-10-22T22:45:53.276Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option started: full 15-second window; development context, no persistent credit",
+      "timestamp": "2026-10-22T22:45:55.695Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M03 Option locked: elapsed=15000ms; choices retained privately",
+      "timestamp": "2026-10-22T22:46:10.696Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "Option presentation complete; same context and reservation retained",
+      "timestamp": "2026-10-22T22:46:12.277Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim started: full 15-second window",
+      "timestamp": "2026-10-22T22:46:12.745Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 identity_claim locked after 15014ms",
+      "timestamp": "2026-10-22T22:46:27.760Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim started: full 15-second window",
+      "timestamp": "2026-10-22T22:46:29.348Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 switch_claim locked after 15015ms",
+      "timestamp": "2026-10-22T22:46:44.361Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M04 complete: M05 boundary; context/history/reservation retained; no round saved",
+      "timestamp": "2026-10-22T22:46:45.944Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M05 final choice started: full 15-second window",
+      "timestamp": "2026-10-22T22:46:45.944Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M05 receipt: simulated=true persisted=false",
+      "timestamp": "2026-10-22T22:47:00.963Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M05 final locked after 15015ms; history/result frozen; no persistent credit",
+      "timestamp": "2026-10-22T22:47:00.963Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M05 complete: M06 handoff ready; simulated receipt only; reservation retained",
+      "timestamp": "2026-10-22T22:47:02.545Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 preview applied once: outcome=draw points=3 session-only; no persistence",
+      "timestamp": "2026-10-22T22:47:02.548Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 receipt accepted before cinematic: simulated=true serverAcknowledged=false persisted=false",
+      "timestamp": "2026-10-22T22:47:02.549Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Someone began with Scissor.",
+      "timestamp": "2026-10-22T22:47:04.310Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Velvet began with Rock.",
+      "timestamp": "2026-10-22T22:47:07.326Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Someone claimed Scissor. / Truthful about the initial Scissor. / No input: the phase default applied.",
+      "timestamp": "2026-10-22T22:47:10.761Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Velvet claimed Paper. / Deceptive about the initial Rock.",
+      "timestamp": "2026-10-22T22:47:13.777Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Someone promised to keep. / Truthful about the final action. / No input: the phase default applied.",
+      "timestamp": "2026-10-22T22:47:17.211Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Velvet promised to keep. / Deceptive about the final action.",
+      "timestamp": "2026-10-22T22:47:20.229Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Someone chose to keep. / Scissor → Scissor. / No input: the phase default applied.",
+      "timestamp": "2026-10-22T22:47:23.664Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 narrative: Velvet chose to switch. / Rock → Scissor.",
+      "timestamp": "2026-10-22T22:47:26.678Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 outcome begins: treatment alpha=0.0",
+      "timestamp": "2026-10-22T22:47:31.295Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M06 presentation complete: Tap To Continue available",
+      "timestamp": "2026-10-22T22:47:33.364Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M02 menu: return transition completed",
+      "timestamp": "2026-10-22T22:47:43.753Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M07 view ready: quests rows=8 next=",
+      "timestamp": "2026-10-22T22:47:55.595Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M07 header: quests rect=[P: (405.0, 78.0), S: (105.0, 54.0)] scale=(1.0, 1.0) visible=true alpha=1.0",
+      "timestamp": "2026-10-22T22:47:55.595Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M07 view ready: quests rows=7 next=",
+      "timestamp": "2026-10-22T22:48:12.828Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M07 header: quests rect=[P: (405.0, 78.0), S: (105.0, 54.0)] scale=(1.0, 1.0) visible=true alpha=1.0",
+      "timestamp": "2026-10-22T22:48:12.829Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M07 view ready: quests rows=7 next=",
+      "timestamp": "2026-10-22T22:48:27.911Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M07 header: quests rect=[P: (405.0, 78.0), S: (105.0, 54.0)] scale=(1.0, 1.0) visible=true alpha=1.0",
+      "timestamp": "2026-10-22T22:48:27.912Z",
+      "url": "http://localhost:3000/m08.js"
+    },
+    {
+      "level": "log",
+      "message": "M07 closed: quests",
+      "timestamp": "2026-10-22T22:48:32.774Z",
+      "url": "http://localhost:3000/m08.js"
+    }
+  ]
+}

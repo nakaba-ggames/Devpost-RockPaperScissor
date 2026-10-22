@@ -1,9 +1,17 @@
 extends ProfileProvider
+const QuestConfig = preload("res://scripts/quests/quest_catalogue.gd")
+const QuestClock = preload("res://scripts/quests/preview_clock.gd")
+const QuestCoordinator = preload("res://scripts/quests/preview_quest_coordinator.gd")
 ## DEVELOPMENT ONLY: local preview identity, zero-history profile, no backend.
 ## Exactly one owned file; no origin-wide storage/cache deletion APIs.
 
 const SAVE_PATH: String = "user://devils_rps_preview_v1.cfg"
 @export var motion: MenuMotion
+@export var quest_catalogue: QuestConfig
+var quest_clock := QuestClock.new()
+var quests: QuestCoordinator
+var quest_matches: Dictionary = {}
+var menu_snapshot: Dictionary = {}
 var profile: PreviewProfile
 var credited_results: Dictionary = {}
 var records: Array[Dictionary] = []
@@ -18,6 +26,7 @@ func begin_session() -> void:
 	profile = PreviewProfile.new()
 	credited_results.clear()
 	records.clear()
+	_reset_quests()
 	if result == OK:
 		profile.player_id = str(config.get_value("preview", "player_id", ""))
 		profile.display_name = str(config.get_value("preview", "display_name", ""))
@@ -48,6 +57,14 @@ func save_display_name(display_name: String) -> void:
 	print("M01 preview: named local identity saved (no backend)")
 
 func enter_menu() -> void:
+	if profile == null:
+		return
+	var grants: Array[Dictionary] = []
+	if _ensure_quests():
+		grants = quests.settle_menu_entry()
+		for grant in grants:
+			profile.overall_points += int(grant.points)
+	_refresh_menu_snapshot(grants)
 	menu_ready.emit(profile)
 
 func clear_local_data() -> void:
@@ -59,6 +76,7 @@ func clear_local_data() -> void:
 	profile = null
 	credited_results.clear()
 	records.clear()
+	_reset_quests()
 	print("M01 preview: owned local file cleared; no backend request")
 	local_data_cleared.emit()
 
@@ -105,6 +123,12 @@ func apply_acknowledged_result(submission: Dictionary, receipt: Dictionary) -> b
 			profile.win_streak = 0
 		else:
 			profile.draws += 1
+		if _ensure_quests():
+			for actor in submission.history.actors:
+				if actor.actorId == profile.player_id:
+					quests.consume(submission.resultId, actor, result.outcome, quest_matches.get(submission.matchId, []))
+			quest_matches.erase(submission.matchId)
+		_refresh_menu_snapshot([])
 		print("M06 preview applied once: outcome=%s points=%d session-only; no persistence" % [result.outcome, result.points])
 		return true
 	return false
@@ -193,3 +217,49 @@ func _page(values: Array[Dictionary], key: String, cursor: String, limit: int) -
 
 func _no_session() -> Dictionary:
 	return {"error": {"code": "session", "message": "Open a local preview first.", "retryable": true}}
+
+func _reset_quests() -> void:
+	quests = null
+	quest_clock.reset()
+	quest_matches.clear()
+	menu_snapshot.clear()
+
+func _ensure_quests() -> bool:
+	if profile == null or quest_catalogue == null or not quest_catalogue.development_only:
+		return false
+	if quests == null:
+		quests = QuestCoordinator.new(quest_catalogue, quest_clock, profile.player_id)
+	quests.refresh_periods()
+	return true
+
+func begin_preview_match(match_id: String) -> void:
+	if _ensure_quests():
+		quest_matches[match_id] = quests.active_instance_ids()
+
+func _refresh_menu_snapshot(grants: Array[Dictionary]) -> void:
+	menu_snapshot = {"dailyQuest": {}, "dailyHistory": [], "weeklyQuests": [], "grants": grants, "profile": _snapshot(), "stats": _snapshot(), "developmentOnly": true}
+	if _ensure_quests():
+		menu_snapshot.merge(quests.snapshot(), true)
+	var daily: Dictionary = menu_snapshot.dailyQuest
+	profile.daily_quest_text = "Daily • no preview catalogue"
+	if not daily.is_empty():
+		profile.daily_quest_text = "Daily • %s  %d/%d • +%d" % [daily.title, daily.progress, daily.target, daily.rewardPoints]
+	menu_snapshot_updated.emit(menu_snapshot.duplicate(true))
+
+func request_quests() -> Dictionary:
+	await get_tree().create_timer(motion.entry_delay).timeout
+	if profile == null:
+		return _no_session()
+	_refresh_menu_snapshot([])
+	return menu_snapshot.duplicate(true)
+
+func development_advance_quest_clock(period: String) -> void:
+	# Explicit preview controls only; no OS clock change, payment or backend call.
+	if not _ensure_quests():
+		return
+	var bounds := QuestCoordinator.periods(quest_clock.now_unix())
+	var next := int(bounds.daily) + QuestCoordinator.DAY
+	if period == "weekly":
+		next = int(bounds.weekly) + QuestCoordinator.WEEK
+	quest_clock.set_development_time(next)
+	_refresh_menu_snapshot([])
