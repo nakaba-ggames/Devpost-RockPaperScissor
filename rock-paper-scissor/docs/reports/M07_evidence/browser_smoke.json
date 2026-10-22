@@ -1,0 +1,110 @@
+[
+  {
+    "level": "log",
+    "message": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "timestamp": "2026-10-22T21:32:51.986Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 engine: 4.7-stable (official)",
+    "timestamp": "2026-10-22T21:32:52.125Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-22T21:32:52.126Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: stats rows=10 next=",
+    "timestamp": "2026-10-22T21:33:14.698Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 closed: stats",
+    "timestamp": "2026-10-22T21:33:29.205Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: leaderboard rows=3 next=3",
+    "timestamp": "2026-10-22T21:33:44.566Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: leaderboard rows=6 next=6",
+    "timestamp": "2026-10-22T21:34:01.561Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: leaderboard rows=3 next=3",
+    "timestamp": "2026-10-22T21:34:39.763Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: leaderboard rows=3 next=3",
+    "timestamp": "2026-10-22T21:34:48.045Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: leaderboard rows=3 next=3",
+    "timestamp": "2026-10-22T21:34:50.828Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 closed: leaderboard",
+    "timestamp": "2026-10-22T21:35:16.618Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 receipt: simulated=true persisted=false",
+    "timestamp": "2026-10-22T21:36:41.446Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M05 final locked after 15000ms; history/result frozen; no persistent credit",
+    "timestamp": "2026-10-22T21:36:41.447Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 preview applied once: outcome=loss points=0 session-only; no persistence",
+    "timestamp": "2026-10-22T21:36:43.027Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M06 presentation complete: Tap To Continue available",
+    "timestamp": "2026-10-22T21:37:13.845Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: records rows=1 next=",
+    "timestamp": "2026-10-22T21:37:52.581Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 closed: records",
+    "timestamp": "2026-10-22T21:38:04.013Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: stats rows=10 next=",
+    "timestamp": "2026-10-22T21:38:14.233Z",
+    "url": "http://localhost:3000/m07.js"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "level": "log",
+    "message": "M07 view ready: leaderboard rows=3 next=3",
+    "timestamp": "2026-10-22T21:45:45.846Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 header: leaderboard rect=[P: (405.0, 78.0), S: (105.0, 54.0)] scale=(1.0, 1.0) visible=true alpha=1.0",
+    "timestamp": "2026-10-22T21:45:45.846Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 view ready: leaderboard rows=6 next=6",
+    "timestamp": "2026-10-22T21:45:57.745Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 header: leaderboard rect=[P: (405.0, 78.0), S: (105.0, 54.0)] scale=(1.0, 1.0) visible=true alpha=1.0",
+    "timestamp": "2026-10-22T21:45:57.745Z",
+    "url": "http://localhost:3000/m07.js"
+  },
+  {
+    "level": "log",
+    "message": "M07 closed: leaderboard",
+    "timestamp": "2026-10-22T21:46:13.160Z",
+    "url": "http://localhost:3000/m07.js"
+  }
+]

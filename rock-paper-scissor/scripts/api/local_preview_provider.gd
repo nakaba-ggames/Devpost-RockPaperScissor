@@ -6,12 +6,18 @@ const SAVE_PATH: String = "user://devils_rps_preview_v1.cfg"
 @export var motion: MenuMotion
 var profile: PreviewProfile
 var credited_results: Dictionary = {}
+var records: Array[Dictionary] = []
+@export var roster: Resource
+const METRICS: Array[String] = ["overallPoints", "winRate", "lieCount", "honestCount"]
+const MAX_PAGE_SIZE: int = 20
 
 func begin_session() -> void:
 	await get_tree().create_timer(motion.entry_delay).timeout
 	var config := ConfigFile.new()
 	var result := config.load(SAVE_PATH)
 	profile = PreviewProfile.new()
+	credited_results.clear()
+	records.clear()
 	if result == OK:
 		profile.player_id = str(config.get_value("preview", "player_id", ""))
 		profile.display_name = str(config.get_value("preview", "display_name", ""))
@@ -52,6 +58,7 @@ func clear_local_data() -> void:
 			return
 	profile = null
 	credited_results.clear()
+	records.clear()
 	print("M01 preview: owned local file cleared; no backend request")
 	local_data_cleared.emit()
 
@@ -79,8 +86,15 @@ func apply_acknowledged_result(submission: Dictionary, receipt: Dictionary) -> b
 		credited_results[submission.resultId] = true
 		profile.overall_points += int(result.points)
 		profile.games_played += 1
+		profile.initial_cards[result.initialCard] += 1
+		profile.final_cards[result.finalCard] += 1
+		profile.lie_count += int(result.lyingMatchCount)
+		profile.honest_count += int(result.honestMatchCount)
+		profile.switch_count += int(result.actualSwitch)
+		_retain_record(submission, result)
 		if result.outcome == "win":
 			profile.wins += 1
+			profile.winning_cards[result.finalCard] += 1
 			profile.win_streak += 1
 			if result.classification == "honest":
 				profile.honest_wins += 1
@@ -94,3 +108,88 @@ func apply_acknowledged_result(submission: Dictionary, receipt: Dictionary) -> b
 		print("M06 preview applied once: outcome=%s points=%d session-only; no persistence" % [result.outcome, result.points])
 		return true
 	return false
+
+func _retain_record(submission: Dictionary, own_result: Dictionary) -> void:
+	var actors: Array[Dictionary] = []
+	for actor in submission.history.actors:
+		var display_name := ""
+		for recipient in submission.recipients:
+			if recipient.actorId == actor.actorId:
+				display_name = recipient.displayName
+		var outcome := "draw"
+		for result in submission.result.actors:
+			if result.actorId == actor.actorId:
+				outcome = result.outcome
+		actors.append({"actorId": actor.actorId, "displayName": display_name, "initialCard": actor.initialCard, "finalCard": actor.finalCard, "outcome": outcome})
+	records.push_front({"ownerId": profile.player_id, "resultId": submission.resultId, "matchId": submission.matchId, "actors": actors, "outcome": own_result.outcome, "points": own_result.points})
+
+func _percentage(numerator: int, denominator: int) -> Variant:
+	if denominator == 0:
+		return null
+	return 100.0 * numerator / denominator
+
+func _card_percentages(counters: Dictionary, denominator: int) -> Dictionary:
+	var values := {}
+	for card in counters:
+		values[card] = _percentage(counters[card], denominator)
+	return values
+
+func _snapshot() -> Dictionary:
+	var allegiance := "Human"
+	if profile.lying_wins > profile.honest_wins:
+		allegiance = "Devil"
+	elif profile.honest_wins > profile.lying_wins:
+		allegiance = "Angel"
+	elif profile.wins > 0:
+		allegiance = "Angel / Devil"
+	return {"playerId": profile.player_id, "displayName": profile.display_name, "overallPoints": profile.overall_points, "matches": profile.games_played, "wins": profile.wins, "losses": profile.losses, "draws": profile.draws, "winStreak": profile.win_streak, "winRate": _percentage(profile.wins, profile.games_played), "lieCount": profile.lie_count, "honestCount": profile.honest_count, "winningCards": _card_percentages(profile.winning_cards, profile.wins), "lyingWinPercent": _percentage(profile.lying_wins, profile.wins), "honestWinPercent": _percentage(profile.honest_wins, profile.wins), "initialCards": _card_percentages(profile.initial_cards, profile.games_played), "liePercent": _percentage(profile.lie_count, profile.games_played), "switchPercent": _percentage(profile.switch_count, profile.games_played), "allegiance": allegiance}
+
+func request_stats() -> Dictionary:
+	await get_tree().create_timer(motion.entry_delay).timeout
+	if profile == null:
+		return _no_session()
+	return _snapshot()
+
+func request_records(cursor: String = "", limit: int = 3) -> Dictionary:
+	await get_tree().create_timer(motion.entry_delay).timeout
+	if profile == null:
+		return _no_session()
+	var owned: Array[Dictionary] = []
+	for record in records:
+		if record.ownerId == profile.player_id:
+			owned.append(record)
+	return _page(owned, "records", cursor, limit)
+
+func request_leaderboard(metric: String, cursor: String = "", limit: int = 3) -> Dictionary:
+	await get_tree().create_timer(motion.entry_delay).timeout
+	if profile == null:
+		return _no_session()
+	if not metric in METRICS:
+		return {"error": {"code": "metric", "message": "Category unavailable.", "retryable": false}}
+	var entries: Array[Dictionary] = []
+	if roster != null:
+		entries.assign(roster.entries.duplicate(true))
+	entries.append(_snapshot())
+	# Null win rate follows measured rates; deterministic ties use player ID.
+	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		if a[metric] == b[metric]:
+			return str(a.playerId) < str(b.playerId)
+		if a[metric] == null:
+			return false
+		if b[metric] == null:
+			return true
+		return a[metric] > b[metric])
+	for index in range(entries.size()):
+		entries[index]["position"] = index + 1
+	return _page(entries, "entries", cursor, limit)
+
+func _page(values: Array[Dictionary], key: String, cursor: String, limit: int) -> Dictionary:
+	var start := maxi(0, cursor.to_int())
+	var end := mini(values.size(), start + clampi(limit, 1, MAX_PAGE_SIZE))
+	var next_cursor := ""
+	if end < values.size():
+		next_cursor = str(end)
+	return {key: values.slice(start, end).duplicate(true), "nextCursor": next_cursor}
+
+func _no_session() -> Dictionary:
+	return {"error": {"code": "session", "message": "Open a local preview first.", "retryable": true}}

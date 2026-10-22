@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/development/leaderboard_roster.gd" id="1"]
+[resource]
+script = ExtResource("1")
+entries = Array[Dictionary]([{
+"playerId": "fixture-velvet", "displayName": "Velvet", "overallPoints": 30, "winRate": 50.0, "lieCount": 4, "honestCount": 2
+}, {
+"playerId": "fixture-cinder", "displayName": "Cinder", "overallPoints": 24, "winRate": 75.0, "lieCount": 2, "honestCount": 2
+}, {
+"playerId": "fixture-ivory", "displayName": "Ivory", "overallPoints": 22, "winRate": 40.0, "lieCount": 1, "honestCount": 4
+}, {
+"playerId": "fixture-echo", "displayName": "Echo", "overallPoints": 18, "winRate": 25.0, "lieCount": 3, "honestCount": 1
+}, {
+"playerId": "fixture-onyx", "displayName": "Onyx", "overallPoints": 12, "winRate": 20.0, "lieCount": 4, "honestCount": 1
+}, {
+"playerId": "fixture-lumen", "displayName": "Lumen", "overallPoints": 8, "winRate": 0.0, "lieCount": 0, "honestCount": 2
+}])

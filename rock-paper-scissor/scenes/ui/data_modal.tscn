@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/modal_shell.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/data_modal.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/presentation/data_view_tuning.tres" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="4"]
+[node name="DataModal" instance=ExtResource("1")]
+visible = false
+z_index = 30
+script = ExtResource("2")
+tuning = ExtResource("3")
+[node name="Panel" parent="." index="1"]
+offset_top = 60.0
+offset_bottom = -45.0
+[node name="Content" parent="." index="2"]
+offset_top = 78.0
+offset_bottom = -63.0
+[node name="Header" type="HBoxContainer" parent="Content" index="0"]
+layout_mode = 2
+[node name="Title" type="Label" parent="Content/Header" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "Detailed Stats"
+vertical_alignment = 1
+[node name="Back" parent="Content/Header" index="1" instance=ExtResource("4")]
+layout_mode = 2
+custom_minimum_size = Vector2(105, 54)
+text = "Back"
+[node name="Notice" type="Label" parent="Content" index="1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Session preview • resets on reload"
+autowrap_mode = 2
+[node name="Category" type="OptionButton" parent="Content" index="2"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+item_count = 4
+selected = 0
+popup/item_0/text = "Overall Points"
+popup/item_0/id = 0
+popup/item_1/text = "Win Rate"
+popup/item_1/id = 1
+popup/item_2/text = "Lie Count"
+popup/item_2/id = 2
+popup/item_3/text = "Honest Count"
+popup/item_3/id = 3
+[node name="Status" type="Label" parent="Content" index="3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+[node name="Scroll" type="ScrollContainer" parent="Content" index="4"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+[node name="Rows" type="VBoxContainer" parent="Content/Scroll" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+[node name="More" parent="Content" index="5" instance=ExtResource("4")]
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "More"
+[node name="Retry" parent="Content" index="6" instance=ExtResource("4")]
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "Retry"

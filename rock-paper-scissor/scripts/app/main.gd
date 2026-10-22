@@ -39,9 +39,9 @@ func _ready() -> void:
 	matchmaking.return_requested.connect(_return_from_search)
 	matchmaking.match_ready.connect(_arena_entered)
 	matchmaking.get_node("Arena").result_acknowledged.connect(provider.apply_acknowledged_result)
-	%Leaderboard.pressed.connect(_temporary.bind("Leaderboard", "Available in M07."))
-	%Record.pressed.connect(_temporary.bind("Record", "Available in M07; layout reserved to the creator."))
-	%Stats.pressed.connect(_temporary.bind("Detailed Stats", "Available in M07; layout reserved to the creator."))
+	%Leaderboard.pressed.connect(_open_data.bind($LeaderboardView))
+	%Record.pressed.connect(_open_data.bind($Records))
+	%Stats.pressed.connect(_open_data.bind($DetailedStats))
 	%Quests.pressed.connect(_temporary.bind("Quests", "Available in M08."))
 	_restart_entry()
 
@@ -165,6 +165,8 @@ func _request_failed(kind: String, detail: String) -> void:
 	# Name/storage errors keep the current screen so the user can retry.
 
 func _local_cleared() -> void:
+	for view in [$DetailedStats, $Records, $LeaderboardView]:
+		view.reset()
 	name_input.clear()
 	if screen_tween:
 		screen_tween.kill()
@@ -228,3 +230,8 @@ func _arena_chrome(shown: bool) -> void:
 	$Margin/Stack/Subtitle.visible = shown
 	$Margin/Stack/FeedbackSpace.visible = shown
 	$Margin/Stack/PreviewNotice.visible = shown
+
+func _open_data(view: Control) -> void:
+	if changing_screen or not menu.visible:
+		return
+	view.open(provider)

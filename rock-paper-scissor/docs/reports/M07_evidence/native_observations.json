@@ -1,0 +1,49 @@
+{
+  "environment": "Godot 4.7.stable.official.5b4e0cb0f; MCP toolkit 1.0.0; native 540x960 viewport",
+  "fixture_notice": "Four controlled frozen submissions; no real account history or human peers.",
+  "empty": {
+    "stats": "Human; Win Rate and all winning percentages N/A",
+    "records": "No history retained this session."
+  },
+  "controlled_display": {
+    "winRate": "50.0%",
+    "winStreak": 0,
+    "allegiance": "Angel / Devil"
+  },
+  "records": {
+    "firstPage": 3,
+    "secondPageTotal": 4,
+    "moreVisibleAtEnd": false,
+    "wheelScrollVertical": 211,
+    "loss": "own Rock dim; opponent Paper normal",
+    "drawFinalVisualAlphas": [
+      1,
+      1
+    ]
+  },
+  "leaderboard": {
+    "categories": [
+      "Overall Points",
+      "Win Rate",
+      "Lie Count",
+      "Honest Count"
+    ],
+    "firstPage": 3,
+    "secondPageTotal": 6,
+    "thirdPageTotal": 7,
+    "moreVisibleAtEnd": false,
+    "firstEntries": [
+      "Editor Preview 33",
+      "Cinder 75.0%",
+      "Onyx 4",
+      "Ivory 4"
+    ]
+  },
+  "source_review": [
+    "receipt matching, once-only guard and eligibility exclusions precede aggregates/records",
+    "clear_local_data clears profile, credited result IDs and records",
+    "no new match disk writes or backend calls",
+    "original modal_shell and chat unchanged"
+  ],
+  "deferred": "Failure injection, malformed inputs, attribution/disconnect/duplicate edge injection, races, broad regressions, device matrix."
+}

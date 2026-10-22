@@ -1,0 +1,31 @@
+{
+  "status": "creator layout approved; explicit staged review before implementation commit",
+  "intendedFiles": [
+    "scripts/api/profile_provider.gd",
+    "scripts/api/local_preview_provider.gd",
+    "scripts/api/preview_profile.gd",
+    "scripts/app/main.gd",
+    "scenes/main.tscn",
+    "scripts/ui/data_modal.gd",
+    "scripts/ui/data_modal.gd.uid",
+    "scenes/ui/data_modal.tscn",
+    "scenes/ui/detailed_stats.tscn",
+    "scenes/ui/records.tscn",
+    "scenes/ui/leaderboard.tscn",
+    "scripts/resources/data_view_tuning.gd",
+    "scripts/resources/data_view_tuning.gd.uid",
+    "resources/presentation/data_view_tuning.tres",
+    "scripts/development/leaderboard_roster.gd",
+    "scripts/development/leaderboard_roster.gd.uid",
+    "resources/development/leaderboard_roster.tres",
+    "tools/m07_data_checks.gd",
+    "tools/m07_data_checks.gd.uid",
+    "devpost/checklist.md",
+    "docs/reports/M07_Report.md",
+    "docs/reports/M07_PackManifest.txt"
+  ],
+  "privateFiles": "learner-profile.md and keys.cfg ignored/untracked; excluded",
+  "unrelated": "Finder metadata, sibling artwork and existing untracked planning documents untouched",
+  "servedPackHash": "9dd7bec3409c432a8a427ed4f6554acf82f0f8a47380eef4b3317fdb5f3b59af",
+  "whitespaceCheck": "git diff --check passed"
+}

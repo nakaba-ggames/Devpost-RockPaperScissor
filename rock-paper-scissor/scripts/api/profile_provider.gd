@@ -22,3 +22,14 @@ func apply_acknowledged_result(_submission: Dictionary, _receipt: Dictionary) ->
 
 func clear_local_data() -> void:
 	pass
+
+# Read-only API-shaped queries. Error: {error: {code, message, retryable}}.
+# Cursor is opaque to views; pages are bounded by the provider.
+func request_stats() -> Dictionary:
+	return {"error": {"code": "unavailable", "message": "Statistics unavailable.", "retryable": true}}
+
+func request_records(_cursor: String = "", _limit: int = 3) -> Dictionary:
+	return {"error": {"code": "unavailable", "message": "Records unavailable.", "retryable": true}}
+
+func request_leaderboard(_metric: String, _cursor: String = "", _limit: int = 3) -> Dictionary:
+	return {"error": {"code": "unavailable", "message": "Leaderboard unavailable.", "retryable": true}}

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/data_modal.tscn" id="1"]
+[node name="LeaderboardView" instance=ExtResource("1")]
+view_kind = "leaderboard"
+view_title = "Leaderboard"
+[node name="Notice" parent="Content" index="1"]
+text = "Development preview • session + sample roster"
