@@ -44,7 +44,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
   Learner check: Enter the arena, choose and reconsider a card, then let another run time out; assess table readability and motion.
   Commit: `feat(arena): add intro and timed initial card choice`
 
-- [ ] **4. Gameplay II — identity claim and change claim**
+- [x] **4. Gameplay II — identity claim and change claim**
   Becomes usable: The selected initial card flows through both claim phases, with independent actual/claimed data, public bubbles, revisions and defaults.
   Why now: Delivers the central deception decisions before actual switching/result work.
   PRD ref: `prd.md > Phase 2 — Claim`; `prd.md > Phase 3 — Change Claim`; `prd.md > Decision Announcements and Phase Progression`; `prd.md > Arena Chat`.
@@ -177,3 +177,5 @@ Activity mode: not chosen; use an appropriate focused investigation or prior pra
 - 2026-10-22, M03 complete: the authorized basic checks passed and feature commit `aa91a91` succeeded before checking only slice 3. Evidence, architecture/M04 handoff and exact creator try-out are in `docs/reports/M03_Report.md`. No M04 work or unperformed hands-on checkpoint is marked complete; edge checks and creator feedback remain pending.
 
 - 2026-10-23, M04: the creator authorizes only the basic checks in slice 4. No full suite, broad regression, stress/race, malformed-input, deadline-boundary injection, deliberate failure or browser/device matrix; those checks are deferred and unverified. Scripted-found reaches the arena without repeating M01–M03 checks or the 30–45-second search. Fast mode continues. The creator confirms M03: “I've tried it and it works.” This supersedes M03_Report.md's pending-feedback note. M04 is not a planned hands-on checkpoint; its feedback is pending. Final copy and cinematic chat-close choreography remain creator-owned.
+
+- 2026-10-23, M04 complete: authorized basic checks passed and feature commit `b4e5eff` succeeded before checking only slice 4. `docs/reports/M04_Report.md` records contracts, evidence, exact launch/try-out, current-package browser observations and M05 handoff. M04 feedback remains pending; no checkpoint is marked performed, deferred edge checks stay unverified, and no M05 implementation was started.
