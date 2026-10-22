@@ -1,0 +1,92 @@
+[
+  {
+    "level": "log",
+    "message": "M01 engine: 4.7-stable (official)",
+    "timestamp": "2026-10-22T13:04:47.804Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-22T13:04:47.805Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 GD-Sync: actual SDK connected signal received",
+    "timestamp": "2026-10-22T13:04:55.987Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 preview: named local identity saved (no backend)",
+    "timestamp": "2026-10-22T13:06:26.470Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 menu: temporary transition completed",
+    "timestamp": "2026-10-22T13:06:45.787Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 navigation feedback: Play",
+    "timestamp": "2026-10-22T13:07:10.929Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 navigation feedback: Leaderboard",
+    "timestamp": "2026-10-22T13:07:16.692Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 navigation feedback: Record",
+    "timestamp": "2026-10-22T13:07:16.857Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 navigation feedback: Detailed Stats",
+    "timestamp": "2026-10-22T13:07:17.077Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 navigation feedback: Quests",
+    "timestamp": "2026-10-22T13:07:17.259Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 engine: 4.7-stable (official)",
+    "timestamp": "2026-10-22T13:07:26.898Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+    "timestamp": "2026-10-22T13:07:26.898Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 GD-Sync: actual SDK connected signal received",
+    "timestamp": "2026-10-22T13:07:34.203Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 menu: temporary transition completed",
+    "timestamp": "2026-10-22T13:08:04.971Z",
+    "url": "http://localhost:3000/index.js"
+  },
+  {
+    "level": "log",
+    "message": "M01 preview: owned local file cleared; no backend request",
+    "timestamp": "2026-10-22T13:08:30.426Z",
+    "url": "http://localhost:3000/index.js"
+  }
+]

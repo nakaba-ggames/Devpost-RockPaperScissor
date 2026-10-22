@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/app/menu_button.gd" id="1"]
+[ext_resource type="Resource" path="res://resources/presentation/menu_motion.tres" id="2"]
+[ext_resource type="Texture2D" path="res://Graphics/Simple Shapes/Rounded-Rect.png" id="3"]
+[sub_resource type="StyleBoxTexture" id="Normal"]
+texture = ExtResource("3")
+modulate_color = Color(0.14, 0.21, 0.23, 1)
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+[sub_resource type="StyleBoxTexture" id="Hover"]
+texture = ExtResource("3")
+modulate_color = Color(0.23, 0.32, 0.32, 1)
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+[node name="MenuButton" type="Button"]
+custom_minimum_size = Vector2(0, 64)
+theme_override_colors/font_color = Color(0.92, 0.88, 0.75, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("Normal")
+theme_override_styles/hover = SubResource("Hover")
+theme_override_styles/pressed = SubResource("Hover")
+theme_override_styles/focus = SubResource("Hover")
+script = ExtResource("1")
+motion = ExtResource("2")

@@ -1,0 +1,43 @@
+.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn
+.godot/exported/133200997/export-93c869119b7136eb41f53bd5893b96fc-menu_motion.res
+.godot/exported/133200997/export-b8f81b3416be30cf7c843e5bd7441b82-menu_button.scn
+.godot/exported/133200997/export-c570c3e7d5ec73b04cca79e661e9b80e-primary_button.scn
+.godot/global_script_class_cache.cfg
+.godot/imported/Rounded-Rect.png-c36214164dc718f5e60b5fef0b521c3a.ctex
+.godot/imported/TemporaryAllegiance.svg-e6b1e914bb81191bd594d745e4711c9e.ctex
+.godot/uid_cache.bin
+Graphics/Simple Shapes/Rounded-Rect.png.import
+Graphics/TemporaryAllegiance.svg.import
+addons/GD-Sync/MultiplayerClient.gd
+addons/GD-Sync/Scripts/ConnectionController.gd
+addons/GD-Sync/Scripts/DataController.gd
+addons/GD-Sync/Scripts/Enums/Enums.gd
+addons/GD-Sync/Scripts/HTTPSController.gd
+addons/GD-Sync/Scripts/InterestManager.gd
+addons/GD-Sync/Scripts/KeyStore.gd
+addons/GD-Sync/Scripts/LocalServer.gd
+addons/GD-Sync/Scripts/Logger.gd
+addons/GD-Sync/Scripts/MatchmakingController.gd
+addons/GD-Sync/Scripts/NodeTracker.gd
+addons/GD-Sync/Scripts/RequestProcessor.gd
+addons/GD-Sync/Scripts/ServerSwitchController.gd
+addons/GD-Sync/Scripts/SessionController.gd
+addons/GD-Sync/Scripts/Steam.gd
+addons/GD-Sync/Scripts/Types/MatchmakingRequest.gd
+addons/GD-Sync/Scripts/Types/NodeInstantiator.gd
+addons/GD-Sync/keys.cfg
+icon.svg
+project.binary
+resources/presentation/menu_motion.tres.remap
+scenes/main.tscn.remap
+scenes/ui/menu_button.tscn.remap
+scenes/ui/primary_button.tscn.remap
+scripts/api/local_preview_provider.gd
+scripts/api/preview_profile.gd
+scripts/api/profile_provider.gd
+scripts/app/main.gd
+scripts/app/menu_button.gd
+scripts/networking/service_connection.gd
+scripts/resources/ui_motion.gd
+Files: 41; bytes: 379732; SHA-256: 32b4b9c5f709a5ba89b8f45e4f8f39dcde7d8beea04ee76badbaa42e041ba95f
+Shipped scripts containing assertions: []

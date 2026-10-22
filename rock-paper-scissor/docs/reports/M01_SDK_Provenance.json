@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/GD-Sync/GD-Sync",
+  "release_revision": "620e45281f2ee4b96c701cf232f97aad30e43d2a",
+  "declared_version": "1.0.2",
+  "original_files_matched": 118,
+  "after_m01_unchanged_files": 117,
+  "m01_modified_vendor_files": [
+    "Scripts/RequestProcessor.gd"
+  ],
+  "patch": "Guard OS.get_unique_id() on Web; preserve the existing empty web machine-id value. Native behavior unchanged."
+}

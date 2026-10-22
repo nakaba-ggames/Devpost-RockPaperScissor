@@ -5,3 +5,10 @@
 .env
 .env.*
 !.env.example
+
+# Local GD-Sync client configuration and generated/editor content
+/addons/GD-Sync/keys.cfg
+/.godot/
+/.DS_Store
+**/.DS_Store
+/export/
