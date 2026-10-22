@@ -34,7 +34,7 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
   Learner check: Tap Play, leave the search, repeat it, and try the scripted found/timeout paths; report whether the sequence feels close to the intended live flow.
   Commit: `feat(matchmaking): add cancellable simulated search flow`
 
-- [ ] **3. Gameplay I — arena intro and initial choice**
+- [x] **3. Gameplay I — arena intro and initial choice**
   Becomes usable: A development match announces its arena condition, presents both table sides and completes the Option phase with a real timed card choice.
   Why now: The deception game begins immediately after entry/search, keeping the unique kernel ahead of peripheral submenus.
   PRD ref: `prd.md > Arena Intro and Conditions`; `prd.md > Decision Announcements and Phase Progression`; `prd.md > Phase 1 — Option`; `prd.md > Opponent Statistics and Saved Records`.
@@ -173,3 +173,5 @@ Activity mode: not chosen; use an appropriate focused investigation or prior pra
 
 - 2026-10-22, M03: creator limits verification to the basic checks recorded in slice 3; this supersedes the broader generic verification loop. No full suite, broad regression, stress/race testing, malformed input, deadline-boundary injection, deliberate service failure or browser/device matrix was run. Edge checks remain unverified for the dedicated later session. M01/M02 full checks and the normal 30–45-second search wait were not repeated; the existing scripted-found path reached the arena.
 - 2026-10-22, M03: fast mode continues. The creator confirms M02: “I've tried it and it works.” This supersedes M02_Report.md's historical pending-feedback note; no second M02 approval is requested. M03 is not a planned hands-on checkpoint. Its try-out is supplied in M03_Report.md, with feedback pending; no unperformed checkpoint is checked. Controlled condition selection leaves production weights unset, and final assets/tuning remain creator-owned.
+
+- 2026-10-22, M03 complete: the authorized basic checks passed and feature commit `aa91a91` succeeded before checking only slice 3. Evidence, architecture/M04 handoff and exact creator try-out are in `docs/reports/M03_Report.md`. No M04 work or unperformed hands-on checkpoint is marked complete; edge checks and creator feedback remain pending.

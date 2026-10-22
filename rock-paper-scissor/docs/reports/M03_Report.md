@@ -1,6 +1,6 @@
 # M03 — Gameplay I: arena intro and initial choice
 
-Status: implementation and the creator-authorized basic mechanical verification are complete. Feature commit and slice 3 completion record follow the reviewed file set. M03 creator feedback is pending; no hands-on checkpoint is claimed.
+Status: **complete** for assigned M03 scope and creator-authorized basic verification. Feature commit `aa91a91` succeeded and only slice 3 was subsequently checked. M03 creator feedback is pending; no hands-on checkpoint is claimed.
 
 ## Scope and approved references
 
@@ -107,7 +107,7 @@ The SDK-bearing PCK still contains its existing connection configuration. Genera
 
 ## Commits and checklist slice update
 
-Reviewed intended source/resource/scene/evidence paths and excluded unrelated work. Feature commit uses `feat(arena): add intro and timed initial card choice`. Only after that commit succeeds will slice 3 be checked and this section record its hash in a separate completion record. Other slices and all unperformed checkpoints remain untouched.
+Feature commit: `aa91a91` — `feat(arena): add intro and timed initial card choice`. Reviewed the exact 46-file staged source/resource/scene/evidence/report set and staged diffs; whitespace checks, exact intended-path comparison and local credential-string/private-key scans passed. The learner profile is untracked. Only after that feature commit succeeded was slice 3 checked, under the authorized basic-verification contract; fast mode has no planned M03 checkpoint. This report/checklist completion record is saved separately as `docs: record M03 completion and verification limits`. Other slices and all unperformed checkpoints remain untouched.
 
 Pre-existing Finder metadata, sibling backend image/metadata, untracked planning documents and M01 evidence imports are preserved and excluded. The learner profile, local credentials and generated exports remain ignored/untracked. No blanket staging or history rewrite is used.
 
