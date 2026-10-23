@@ -1,6 +1,6 @@
-# M10 backend
+# M10–M11 backend API
 
-Independent anonymous identity/profile API. Godot still uses its existing preview providers. M11 settlement/quests and M12 client integration are not implemented here. No preview history, sample aggregates, receipts or bot roster are imported.
+Independent anonymous identity/profile, match settlement and authoritative quest API. Godot still uses its existing preview providers; client integration remains M12. No preview history, simulated receipts or preview bot roster are imported. M11 is verified through localhost HTTP against real Atlas using explicitly approved nonproduction configuration.
 
 ## Setup
 
@@ -68,7 +68,7 @@ All responses are JSON with `Cache-Control: no-store`. Names are plain data, nev
 
 Errors: `{error:{code,message,retryable}}`. Missing header: 401 `CREDENTIAL_MISSING`; malformed/unknown credential: 401 `CREDENTIAL_INVALID`; caller ID mismatch: 403; invalid fields/pagination: 400; unavailable/unconfigured database: 503 with retryable server error. Never expose raw driver exceptions. Requests are bounded to 8 KiB. Unexpected body/query fields are rejected.
 
-Profiles store separate initial/final card counters and winning-final-card counts. `completedMatches = wins + losses + draws`; win rate includes draws. Winning-card and lying/honest-winning percentages divide by wins; initial-card, lie and switch tendencies divide by completed matches. Zero denominators are stored as `null` (display N/A), not fabricated percentages. M11 must update counters and derived fields atomically. Records have separate `self.initialCard`, `self.finalCard`, `opponent.initialCard`, `opponent.finalCard`, opponent display-name snapshot, result and commitment time. No record writer exists in M10.
+Profiles store separate initial/final card counters and winning-final-card counts. `completedMatches = wins + losses + draws`; win rate includes draws. Winning-card and lying/honest-winning percentages divide by wins; initial-card, lie and switch tendencies divide by completed matches. Zero denominators are stored as `null` (display N/A). M11 updates counters, derived fields, owner records and quest contributions atomically with the result. Records preserve separate initial/final cards for both sides, name snapshots, result and commitment time.
 
 Credentials contain 32 cryptographically random bytes (256 bits), encoded as `anon_` plus base64url. SHA-256 with a fixed domain prefix is stored, never plaintext. Fast hashing is appropriate for high-entropy random credentials; this is not a password system. The unique partial hash index excludes future bots without credentials. There is no cross-device recovery, password login, deletion or abandoned-match resume.
 
@@ -85,7 +85,7 @@ npm run build
 
 `config/backend-config.json` is a versioned generated deployment input. Its revision hashes the complete payload and source-file digests. Build checks integrity and, when the sibling Godot sources are available, rejects stale exports. Vercel can build from the committed artifact without Godot installed. The API reads and verifies this known revision; the client never supplies payout constants.
 
-The current quest catalogue remains `development_only:true`, and production arena weights remain unconfigured; `productionReady:false`. Exporting these fields does **not** approve production balance. M11 must resolve production catalogue/weight inputs before enabling settlement. The creator explicitly approved one real backend seed, **Ember**, with **0 points and no history**. `npm run db:seed` has inserted it into Atlas with a permanent UUID, no credential/hash and private seed key `m10-ember-v1`. Its source is the M10 creator decision in `scripts/seed-bots.ts`; no preview identity/statistics, personality settings or balancing were imported. Production bot policy/selection remains future authoring work. The preview roster and synthetic history are not production seeds.
+The current quest catalogue remains `development_only:true`, and production arena weights remain unconfigured; `productionReady:false`. Exporting these fields does **not** approve production balance. The creator explicitly approved this exact development configuration and existing Ember selection for isolated nonproduction M11 API/Atlas exercises on 2026-10-23. Ordinary/deployed handlers retain the readiness gate. The M10 seed inserted **Ember** with a permanent UUID, 0 points/no history, no credential/hash and private seed key `m10-ember-v1`. The M11 controlled fallback exercise subsequently credited that same profile +10 points/one win/one owner record through the actual API. No preview identity/statistics/personality were imported. Production balance, arena weights and bot policy/selection remain creator inputs.
 
 ## Connections, limits and future Vercel environment
 
@@ -99,4 +99,45 @@ No deployment is required for the independent local persistence proof. For a lat
 
 ## Verification boundary
 
-M10 runs only build/typecheck, the above two-identity real-Atlas exercise, restart/resume, pool/config inspection and secret/export input review. Deferred: full suite, load/stress/races/fuzzing, outages, browser/device matrix, earlier gameplay, match settlement and quest rewards. Missing service access means pending evidence, never a mock pass. An existing external combined commit `e8bb537` contains the initial M09/M10 source snapshot. Preserve that history; M09's report/checkpoint bookkeeping still needs its own chat before M10 completion.
+M10's recorded checks cover identity/authentication/query/restart persistence. M11's basic local HTTP/Atlas checks cover actual once-only result/profile/record/quest transactions, scoring/classification, separate fallback/takeover attribution, quest sequencing/menu payment and controlled reset boundaries. These use submitted controlled histories, not live Godot games. Concurrent duplicates, uncertain-network races, deliberate rollback/failure injection, full suites, load/stress/fuzzing/outages and browser/device/gameplay checks remain deferred/unverified. No Vercel deployment is claimed. Preserve existing external snapshots `e8bb537` and `0d4d7bb`; the M11 report records the creator's checkpoint confirmation and the stale predecessor document status without finalizing it here.
+
+## M11 settlement, quests and creator exercise
+
+Configuration stays at `sha256:d0e9b971b245891addf9a13e056bec263c5e5a18b3cd07e6935e8a3a9637edf3`: `m05-round-v1` rules and `m08-creator-approved-preview-v1` development catalogue. No Node-authored payout constants. `npm start` now mounts M11 routes, but its normal/deployed handlers reject settlement/quest assignment/payment with `503 CONFIGURATION_NOT_APPROVED` until production authoring is agreed. Existing committed-result reads remain available to their bound participants. The explicit localhost exercise adapter accepts only the approved artifact revision; it is excluded from deployment uploads.
+
+| Endpoint | Contract |
+| --- | --- |
+| `POST /api/matches/register` | Owner credential + `{matchNonce,lobbyId?,peerPlayerId?,fallbackRequested,rulesRevision}`; stable UUID nonce, immutable human/bot bindings, public opponent profile. No rating filter or automatic bot scheduling. |
+| `POST /api/matches/join` | Peer credential + `{matchId,matchNonce}`; cannot overwrite another participant. Both humans must bind before play. |
+| `POST /api/matches/finalize` | Bound eligible human + `{matchId,rulesRevision,roundLog,departures:[]}`; at most one departed human ID for takeover. The backend calculates rewards/eligibility, commits atomically, then returns `{matchId,status:"committed",savedResult}`. Identical replay returns the receipt; conflicting replay is 409. |
+| `GET /api/matches/result?matchId=UUID` | Bound human credential; `{matchId,status,savedResult}`. Pending status has `savedResult:null`; a committed result has stable receipt/result identity and `committedAt`. No reconnect or live-match resume. |
+| `POST /api/menu` | Owner + `{requestId:UUID}` for menu entry; expiry before once-only payment. Returns profile/stats, daily/weekly/history, grants, periods, server time and rules revision. Retry the same ID for the same entry; new entry uses a new ID. |
+| `GET /api/quests?historyBefore=NUMBER` | Owner; same current quest state without payment. Daily history pages contain at most 100 entries with `dailyHistoryNextBefore`; no daily completion cap. |
+
+`roundLog` is a compact API wire shape: `matchId`, full artifact `rulesRevision`, condition `devil|angel|none`, four `{phase,started,deadline,locked}` entries, and two actors. Actors contain `actorId`, `startingOrder`, `initialCard`, `identityClaim`, `switchClaim:keep|switch`, `finalCard`, and bounded `{phase,sequence,revision,elapsedMsec,value}` events. Phases are `option`, `identity_claim`, `switch_claim`, `final_choice`. Examples are generated in `scripts/try-m11.mjs`; M12 must map the richer Godot history. The trusted host reports conditions/history/departures; validation is not independently verified gameplay or cheat detection. Client reward totals/classification/payout values are not accepted.
+
+The short majority-write/snapshot transaction includes result/receipt, eligible profile aggregates, owner records and captured quest contributions. Menu payment has its own transaction. Unique match/nonce/receipt, owner-record, quest-instance/contribution/grant and menu-entry indexes guard once-only storage; install them before running the routes. Existing warm MongoClient reuse/pool bounds remain unchanged. A timeout is not success: query/retry the same match. Later cinematic departure cannot rewrite commitment. A precommit departed human and its takeover side receive no saved credit; a remaining human and ordinary fallback profile receive eligible competitive credit.
+
+For the creator try-out, run these commands in **backend/**:
+
+```sh
+npm run typecheck
+npm run build
+npm run db:setup:m11
+node --env-file-if-exists=.env dist/scripts/m11-local-server.js sha256:d0e9b971b245891addf9a13e056bec263c5e5a18b3cd07e6935e8a3a9637edf3 --approved-ember
+```
+
+The adapter prints an exact `export API_BASE=...` line. Copy that line into a second backend terminal, then run:
+
+```sh
+node scripts/try-m11.mjs prepare
+node scripts/try-m11.mjs play
+node scripts/try-m11.mjs inspect
+node scripts/try-m11.mjs replay
+```
+
+`prepare` creates two dedicated try-out identities, saves credentials immediately in ignored `.local/m11-tryout.json` (0600) and refuses to overwrite that file. Preserve it after any failure; do not recreate M10/exercise accounts. `play` registers/binds both identities and submits a controlled honest Scissor→Rock win versus Scissor. Expected first result for A: +10 points, one win/record, completed initial-Scissors daily, next Win-3 daily at zero, weekly play +1/switch +1. `inspect` shows the receipt and saved points/stats/quest contribution. `replay` repeats that finalization, checks the same receipt and unchanged API-visible credit. These requests use the real server clock. Ctrl-C closes only this adapter.
+
+The separate `npm run exercise:m11` is the scoped verification harness, **already executed** in this workspace. Its five identities/operations are preserved in ignored `.local/m11-contract.json`, sanitized observations in ignored `.local/m11-evidence.json` (both 0600). Completed steps are skipped on a rerun; preserved evidence is not a new pass. The harness clock is a private in-process function and never accepts time from clients, headers, fields, public routes or normal environment settings. Its fixtures advance through 2026-10-26; use the separate real-clock try-out identities above. No production time is changed, and old test identities/data are not reset/deleted.
+
+Recorded basic evidence: seven scoring histories produced 76 match points plus 13 once-only menu points; A ended with 114 points/nine eligible matches after fallback/takeover cases. Replay storage remained identical; conflict 409/unauthorized read 403 caused no writes. Daily 04:59/05:00/05:01 and Monday boundaries expired unfinished/unpaid instances while preserving paid points. A focused finishing-event case proved that an initial-Scissors third win did not advance the next Scissors instance. Actual Atlas reported 8.0.34; acknowledged driver commits and stored before/after observations are recorded in `../rock-paper-scissor/docs/reports/M11_Report.md`.

@@ -1,98 +1,104 @@
 # M11 — Backend II: match settlement and authoritative quests
 
-Status: **partial / awaiting M10 checkpoint and explicit exercise configuration agreement**. Recorded fast mode; slice 11 only. Independent draft modules and endpoint entry points compile. **No M11 API/Atlas exercise, transaction commitment, reward payment or storage evidence has been performed.** Slice 11 remains unchecked and no implementation commit has been made. Updated 2026-10-23.
+Status: **implementation and scoped real API/Atlas verification complete; implementation commit pending**. Fast mode; slice 11 only. Updated 2026-10-23. Evidence is localhost HTTP with controlled submitted histories and actual Atlas storage, not deployed Vercel or live Godot/backend games.
 
-## Scope and approved references
+## Scope, references and prerequisite
 
-Read the bootstrap; universal requirements, adapters, completion protocol and complete M11 brief in `docs/Milestones.md`; slice 11, mode and Revisions in `devpost/checklist.md`; M10 report; assigned PRD/spec sections; project-local `5-build`; private learner context; backend README and relevant existing modules. Preserve the approved TypeScript/Node backend, `.tres` authoring, bounded shared pool, permanent identities, unrestricted jam matchmaking and trusted-host limitation. No delegation, chat creation/messaging or M12 work.
+Read bootstrap; universal requirements/adapters/completion protocol/M11 in Milestones; checklist slice 11/mode/Revisions; M10 report; assigned PRD/spec sections; local `5-build`; private learner context; backend README/modules. Preserve approved TypeScript/Node, Resource authoring, bounded warm pool, permanent identity ownership, unrestricted jam matchmaking and trusted-host limitation. No delegation, other-chat creation/messaging or M12.
 
-Initial and final read-only Git inspections found HEAD `e8bb537` (`m10`), an empty index, and the supplied pending M10 diffs in `backend/README.md`, `backend/package.json`, `backend/src/model.ts`, `backend/scripts/seed-bots.ts`, M10 report and checklist. Those backend/report diffs have not been modified, staged or absorbed. The checklist receives only the M11 Revisions appendix below. Existing M09/M10 reports/checkpoints are not finalized here. The creator was asked to finish M10 in its own chat and supply its checkpoint hash; no answer has yet been received.
+Initially preserved `e8bb537` and pending M10 diffs while drafting only separate new modules. Creator subsequently supplied **`0d4d7bb5f5c23b7aca92e31bc098942f0968d0a8`**, confirming M10's own chat checked the checkpoint and found it clean. Inspection confirmed that HEAD and clean tree. The external commit includes this chat's initial M11 drafts/report too; preserve it without rewriting/recommitting unchanged contents. M10's report/checkbox still show historical partial status: this discrepancy is recorded, not repaired or represented as independently audited predecessor completion. Creator's explicit own-chat confirmation cleared this assignment's boundary. No M09/M10 report/checkbox changed here.
 
 ## Changed files and why
 
-All backend paths below are **new uncommitted M11 files**:
+Initial M11 code already contained in external `0d4d7bb`: backend `src/settlement-model.ts`, `settlement-rules.ts`, `server-time.ts`, `settlement-store.ts`, `authoritative-quests.ts`, `match-settlement.ts`, `m11-api.ts`; `api/menu.ts`, `api/quests.ts`, four `api/matches/*.ts` routes; `scripts/setup-m11.ts`, `m11-local-server.ts`, `try-m11.mjs`. These implement the schemas, validation/calculation, clock, indexes/transactions, quest coordination, bindings/receipts and local tools below.
 
-- `src/settlement-model.ts`: registrations, compact history/events, receipts, quest instances, owner coordination, contributions, grants and menu identities.
-- `src/settlement-rules.ts`: known generated configuration, explicit readiness gate, structured history validation, server calculations, lifetime counters/percentages and quest predicates.
-- `src/server-time.ts`: real-clock default and fixed GMT+7 daily/weekly boundaries.
-- `src/settlement-store.ts`: collection access using M10's pool, index setup/checks and short transaction wrapper.
-- `src/authoritative-quests.ts`: zero-counter assignment, captured-instance eligibility, contribution, fresh daily sequence, reset/expiry, menu payment and paginated current-day reads.
-- `src/match-settlement.ts`: immutable participant bindings, stable registration nonce, once-only settlement/receipt lookup, eligible profile/owner-record updates and takeover exclusion.
-- `src/m11-api.ts`, `api/menu.ts`, `api/quests.ts`, `api/matches/{register,join,finalize,result}.ts`: authenticated API handlers. Default deployed entry points retain the production gate and real clock.
-- `scripts/setup-m11.ts`: explicit prerequisite index setup, **not executed**.
-- `scripts/m11-local-server.ts`: separate localhost-only adapter, including existing M10 routes, private in-process exercise capability and optional injected clock. **Not started**.
-- `scripts/try-m11.mjs`: small credential-private creator walkthrough; controlled history, receipt/profile/record/quest reads and identical sequential replay. **Not executed**; it is not the full required M11 verification harness.
+Continuation changes only:
 
-This report and the M11-only checklist Revisions entry record the actual partial status. No existing backend implementation file was edited. `backend/public/`, existing credentials/environment files, learner profile, client code/scenes/settings/art and previous history remain untouched.
+- New `backend/scripts/exercise-m11.mjs`: scoped HTTP/Atlas exercise, private saved identities/operations, before/after observations and transaction evidence; completed-step tracking prevents accidental repeated credit/account recreation.
+- `backend/scripts/dev.ts`: mounts M11 handlers with production gate retained.
+- `backend/scripts/m11-local-server.ts`: prints exact second-terminal API_BASE command.
+- `backend/package.json`: `db:setup:m11` / `exercise:m11`; no dependency changes.
+- `backend/vercel.json`: existing function protections apply to nested match routes via `api/**/*.ts`, per [official Vercel glob documentation](https://vercel.com/docs/project-configuration/vercel-json#functions). Prepared settings, no deployment.
+- `backend/README.md`, this report and M11-only checklist Revisions/completion recording: contracts, exact instructions and actual evidence.
 
-## Architecture, schema, indexes and API contracts — draft, not storage evidence
+No pending predecessor diff was absorbed or predecessor completion/report rewritten. Unrelated files, secrets, learner profile, client/gameplay/network/scenes/settings/art and public exports remain untouched.
 
-`matches` stores unique `matchId`/global `matchNonce`, creator, normalized registration digest, expected peer, known rules revision, participant name/control snapshots and captured quest IDs, waiting/ready/committed status, submission digest and receipt. A replay by the same creator returns the binding; another creator or contradictory registration cannot replace it. A requested human must exist, and independently authenticated join finishes human binding before finalization. No rating filter or bot scheduling is added. The isolated Ember option resolves the existing `m10-ember-v1` profile; it does not seed/import an identity or history. Production fallback selection remains unavailable pending authoring.
+## Configuration and creator decisions
 
-Compact `roundLog` carries `matchId`, full artifact `rulesRevision`, `condition` (`devil`, `angel`, `none`), four locked phase timings, and two actor histories. Each actor preserves `actorId`, an RPS permutation `startingOrder`, separate initial/final cards, identity/intention claims and bounded decision/revision events (`phase`, `sequence`, `revision`, host-relative `elapsedMsec`, `value`). Validation checks binding, revision, phase duration/order, unique event sequence, event revisions/timing and accepted final values. M12 will need to map the richer Godot RoundLog into this wire shape. Validation does **not** independently verify live gameplay, the reported condition or departure facts; the approved host remains trusted.
+Creator explicitly answered **“Yeah sure”** to the exact existing rules/development quest catalogue for isolated nonproduction API/Atlas exercises with productionReady=false, and existing Ember selection for ordinary fallback exercises.
 
-Only a bound, nondeparted human can finalize. One reported precommit departed human excludes that side from every profile/record/quest update; its history/name may remain in the survivor's opponent snapshot. No separate takeover bot profile is credited. Ordinary fallback profiles receive normal competitive profile/record updates; bots have no human-authenticated quest/menu assignments. A committed receipt freezes result and eligibility; contradictory replay returns 409 and later departures cannot rewrite it. Authorized participants can read waiting/ready/committed status and the receipt without a reconnect/resume endpoint.
+Revision: `sha256:d0e9b971b245891addf9a13e056bec263c5e5a18b3cd07e6935e8a3a9637edf3`.
 
-The short transaction writes match result/receipt, eligible profiles, owner records and quest contributions together. It uses the existing module-scoped MongoClient, snapshot reads, primary preference and majority write concern; operations inside a session are sequential. The API returns the callback value only after `withTransaction` resolves. Driver transient/uncertain-commit retry handling is reused; bounded fresh-transaction retries handle competing unique inserts. No external success is emitted inside callbacks. These safeguards are **implemented but not exercised against Atlas**. See the official [MongoDB transaction API/retry guidance](https://www.mongodb.com/docs/drivers/node/current/crud/transactions/).
+Rules `m05-round-v1`; quests `m08-creator-approved-preview-v1`; development_only=true; ordered_cycle; productionReady=false; production arena weights unset. No authored `.tres` values changed; existing generated artifact/source digests verified by final build. No competing Node payouts or preview history. Normal/deployed handlers retain readiness rejection for production settlement/quest assignment/payment; exact-revision exercise capability is private to localhost tools. Production balance/selection/arena weights and bot policy remain applicable creator inputs for later production work.
 
-`questOwners` serializes per-owner assignment/capture/contribution/reset/payment operations with a revision write. `questInstances` stores individual definition snapshots, unique instance IDs, activation/expiry, counter and active/completed/paid/expired states. `questContributions` uniquely binds instance+match; `questGrants` uniquely binds instance payment; `menuEntries` uniquely binds owner+request ID. No lifetime initialization or record replay; new dailies activate at zero and cannot receive the event that completed their predecessor. Captured IDs prevent in-flight matches from contributing to subsequent/reset instances. Paid rewards are preserved at reset. Current-day history is stored separately from player documents and returned in pages of 100 (`historyBefore` / `dailyHistoryNextBefore`), with no daily completion cap.
+## Schema, indexes, transaction and API contracts
 
-Prepared unique indexes: match ID, nonce, partial receipt ID; owner coordinator; quest instance ID; instance+match contribution; instance grant; owner+menu request; match+record owner. Owner-period/status query indexes supplement these and existing M10 indexes. Readiness checks required unique indexes before invoking transaction handlers. **These M11 indexes have not been created or inspected in Atlas.**
+`matches` stores unique match ID/global nonce, authenticated creator/registration digest, optional expected human, known revision, immutable permanent participant/name/control snapshots and captured quest IDs, status, submission digest and committed receipt. Owner-bound nonce replay cannot replace bindings; authenticated peer join completes human binding before play/finalization. Isolated fallback resolves the existing `m10-ember-v1` profile without seed recreation, scheduling or rating filter. Production fallback selection remains gated pending authored policy.
 
-Prepared routes:
+Compact `roundLog` has match/revision, condition devil/angel/none, four locked phase timings and two actor histories: RPS starting order, initial/final cards, identity/intention claims and bounded decision/revision events with sequence/host-relative time. Validation checks identities, phase duration/order, event sequences/revisions/timing and accepted final values. M12 must translate the richer Godot RoundLog. Host-reported condition/history/departures are still trusted; backend validation is not independent live gameplay verification or cheat detection.
 
-| Route | Request / responsibility |
+Only a bound eligible human may finalize. Server computes rewards/classification and freezes receipt ID, match-derived result ID, match ID, committedAt, revision/history/departures/recipients. Identical replay returns original receipt without writes; contradictory history/eligibility is 409. Bound humans can query pending/committed status after uncertainty. Cinematic departure cannot rewrite commitment. No recovery/reconnect/resume endpoint.
+
+One short transaction writes result/receipt, eligible profiles, owner records and captured quest contributions. It reuses M10's MongoClient with snapshot reads/primary/majority writes and bounded transaction/commit times; operations are sequential. `withTransaction` handles driver transient/uncertain-commit retries; bounded fresh-transaction retry handles competing unique inserts. HTTP success occurs only after commit resolves, never inside callbacks. Menu payment uses its own transaction. Actual Atlas transactions succeeded; no independent non-atomic substitute. Reference: [MongoDB transaction/retry guidance](https://www.mongodb.com/docs/drivers/node/current/crud/transactions/).
+
+Ordinary humans/fallback profiles receive eligible competitive credit. Precommit departed humans receive no saved points/counters/records/quest contributions. Their identity/cards can appear in the survivor record; takeover credits no bot profile. Bots have no human-authenticated menu/quest assignments. Separate stored fallback/takeover cases verified attribution.
+
+`questOwners` serializes owner assignment/capture/contribution/reset/payment with a revision write. Separate `questInstances` snapshot definition/revision, activation/period/expiry, zero counter and active/completed/paid/expired status. Contributions uniquely bind instance+match, grants instance, menu entries owner+request. Registration/join captures active IDs; old/in-flight matches cannot advance newly assigned/reset instances. A completed daily creates its next zero-counter instance without replaying the finishing event. Active daily/weekly objectives may share events. No lifetime initialization or fixed completion cap. Current-day history is stored outside players and paginated at 100 (`historyBefore` / `dailyHistoryNextBefore`). Expiry precedes menu payment; unfinished/unpaid completions expire, paid points remain. Quest reads never pay.
+
+Created/inspected unique indexes: match ID, nonce, partial receipt ID; quest owner; instance ID; instance+match contribution; instance grant; owner+menu request; match+record owner plus existing record ID. Owner-period/status indexes supplement M10 read indexes. Required unique indexes checked before transaction handlers.
+
+| Route | Request / response responsibility |
 | --- | --- |
-| `POST /api/matches/register` | `{matchNonce,lobbyId?,peerPlayerId?,fallbackRequested,rulesRevision}`; authenticated creator, stable nonce, bound snapshots and opponent public profile. |
-| `POST /api/matches/join` | `{matchId,matchNonce}`; authenticated peer, immutable binding. |
-| `POST /api/matches/finalize` | `{matchId,rulesRevision,roundLog,departures:[playerId?]}`; server calculation and atomic committed receipt. |
-| `GET /api/matches/result?matchId=…` | Bound human only; committed receipt or explicit pending status. |
-| `POST /api/menu` | `{requestId}`; expiry first, eligible once-only grants, current profile/stats/quests/history/grants/periods/server time. Retry of the same menu ID cannot pay subsequently completed quests. |
-| `GET /api/quests?historyBefore=…` | Authenticated current-period view/reset; never pays. |
+| POST matches/register | Owner + matchNonce/lobbyId?/peerPlayerId?/fallbackRequested/rulesRevision; immutable bindings/public opponent. |
+| POST matches/join | Peer + matchId/matchNonce; cannot replace binding. |
+| POST matches/finalize | Eligible human + matchId/rulesRevision/roundLog/departures (at most one human); durable receipt. |
+| GET matches/result?matchId | Bound human; matchId/status/savedResult, null until committed. |
+| POST menu | Owner + requestId UUID; expiry/payment then profile/stats/quests/history/grants/periods/serverTime/revision. |
+| GET quests?historyBefore | Owner; current state/history/reset without payment. |
 
-Existing public stats/leaderboard/owner-record routes are reused as consumers of the stored aggregate/record schema. They have **not** been checked with M11 outcomes. The original `scripts/dev.ts` remains unchanged and does not mount M11; the separate adapter is prepared for isolated checks. Existing Vercel configuration also remains unchanged: nested match-function settings must be reviewed after the M10 boundary clears, before claiming deployed routing. No deployment/upload was attempted.
+All routes use `/api/`. Existing public player/four leaderboard/owner-record reads consume actual stored M11 results. M10 authentication/projections reused without repeating its whole auth suite.
 
-## Exact configuration and creator decisions
+## Mechanical verification: controlled inputs and real storage
 
-Unchanged generated revision:
+Local macOS Node **24.15.0**; retained mongodb **7.7.0**, TypeScript **7.0.2**, Node types **24.19.2**. Atlas observed **8.0.34**; M0/AWS Singapore remain creator-reported M10 labels, no new quota audit. Five dedicated humans' credentials/operations immediately saved privately in ignored `.local/m11-contract.json` (0600); M10 accounts/credentials not recreated/overwritten/deleted. Existing agreed Ember gained controlled API exercise history, not preview uploads. Test adapters closed normally.
 
-`sha256:d0e9b971b245891addf9a13e056bec263c5e5a18b3cd07e6935e8a3a9637edf3`
-
-Authored rules `m05-round-v1`; quests `m08-creator-approved-preview-v1`; `development_only:true`; `daily_selection:ordered_cycle`; `productionReady:false`; production arena weights unconfigured. Build verifies the artifact and `.tres` source hashes. No authored values changed and no competing Node payout constants were added. The exported rules supply base 10/3/0 and qualifying Devil 20/8 or Angel 25/10; losses get no bonus/deduction. Classification compares identity to initial card and intention to actual final-versus-initial change, counting any lying match once. Counters implement the approved denominators, null zero-denominator percentages and win/draw/loss streak rules.
-
-Creator agreement was requested for **this exact existing development catalogue/rules in an isolated nonproduction API/Atlas exercise**, retaining its labels and production gate, and selecting the approved existing Ember for the ordinary fallback exercise. **No agreement received yet; no settlement enabled or exercised.** Prior M08 preview approval and M10 seed approval are not represented as this new agreement. Production selection/balance remains a future creator input.
-
-## Mechanical verification and evidence
-
-| Action / environment | Actual observation |
+| Scoped check | Actual result |
 | --- | --- |
-| Git boundary, backend commands | HEAD `e8bb537`; pending predecessor changes preserved; index empty; only separate new backend files added. No M10 completion inferred. |
-| `npm run typecheck` and `npm run build`, backend workspace | Passed after the final code change. Existing pinned toolchain/dependencies retained. Build verified the exact revision above and `productionReady=false`. |
-| `node --check scripts/try-m11.mjs` | Passed syntax check. No API requests or accounts created. |
-| `git diff --check` | Passed. Ignore checks confirm `.env`, `.local/m11-tryout.json`, existing public export and learner profile are ignored; learner profile remains untracked. |
-| Godot MCP editor read | Exact connected root returned `/users/karinauval/godot-projects/devpost-madewithai-jam/devpost-rockpaperscissor/rock-paper-scissor` (case-normalized). No mutation/runtime/playtest/export performed. |
-| Local M11 API / actual Atlas | **Not run.** No M11 collections/indexes, transaction commits, result receipts, profile deltas, records, contributions or grants observed. M10's recorded Atlas/auth/restart evidence was read, not repeated. |
+| Build/config/syntax | Final typecheck/build, both M11 script syntax checks and diff whitespace checks passed. Same artifact/source digests; productionReady=false; pins unchanged. |
+| Indexes/local API | `db:setup:m11` succeeded on actual Atlas; unique indexes inspected. Private localhost adapter used real handlers. Sandbox setup could not connect; authorized elevated execution succeeded with private details withheld. |
+| Seven scoring histories | **76** match points; W/L/D **3/1/3**; lying/honest **3/4**; **7** records. Base **10/3/0**, Devil **20/8**, Angel **25/10**; mixed and two-false cases count lying once. Initial Scissor/final Rock persisted. |
+| Aggregates/streak | Win rate **42.857142857142854** (3/7), three winning Rocks/100% winning Rock, lying win percentage 100/3. Draws preserve streak **3**; fallback loss resets **0**. Zero-win profile's winning/lying-win percentages null. |
+| Quests/menu | Scissors loss → fresh Win-3 → fresh Scissors requiring another draw. Active weekly play/lie share events; lying once/match. Menu paid **13** (daily 1+3+1, weekly 5+3), total **89**; same and new ordinary entries did not pay again; reads never paid. |
+| Identical replay | Match **01f5352c-3b31-4c6e-8543-4aacbbff2645**, receipt **73c7754a-93c0-403a-bcf8-128327b97ec3** unchanged. Actual match/profiles/records/instances/contributions/grants/owner/menu documents identical before/after. |
+| Denied operations | Contradictory condition **409**, outsider result **403**; same actual storage snapshot unchanged. |
+| Fallback | Match **8f06089e-46ca-46c0-8248-bf17e2b950d2**: existing Ember **+10/+1 win/+1 match/one record**; permanent identity preserved. |
+| Takeover | Match **92a0a563-0aa8-4123-987d-04ffbdf0c1ee**, receipt **c6f52605-bcbf-44fa-b73a-2cecd59c46cf**: survivor **+25**, exactly **one record** retaining departed opponent snapshot. Departed profile/quests and Ember profile unchanged. |
+| Daily cutoff | Saturday 2026-10-24 GMT+7 **04:59/05:00/05:01**: unpaid completion expired, new-day history/counter fresh, no expired menu reward. Old in-flight match excluded from new daily. Later Scissors paid **1**, preserved after next reset. Three expired daily instances observed, covering unfinished/unpaid. |
+| Monday cutoff | Monday 2026-10-26: weekly play completed **04:59**, weekly counters zero **05:00**, no expired reward **05:01**. Three old unfinished/completed-unpaid weeklies expired. Profile retained **50** match points; A retained **114** including prior paid rewards. |
+| Finishing-event proof | Focused four-history follow-up used initial Scissors on third Win-3 win. Match **dbe4c4b6-1376-48ab-8776-10b7ed1be392** left new instance **d6c49e2e-860f-4232-84ca-deef78b257cd** at **0**, with **0** finishing-event contributions. Earlier passed cases skipped. |
+| Actual reads | A: **114 points / 9 matches / 9 records** matched stored receipt/profile/four leaderboard values. Quest read granted nothing. |
+| Transactions | Private harness counted successful actual driver commitTransaction acknowledgements without commands/sessions/secrets: **75** primary-run, **14** follow-up. Each finalization required acknowledgement before receipt, then independently read stored commitment. Before/after storage confirms effects; no rollback/race injection. |
+| Privacy | Env/private exercise files mode **0600**; ignored env/local/public/learner paths verified. No credentials/hashes/URIs/exports/profile staged; unrelated processes untouched. |
 
-Required basic checks **pending**, never passed: actual local API/Atlas launch; small normal win/draw/loss and honest/mixed/two-false histories with before/after storage; identical sequential replay; contradictory replay and unauthorized result denial without writes; separate ordinary fallback and survivor-only takeover storage; Scissors → Win-3 → Scissors and active weekly progress; repeated menu entry; injected daily 04:59/05:00/05:01 and Monday expiry/payment/paid-point preservation; receipt/profile/four leaderboard/records/quest reads and transaction evidence. The prepared creator script covers only a subset and does not replace storage-level verification.
+**21 controlled submitted histories** total. Source harness and ignored `.local/m11-evidence.json` retain observations. Completed-step markers preserve data; skipped reruns are not new passes.
 
-The creator explicitly reduces M11 verification to those basic checks. **Deferred/unverified:** concurrent duplicates, uncertain-network races, deliberate rollback/failure injection, full suites, load/stress, fuzzing, outages, browser/device/gameplay checks. No claim is made that rollback, retry races or a live Godot game passed. Repeat affected checks only after relevant fixes.
+Scoped reduction recorded under Revisions. **Deferred/unverified:** concurrent duplicates, uncertain-network races, rollback/failure injection, full suites, load/stress/fuzzing/outages, browser/device/gameplay and deployed behavior. Safeguards are not proof those tests passed. No broad rerun after documentation-only changes.
 
-## Time authority and isolation
+## Time authority isolation
 
-Normal handler instances use `new Date()` through the server-clock default. Daily periods start at fixed GMT+7 05:00 and weekly periods Monday 05:00. An injected clock requires an explicit private exercise capability in the handler factory. The separate localhost adapter can receive that function only from an in-process test harness; public clients cannot set time via body/header/query/clock route. Exercise revision validation rejects Vercel environments and never flips `productionReady`. The clock/reset logic compiles but **boundary/payment behavior has not been run**. The full controlled-time Atlas harness remains to be added/executed after the gates clear.
+Normal handlers use real server time. Daily 05:00 GMT+7 equals previous-date 22:00 UTC; weekly uses Monday's cutoff. Injection requires private in-process clock/exact exercise revision; Vercel environments reject it. No public clock route or request/header/query/environment clock override. Scripts excluded from uploads. Fixture times advance through 2026-10-26 without changing system/production time; creator try-out uses separate real-clock identities. ProductionReady stays false.
 
-## Creator try-out — prepared, not executed
+## Creator try-out and actual feedback
 
-**Prerequisites:** completed M10 checkpoint from its own chat, explicit agreement to the exact isolated exercise revision, protected existing `.env`, and the remaining focused M11 review/verification. These commands are instructions for continuation after those inputs, not evidence that they ran. Use only `backend/`:
+Full instructions/contracts in backend README. In **backend/**:
 
 ```sh
-cd /Users/karinauval/Godot-Projects/Devpost-MadeWIthAI-Jam/Devpost-RockPaperScissor/backend
 npm run build
-node --env-file-if-exists=.env dist/scripts/setup-m11.js
-node --env-file-if-exists=.env dist/scripts/m11-local-server.js sha256:d0e9b971b245891addf9a13e056bec263c5e5a18b3cd07e6935e8a3a9637edf3
+npm run db:setup:m11
+node --env-file-if-exists=.env dist/scripts/m11-local-server.js sha256:d0e9b971b245891addf9a13e056bec263c5e5a18b3cd07e6935e8a3a9637edf3 --approved-ember
 ```
 
-The adapter prints its localhost URL with an allocated port. In a second backend terminal, set `API_BASE` to that exact printed URL, then:
+Copy the printed exact `export API_BASE=...` into a second backend terminal:
 
 ```sh
 node scripts/try-m11.mjs prepare
@@ -101,18 +107,16 @@ node scripts/try-m11.mjs inspect
 node scripts/try-m11.mjs replay
 ```
 
-`prepare` issues two dedicated identities and saves credentials immediately in ignored `.local/m11-tryout.json` (0600). It refuses to overwrite existing credentials. It does not use/recreate M10 accounts. `play` registers/binds the humans, submits a clearly controlled Scissor→Rock honest win versus Scissor and persists the operation for identical retries. Expected first-match A data: +10 points, one win, one owner record, initial-Scissors daily completed, next Win-3 daily still zero, weekly play +1 and switch +1. Completion does not itself pay quest rewards. `inspect` follows the match through its receipt and saved reads. `replay` expects the same receipt and unchanged API-visible profile/records/quest counters; separate actual database before/after observations are still required for milestone evidence. Never display/share the credential file. Interrupted preparation must be investigated using saved credentials, without recreating accounts.
+Prepare preserves two new real-clock credentials in ignored `.local/m11-tryout.json` (0600), refusing overwrite. Play registers/joins and submits honest Scissor→Rock win versus Scissor. Expected A: **10 points/one win/one record**, first daily complete, next Win-3 **0**, weekly play **1**/switch **1**. Inspect follows receipt/saved data; replay checks original receipt/unchanged credit. Never print/share credentials; preserve partial operations rather than recreate accounts. Separate agent storage/transaction evidence is above.
 
-No actual creator try-out feedback received. M11 is not a planned fast-mode hands-on checkpoint; none is invented or checked.
+Actual creator input: checkpoint confirmation and nonproduction configuration/Ember approval. **No M11 try-out feedback received or invented.** M11 is not a planned fast-mode checkpoint; no extra feedback gate invented.
 
-## Tool/service and web/export limitations
+## Godot MCP, export and service limitations
 
-Only supported Godot read inspection was used. Resource export was not rerun because authored sources did not change; build verified their hashes. No client provider swap, networking changes, art, scene/settings mutation or gameplay/browser/device testing. Existing SDK-bearing `backend/public/` remains untouched/ignored/excluded under the existing upload boundary. No upload or deployment occurred; localhost code is not deployed evidence. Atlas connectivity/transactions for M11 remain unexercised, not substituted with independent non-atomic writes or mocks. Dependencies were not changed or reinstalled.
+Supported editor read initially confirmed exact root `/users/karinauval/godot-projects/devpost-madewithai-jam/devpost-rockpaperscissor/rock-paper-scissor` (case-normalized). No mutation/playtest/game export/client thread/art/scene/settings changes. Unchanged `.tres` digests verified; no tuning changes requiring regeneration. `backend/public/` untouched/ignored/excluded; public SDK distribution unresolved. No Vercel link/build/upload/deployment or hosted egress check. Pool/dependency pins retained; capacity/rollback/race limits unmeasured.
 
-## Commit/checklist status, unresolved inputs and M12 handoff
+## Commit/checklist and M12 handoff
 
-Planned commit remains `feat(backend): add match settlement and authoritative quests`; **not made**. No files staged, no history rewritten, no predecessor diffs absorbed. Slice 11 stays unchecked because essential checkpoint/configuration inputs, runnable API/storage evidence and the implementation commit are missing. Only an M11 Revisions note was appended; slices 9/10/12, checkpoints, Final Review and learning wrap-up remain untouched.
+Verified implementation ready for `feat(backend): add match settlement and authoritative quests`. Drafts in `0d4d7bb` preserved. Only explicit M11 continuation files/report/Revisions intended for this commit; slice 11 will be checked after success. No M09/M10 completion, M12/checkpoint/Final Review/learning-wrap-up changes.
 
-Continuation must first obtain/recheck M10's own-chat checkpoint and the explicit configuration/Ember exercise decisions. Then review the new modules, finish any necessary existing-adapter/nested-function settings changes within M11, implement/run only the assigned basic Atlas exercise, fix affected failures and collect sanitized before/after/transaction evidence. Review explicit intended/staged diffs and commit only verified M11 files before completing its slice. Never recommit pending M10 work as M11.
-
-**M12 remains unstarted and unauthorized.** Its eventual handoff will need the verified API wire schema/receipt ordering, approved production content/selection inputs, client mapping of permanent actors and captured histories, real-clock production handlers and unresolved public SDK distribution. No integration is performed to conceal this incomplete prerequisite.
+M12 remains **unstarted**. Handoff: permanent bindings, compact wire history, active-instance capture before play, frozen precommit departures, durable receipt before cinematic, same-match query/retry after uncertainty, stable genuine-menu entry IDs, real server time and trusted-host limitation. Applicable production content/selection/arena weights and public SDK distribution still need creator decisions. Exercise approval is not production balancing/deployment approval. No client/provider integration performed.

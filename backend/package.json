@@ -13,6 +13,8 @@
     "db:setup": "node --env-file-if-exists=.env dist/scripts/setup-db.js",
     "db:seed": "node --env-file-if-exists=.env dist/scripts/seed-bots.js",
     "exercise": "node scripts/exercise.mjs",
+    "db:setup:m11": "node --env-file-if-exists=.env dist/scripts/setup-m11.js",
+    "exercise:m11": "node --env-file-if-exists=.env scripts/exercise-m11.mjs",
     "vercel-build": "npm run build"
   },
   "dependencies": { "mongodb": "7.7.0" },

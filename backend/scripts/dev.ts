@@ -6,10 +6,14 @@ import leaderboard from '../api/leaderboard.js';
 import records from '../api/records.js';
 import { closeDatabase } from '../src/db.js';
 import { rulesRevision } from '../src/config.js';
+import { m11Handlers } from '../src/m11-api.js';
 
 const routes = new Map([
   ['/api/anonymous', anonymous], ['/api/profile', profile], ['/api/player', player],
-  ['/api/leaderboard', leaderboard], ['/api/records', records]
+  ['/api/leaderboard', leaderboard], ['/api/records', records],
+  ['/api/menu', m11Handlers.menu], ['/api/quests', m11Handlers.quests],
+  ['/api/matches/register', m11Handlers.register], ['/api/matches/join', m11Handlers.join],
+  ['/api/matches/finalize', m11Handlers.finalize], ['/api/matches/result', m11Handlers.result]
 ]);
 const port = Number(process.env.PORT ?? 3100);
 const server = createServer((req, res) => {

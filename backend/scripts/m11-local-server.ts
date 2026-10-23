@@ -50,6 +50,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   try {
     const server = await startM11Exercise(revision, process.argv[3] === '--approved-ember');
     console.log(`Isolated nonproduction M11 API at ${server.base}; real server clock; productionReady remains false.`);
+    console.log(`Second backend terminal: export API_BASE=${server.base}`);
     for (const signal of ['SIGINT', 'SIGTERM'] as const) {
       process.on(signal, () => { void server.close().then(closeDatabase).then(() => process.exit(0)); });
     }
