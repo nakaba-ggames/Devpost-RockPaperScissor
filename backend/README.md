@@ -16,7 +16,7 @@ Node **24.15.0** was used locally (`.nvmrc`); Vercel selects the supported **24.
 2. Create a database user with `readWrite` on `devils_rps_m10`. Database users are separate from your Atlas login. Save its generated password privately.
 3. In Network Access, add your current public IP. If that IP changes, update this entry.
 4. Connect → Drivers → Node.js gives the connection URI. Replace its username/password placeholders locally, URL-encoding special characters. Do not paste it into chat, shell arguments, Git, screenshots or reports.
-5. A blank, ignored `.env` has been prepared with file mode 0600. Fill its existing `MONGODB_URI=` line, and keep `MONGODB_DB=devils_rps_m10` and `PORT=3100`. For a new checkout, copy `.env.example` to `.env` and run `chmod 600 .env`.
+5. An ignored `.env` has been prepared with file mode 0600. Fill its existing `MONGODB_URI=` line, and keep `MONGODB_DB=devils_rps_m10` and `PORT=3100`. For a new checkout, copy `.env.example` to `.env` and run `chmod 600 .env`.
 6. Run:
 
 ```sh
@@ -24,16 +24,19 @@ npm ci
 npm run typecheck
 npm run build
 npm run db:setup
+npm run db:seed
 npm run dev
 ```
 
-`db:setup` creates unique identity/hash/record indexes and the four leaderboard/owner-record query indexes. It prints only the server version, bounded pool options and whether the connection promise was reused. It does not seed profiles, history or quest progress. Run it before exercising the API. No password/URI is printed on failure.
+`db:setup` creates unique identity/hash/record indexes and the four leaderboard/owner-record query indexes. It prints only the server version, bounded pool options and whether the connection promise was reused. It does not seed profiles, history or quest progress. After setup, `npm run db:seed` creates the explicitly approved Ember identity only. That separate command adds a unique seed-key index and uses insert-only data: rerunning it preserves its permanent ID and any future earned progress. Run it before exercising the API. No password/URI is printed on failure.
 
 `dev` compiles and starts **a local Node HTTP adapter**, bound only to `127.0.0.1:3100`, using the same handlers as the Vercel functions. It serves no game exports or artwork. This is a local API check, not a deployed Vercel check. `npm start` starts the compiled adapter without rebuilding. Ctrl-C stops it.
 
 ## Creator try-out and basic exercise
 
-Keep the API running. In a second terminal in this backend folder:
+The prepared workspace has now passed the basic exercise against actual Atlas MongoDB **8.0.34**, including a real API restart/resume. Its two credentials are already saved privately: run `npm run exercise -- resume` to try retrieving that existing profile. Do not rerun the initial creation exercise over that file.
+
+For a fresh checkout without exercise credentials, keep the API running. In a second terminal in this backend folder:
 
 ```sh
 npm run exercise
@@ -82,13 +85,13 @@ npm run build
 
 `config/backend-config.json` is a versioned generated deployment input. Its revision hashes the complete payload and source-file digests. Build checks integrity and, when the sibling Godot sources are available, rejects stale exports. Vercel can build from the committed artifact without Godot installed. The API reads and verifies this known revision; the client never supplies payout constants.
 
-The current quest catalogue remains `development_only:true`, and production arena weights remain unconfigured; `productionReady:false`. Exporting these fields does **not** approve production balance. M11 must resolve production catalogue/weight inputs before enabling settlement. There are no seeded real bots; identity source/agreement is still pending. The preview roster and synthetic history are not production seeds.
+The current quest catalogue remains `development_only:true`, and production arena weights remain unconfigured; `productionReady:false`. Exporting these fields does **not** approve production balance. M11 must resolve production catalogue/weight inputs before enabling settlement. The creator explicitly approved one real backend seed, **Ember**, with **0 points and no history**. `npm run db:seed` has inserted it into Atlas with a permanent UUID, no credential/hash and private seed key `m10-ember-v1`. Its source is the M10 creator decision in `scripts/seed-bots.ts`; no preview identity/statistics, personality settings or balancing were imported. Production bot policy/selection remains future authoring work. The preview roster and synthetic history are not production seeds.
 
 ## Connections, limits and future Vercel environment
 
 `src/db.ts` shares a single in-flight/connected MongoClient promise across warm requests. Each server pool has maximum 5, minimum 0, maxConnecting 2; idle timeout 60s, selection/connect/wait bounds 5s, socket/operation bounds 10s. Functions never close per request. A failed initial connection is closed/reset so a later request can retry without creating an account. Monitoring adds sockets; multiple cold instances multiply pools, so 5 is not an account-wide cap.
 
-Official [Atlas Free limits](https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/) currently document MongoDB 8.0 managed updates, 0.5 GB including indexes, 500 connections, one Free cluster per project, and rolling seven-day transfer allowances of 10 GB in and 10 GB out. These are published limits; account tier, exact patch version, actual consumption and headroom must be observed on the creator's cluster. `db:setup` records the actual server version once accessible. No paid plan is selected.
+Official [Atlas Free limits](https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/) currently document MongoDB 8.0 managed updates, 0.5 GB including indexes, 500 connections, one Free cluster per project, and rolling seven-day transfer allowances of 10 GB in and 10 GB out. These are published limits; account tier, exact patch version, actual consumption and headroom must be observed on the creator's cluster. `db:setup` observed server **8.0.34**, created the required indexes and confirmed connection-promise reuse in this workspace. Creator confirmed **M0**, **AWS / Singapore (`ap-southeast-1`)**. Total account usage and enforced quota consumption have not been independently observed; published Free limits above are not measured load/capacity evidence. No paid plan is selected.
 
 No deployment is required for the independent local persistence proof. For a later backend-only Vercel preview, root the project at `backend`, select Node 24.x, and set `MONGODB_URI`/`MONGODB_DB` as server-only Preview environment values. Review Atlas network access for that deployment's egress; the local IP entry alone does not configure Vercel connectivity. Do not place the URI in public/client environment variables.
 
@@ -96,4 +99,4 @@ No deployment is required for the independent local persistence proof. For a lat
 
 ## Verification boundary
 
-M10 runs only build/typecheck, the above two-identity real-Atlas exercise, restart/resume, pool/config inspection and secret/export input review. Deferred: full suite, load/stress/races/fuzzing, outages, browser/device matrix, earlier gameplay, match settlement and quest rewards. Missing service access means pending evidence, never a mock pass. M09's staged feature/completion boundary must also be resolved before committing M10.
+M10 runs only build/typecheck, the above two-identity real-Atlas exercise, restart/resume, pool/config inspection and secret/export input review. Deferred: full suite, load/stress/races/fuzzing, outages, browser/device matrix, earlier gameplay, match settlement and quest rewards. Missing service access means pending evidence, never a mock pass. An existing external combined commit `e8bb537` contains the initial M09/M10 source snapshot. Preserve that history; M09's report/checkpoint bookkeeping still needs its own chat before M10 completion.

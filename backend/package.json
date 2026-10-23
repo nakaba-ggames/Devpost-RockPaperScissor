@@ -11,6 +11,7 @@
     "build": "tsc && node scripts/check-config.mjs",
     "config:export": "node scripts/export-config.mjs",
     "db:setup": "node --env-file-if-exists=.env dist/scripts/setup-db.js",
+    "db:seed": "node --env-file-if-exists=.env dist/scripts/seed-bots.js",
     "exercise": "node scripts/exercise.mjs",
     "vercel-build": "npm run build"
   },

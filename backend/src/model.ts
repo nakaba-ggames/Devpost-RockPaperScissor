@@ -10,6 +10,7 @@ export interface Player {
   kind: 'human' | 'bot';
   displayName: string | null;
   credentialHash?: string;
+  botSeedKey?: string;
   overallPoints: number;
   completedMatches: number;
   wins: number;
@@ -73,12 +74,12 @@ export function publicProfile(player: Player) {
   return profile;
 }
 
-export function newHuman(playerId: string, credentialHash: string): Player {
+function zeroHistoryProfile(playerId: string, kind: Player['kind'], displayName: string | null): Player {
   const zero = () => ({ Rock: 0, Paper: 0, Scissor: 0 });
   const na = () => ({ Rock: null, Paper: null, Scissor: null });
   const now = new Date();
   return {
-    playerId, kind: 'human', displayName: null, credentialHash,
+    playerId, kind, displayName,
     overallPoints: 0, completedMatches: 0, wins: 0, losses: 0, draws: 0, winStreak: 0,
     initialCardCounts: zero(), finalCardCounts: zero(), winningFinalCardCounts: zero(),
     lieCount: 0, honestCount: 0, lyingWins: 0, honestWins: 0, switchCount: 0,
@@ -86,4 +87,12 @@ export function newHuman(playerId: string, credentialHash: string): Player {
     honestWinPercentage: null, initialCardPercentages: na(), liePercentage: null,
     switchPercentage: null, revision: 1, createdAt: now, updatedAt: now
   };
+}
+
+export function newHuman(playerId: string, credentialHash: string): Player {
+  return { ...zeroHistoryProfile(playerId, 'human', null), credentialHash };
+}
+
+export function newBot(playerId: string, displayName: string, botSeedKey: string): Player {
+  return { ...zeroHistoryProfile(playerId, 'bot', displayName), botSeedKey };
 }
