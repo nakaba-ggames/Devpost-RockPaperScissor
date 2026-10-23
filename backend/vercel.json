@@ -3,7 +3,7 @@
   "version": 2,
   "framework": null,
   "buildCommand": "npm run build",
-  "outputDirectory": "public/m12",
+  "outputDirectory": "static-api-only",
   "functions": {
     "api/**/*.ts": {
       "includeFiles": "config/backend-config.json",

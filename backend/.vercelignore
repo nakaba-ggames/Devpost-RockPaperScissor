@@ -14,9 +14,9 @@
 !/scripts
 /scripts/*
 !/scripts/check-config.mjs
-!/public
-/public/*
-!/public/m12
+!/static-api-only
+/static-api-only/*
+!/static-api-only/.gitkeep
 
 # Git deployments may apply this project file from the repository root.
 !/backend
@@ -34,6 +34,6 @@
 !/backend/scripts
 /backend/scripts/*
 !/backend/scripts/check-config.mjs
-!/backend/public
-/backend/public/*
-!/backend/public/m12
+!/backend/static-api-only
+/backend/static-api-only/*
+!/backend/static-api-only/.gitkeep
