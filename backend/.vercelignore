@@ -18,3 +18,22 @@
 !public/
 !public/m12/
 !public/m12/**
+
+# Allow backend paths when filtering from the repository root.
+!backend/
+!backend/package.json
+!backend/package-lock.json
+!backend/tsconfig.json
+!backend/vercel.json
+!backend/.vercelignore
+!backend/api/
+!backend/api/**
+!backend/src/
+!backend/src/**
+!backend/config/
+!backend/config/backend-config.json
+!backend/scripts/
+!backend/scripts/check-config.mjs
+!backend/public/
+!backend/public/m12/
+!backend/public/m12/**
