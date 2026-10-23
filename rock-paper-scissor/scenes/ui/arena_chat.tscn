@@ -10,7 +10,7 @@ text = "ARENA CHAT"
 horizontal_alignment = 1
 [node name="Notice" type="Label" parent="Content" index="1"]
 layout_mode = 2
-text = "Local preview only • no peer delivery\nThe phase clock keeps running."
+text = "Match chat • no saved archive\nThe phase clock keeps running."
 horizontal_alignment = 1
 autowrap_mode = 2
 theme_override_font_sizes/font_size = 18
@@ -26,10 +26,10 @@ autowrap_mode = 2
 text = "No messages this match."
 [node name="Input" type="LineEdit" parent="Content" index="3"]
 layout_mode = 2
-placeholder_text = "Message (local preview)"
+placeholder_text = "Message"
 [node name="Send" parent="Content" index="4" instance=ExtResource("2")]
 layout_mode = 2
-text = "Send local preview"
+text = "Send"
 [node name="Close" parent="Content" index="5" instance=ExtResource("2")]
 layout_mode = 2
 text = "Close chat"

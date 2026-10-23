@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3]
 [ext_resource type="Script" path="res://scripts/app/matchmaking.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/development/scripted_match_session.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/networking/gdsync_match_session.gd" id="2"]
 [ext_resource type="Resource" path="res://resources/matchmaking/search_settings.tres" id="3"]
-[ext_resource type="Resource" path="res://resources/development/search_fixture.tres" id="4"]
+[ext_resource type="Resource" path="res://resources/arena/option_rules.tres" id="4"]
 [ext_resource type="Resource" path="res://resources/presentation/search_motion.tres" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/ui/search_card.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="7"]
@@ -18,7 +18,7 @@ arena_fixture = ExtResource("10")
 [node name="Session" type="Node" parent="."]
 script = ExtResource("2")
 settings = ExtResource("3")
-fixture = ExtResource("4")
+rules = ExtResource("4")
 [node name="Dots" type="Timer" parent="."]
 [node name="Search" type="VBoxContainer" parent="."]
 layout_mode = 2

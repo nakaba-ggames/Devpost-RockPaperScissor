@@ -13,3 +13,6 @@ extends Resource
 @export var result_id: String = ""
 @export var result_submission: Dictionary = {}
 @export var result_receipt: Dictionary = {}
+# Runtime transport reference, never serialized or persisted.
+var session: Node
+var canonical_actor_ids: Array[String] = []

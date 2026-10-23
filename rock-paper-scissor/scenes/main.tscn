@@ -265,7 +265,7 @@ text = "Clear Data • local only"
 [node name="FixtureNotice" type="Label" parent="Margin/Stack/Body/Menu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
-text = "Development fixtures • search / arena condition"
+text = "Live GD-Sync queue • preview identities / points"
 horizontal_alignment = 1
 
 [node name="SearchScenario" type="OptionButton" parent="Margin/Stack/Body/Menu"]
@@ -273,14 +273,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-item_count = 3
+disabled = true
+item_count = 1
 selected = 0
-popup/item_0/text = "Scripted opponent found"
+popup/item_0/text = "Live queue • any preview rating"
 popup/item_0/id = 0
-popup/item_1/text = "Normal timeout (30–45 seconds)"
-popup/item_1/id = 1
-popup/item_2/text = "Scripted failure (deferred check)"
-popup/item_2/id = 2
 
 [node name="ArenaCondition" type="OptionButton" parent="Margin/Stack/Body/Menu"]
 unique_name_in_owner = true

@@ -61,6 +61,7 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 		return
 	$OpponentName.text = context.opponent.display_name
 	$PlayerName.text = context.local_player.display_name + " • You"
+	selected_condition = coordinator.history.arena_condition
 	$Condition.text = condition_titles[selected_condition]
 	# No account history has been fetched. Never invent a denominator/sample.
 	$Tendency.text = "Opponent initial choices\nRock N/A   •   Paper N/A   •   Scissor N/A"
@@ -113,6 +114,13 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 	opponent_adapter.begin(coordinator)
 
 func _process(_delta: float) -> void:
+	if coordinator.phase == "departed":
+		$Choices.hide()
+		$ConfirmSwitch.hide()
+		$Boundary.text = "Connection ended. This match cannot be resumed."
+		$Return.show()
+		set_chat_open_allowed(false)
+		return
 	if coordinator.phase in ["option", "identity_claim", "switch_claim", "final_choice"]:
 		$Clock.text = "%.1f s • reconsider until time expires" % coordinator.seconds_left()
 
@@ -312,6 +320,7 @@ func _update_bubble(actor_id: String, phase_name: String) -> void:
 # New opening is gated independently of creator-configured overlay handling.
 func set_chat_open_allowed(allowed: bool) -> void:
 	chat_open_allowed = allowed
+	chat_session.set("allowed", allowed)
 	$ChatTrigger.disabled = not allowed
 
 func _open_chat() -> void:
@@ -352,7 +361,9 @@ func _chat_message(_message: Dictionary) -> void:
 	for message in chat_session.messages:
 		var sender := "Peer"
 		if message.actorId == context.local_player.player_id:
-			sender = "You • local preview, not delivered"
+			sender = "You"
+		else:
+			sender = context.opponent.display_name
 		lines.append(sender + "\n" + str(message.text))
 	$ChatOverlay/Content/Scroll/Messages.text = "\n\n".join(lines)
 	await get_tree().process_frame

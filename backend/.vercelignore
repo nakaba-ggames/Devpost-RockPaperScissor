@@ -1,0 +1,17 @@
+# Explicit backend-only upload allowlist. Game exports and secrets are excluded.
+*
+!api/
+!api/**
+!src/
+!src/**
+!config/
+!config/backend-config.json
+!scripts/
+!scripts/check-config.mjs
+!static-api-only/
+!static-api-only/.gitkeep
+!package.json
+!package-lock.json
+!tsconfig.json
+!vercel.json
+!.vercelignore

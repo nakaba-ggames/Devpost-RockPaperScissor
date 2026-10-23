@@ -1,0 +1,19 @@
+{
+  "name": "devils-rps-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "dev": "npm run build && node --env-file-if-exists=.env dist/scripts/dev.js",
+    "start": "node --env-file-if-exists=.env dist/scripts/dev.js",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc && node scripts/check-config.mjs",
+    "config:export": "node scripts/export-config.mjs",
+    "db:setup": "node --env-file-if-exists=.env dist/scripts/setup-db.js",
+    "exercise": "node scripts/exercise.mjs",
+    "vercel-build": "npm run build"
+  },
+  "dependencies": { "mongodb": "7.7.0" },
+  "devDependencies": { "@types/node": "24.19.2", "typescript": "7.0.2" }
+}

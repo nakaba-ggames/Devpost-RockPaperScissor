@@ -21,11 +21,27 @@ func begin(controller: OptionCoordinator) -> void:
 func _process(_delta: float) -> void:
 	if coordinator == null or not coordinator.phase in ["option", "identity_claim", "switch_claim", "final_choice"]:
 		return
+	if coordinator.context.session != null:
+		if not coordinator.context.session.authority() or not coordinator.context.opponent.control_kind in ["development_bot", "takeover_bot"]:
+			return
 	if observed_phase != coordinator.phase:
 		observed_phase = coordinator.phase
 		schedule = policy.schedule()
 		acted = false
 		revised = false
+		# Preserve an accepted human choice in the takeover window.
+		if coordinator.context.opponent.takeover_side:
+			var own := coordinator.history.actor(coordinator.context.opponent.player_id)
+			var retained := own.initial_card
+			if observed_phase == "identity_claim":
+				retained = own.identity_claim
+			elif observed_phase == "switch_claim":
+				retained = own.switch_claim
+			elif observed_phase == "final_choice":
+				retained = own.final_card
+			if not retained.is_empty():
+				acted = true
+				revised = true
 	var started := coordinator.history.option_started_elapsed_msec
 	if observed_phase == "final_choice":
 		started = coordinator.history.final_timing.started

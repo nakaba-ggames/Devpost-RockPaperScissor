@@ -1,6 +1,7 @@
 extends VBoxContainer
 signal return_requested
 signal match_ready(context: MatchContext)
+signal before_arena(match_id: String)
 
 @export var motion: SearchMotion
 @onready var session: MatchSession = $Session
@@ -22,6 +23,7 @@ func _ready() -> void:
 	match_ready.connect(_enter_arena)
 	session.found.connect(_found)
 	session.failed.connect(_failed)
+	session.cancelled.connect(_cancelled)
 	dots.timeout.connect(_tick_dots)
 	dots.wait_time = motion.dot_seconds
 
@@ -42,6 +44,7 @@ func start(player: MatchParticipant, scenario: int) -> void:
 	card.start_motion()
 	dots.start()
 	session.set("scenario", scenario)
+	session.set("arena_condition", arena_condition)
 	session.begin(player)
 
 func _tick_dots() -> void:
@@ -53,6 +56,8 @@ func _leave() -> void:
 		return
 	$Search/Leave.disabled = true
 	session.cancel()
+
+func _cancelled(_generation: int) -> void:
 	if transition:
 		transition.kill()
 	dots.stop()
@@ -86,6 +91,7 @@ func _failed(_generation: int, detail: String) -> void:
 	dots.stop()
 	card.stop_motion()
 	$Search/Leave.text = "Return to menu"
+	$Search/Leave.disabled = false
 	transition = create_tween().set_trans(motion.transition).set_ease(motion.ease)
 	transition.tween_property($Search/Status, "modulate:a", 0.0, motion.fade_seconds)
 	await transition.finished
@@ -101,4 +107,6 @@ func _return() -> void:
 	return_requested.emit()
 
 func _enter_arena(context: MatchContext) -> void:
-	$Arena.begin(context, arena_condition)
+	# Quest activation precedes any local choice play.
+	before_arena.emit(context.match_id)
+	$Arena.begin(context, context.round_log.arena_condition)

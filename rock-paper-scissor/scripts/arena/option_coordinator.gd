@@ -45,14 +45,14 @@ func start_option() -> void:
 	if phase != "intro":
 		return
 	history.option_started_elapsed_msec = elapsed_msec()
-	deadline_msec = Time.get_ticks_msec() + int(rules.option_seconds * 1000.0)
-	history.option_deadline_elapsed_msec = deadline_msec - match_started_msec
+	deadline_msec = elapsed_msec() + int(rules.option_seconds * 1000.0)
+	history.option_deadline_elapsed_msec = deadline_msec
 	phase = "option"
 	option_started.emit()
 	print("M03 Option started: full 15-second window; development context, no persistent credit")
 
 func _process(_delta: float) -> void:
-	if Time.get_ticks_msec() < deadline_msec:
+	if elapsed_msec() < deadline_msec:
 		return
 	if phase == "option":
 		_lock()
@@ -64,7 +64,7 @@ func _process(_delta: float) -> void:
 func accept_choice(actor_id: String, choice: String) -> bool:
 	if phase != "option":
 		return false
-	if Time.get_ticks_msec() >= deadline_msec:
+	if elapsed_msec() >= deadline_msec:
 		_lock()
 		return false
 	var actor_history := history.actor(actor_id)
@@ -101,7 +101,7 @@ func _lock() -> void:
 func seconds_left() -> float:
 	if not phase in ["option", "identity_claim", "switch_claim", "final_choice"]:
 		return 0.0
-	return maxf(0.0, (deadline_msec - Time.get_ticks_msec()) / 1000.0)
+	return maxf(0.0, (deadline_msec - elapsed_msec()) / 1000.0)
 
 func elapsed_msec() -> int:
 	return Time.get_ticks_msec() - match_started_msec
@@ -127,8 +127,8 @@ func start_claim(phase_name: String) -> bool:
 	var duration := rules.identity_claim_seconds
 	if phase_name == "switch_claim":
 		duration = rules.switch_claim_seconds
-	deadline_msec = Time.get_ticks_msec() + int(duration * 1000.0)
-	history.claim_timing[phase_name] = {"started": elapsed_msec(), "deadline": deadline_msec - match_started_msec, "locked": -1}
+	deadline_msec = elapsed_msec() + int(duration * 1000.0)
+	history.claim_timing[phase_name] = {"started": elapsed_msec(), "deadline": deadline_msec, "locked": -1}
 	for actor_history in history.initial_choices:
 		actor_history.claim_phases[phase_name] = {"defaulted": false, "locked": false, "lockedElapsedMsec": -1, "events": []}
 	phase = phase_name
@@ -139,7 +139,7 @@ func start_claim(phase_name: String) -> bool:
 func accept_claim(actor_id: String, claim: String) -> bool:
 	if not phase in ["identity_claim", "switch_claim"]:
 		return false
-	if Time.get_ticks_msec() >= deadline_msec:
+	if elapsed_msec() >= deadline_msec:
 		_lock_claim()
 		return false
 	var actor_history := history.actor(actor_id)
@@ -212,8 +212,8 @@ func _ready() -> void:
 func start_final() -> bool:
 	if phase != "m04_complete" or not history.claims_presentation_complete:
 		return false
-	deadline_msec = Time.get_ticks_msec() + int(rules.final_choice_seconds * 1000.0)
-	history.final_timing = {"started": elapsed_msec(), "deadline": deadline_msec - match_started_msec, "locked": -1}
+	deadline_msec = elapsed_msec() + int(rules.final_choice_seconds * 1000.0)
+	history.final_timing = {"started": elapsed_msec(), "deadline": deadline_msec, "locked": -1}
 	for actor_history in history.initial_choices:
 		actor_history.final_state = {"defaulted": false, "locked": false, "lockedElapsedMsec": -1, "events": []}
 	phase = "final_choice"
@@ -223,7 +223,7 @@ func start_final() -> bool:
 func accept_final(actor_id: String, choice: String) -> bool:
 	if phase != "final_choice":
 		return false
-	if Time.get_ticks_msec() >= deadline_msec:
+	if elapsed_msec() >= deadline_msec:
 		_lock_final()
 		return false
 	var actor_history := history.actor(actor_id)

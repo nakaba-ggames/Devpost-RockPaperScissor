@@ -39,6 +39,7 @@ func _ready() -> void:
 	%Play.pressed.connect(_play)
 	matchmaking.return_requested.connect(_return_from_search)
 	matchmaking.match_ready.connect(_arena_entered)
+	matchmaking.before_arena.connect(provider.begin_preview_match)
 	matchmaking.get_node("Arena").result_acknowledged.connect(provider.apply_acknowledged_result)
 	%Leaderboard.pressed.connect(_open_data.bind($LeaderboardView))
 	%Record.pressed.connect(_open_data.bind($Records))
@@ -224,7 +225,6 @@ func _return_from_search() -> void:
 	print("M02 menu: return transition completed")
 
 func _arena_entered(context: MatchContext) -> void:
-	provider.begin_preview_match(context.match_id)
 	_arena_chrome(false)
 
 func _arena_chrome(shown: bool) -> void:
