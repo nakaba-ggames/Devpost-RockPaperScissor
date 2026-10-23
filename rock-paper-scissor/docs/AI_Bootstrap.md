@@ -1,7 +1,7 @@
 ---
 doc: ai-bootstrap
 status: approved
-updated: 2026-10-22
+updated: 2026-10-24
 ---
 
 # Project AI Bootstrap
@@ -98,9 +98,13 @@ Disconnected players have no reconnect, restoration, or live-match resume flow. 
 
 Each handoff must identify its assigned milestone, approved document references, allowed scope, dependencies, completion criteria, mechanical verification, learner checks, MCP expectations, and report location. Reference the applicable coding, Resource, scene inheritance, placeholder, animation, and web-export constraints above. Executors must report changed files, verification performed, results, and unresolved issues, including deviations from the approved plan. Clearly distinguish editor verification from exported-browser verification.
 
-The approved milestone/checklist mapping, assignment boundary, report template/paths and commit/checkpoint workflow are in `docs/Milestones.md` and `devpost/checklist.md`. Reports use `docs/reports/MNN_Report.md` and are created by executors after actual work, never as placeholder evidence. One milestone maps to the same-numbered official slice. Execute only the human-assigned milestone and stop, even if the generic build skill would continue its loop. Establish learn/fast mode in the first implementation chat and carry it forward. Do not invent completed milestones, reports, learner checks or audits.
+The approved milestone/checklist mapping, assignment boundary, report template/paths and commit/checkpoint workflow are in `docs/Milestones.md` and `devpost/checklist.md`. Reports use `docs/reports/MNN_Report.md` and are created by executors after actual work, never as placeholder evidence. Creator-requested M13 exception: `docs/reports/AGY_Polishing_report.md` is a prepared unfilled template; it must be populated with actual evidence before supporting completion and is not itself an execution claim. One milestone maps to the same-numbered official slice. Execute only the human-assigned milestone and stop, even if the generic build skill would continue its loop. Establish learn/fast mode in the first implementation chat and carry it forward. Do not invent completed milestones, reports, learner checks or audits.
 
 ## Current Status
+
+**Current workflow revision, creator-authorized 2026-10-24:** the checklist owns actual progress; the original dated planning observations below are historical. M12 is now **Backend deployment preparation**, complete using existing commits and creator-confirmed successful Vercel deployment/build. M12.5 is the explicitly approved follow-on: finish/reuse integration, editor/native COM against deployed functions first, then one locally served web export against those same functions, plus actual creator feedback. The original M12 hosted-game exploration is unperformed; its integration checkpoint moves to editor/local M12.5. Backend and frontend use separate Vercel projects/repositories; backend `backend` / `static-api-only` must not require/upload the game export. Creator handles frontend deployment/testing afterward, outside the M12.5 completion gate. Preserve existing Resource/configuration approvals, current Atlas `m12_` separation and participant/revision/chunk/departure contracts. Do not infer human/takeover verification from COM. Full brief is in `Milestones.md`; no M12.5 implementation is authorized in this HUB. Polish/SFX/music belong to another agent; Final Review, learning wrap-up/app map and prior pending checkboxes stay open until actually completed.
+
+**Historical planning baseline (2026-10-20–22):**
 
 `1-start`, `2-scope`, `3-prd`, and `4-spec` are complete. The original scope was approved on 2026-10-20, the amended scope/PRD together on 2026-10-21, and the displayed technical spec on 2026-10-22 (“Yeah i approve, let's move quick”). `devpost/spec.md` owns the approved architecture, service baseline, interfaces, file layout, and verification expectations, including the labelled remaining-player handoff and pre-cinematic save-error proposals. External accounts, exact installed versions, quotas, deployment, and runtime behavior remain unverified; approval is not implementation evidence.
 
@@ -109,3 +113,5 @@ The HUB's `5-build` checklist preparation/review is complete. On 2026-10-22 the 
 Read-only inspection on 2026-10-20 confirmed a sibling `../backend/` directory within the parent Git repository. It contained an image and a Finder metadata file; no backend source or configuration was observed. This is a workspace observation, not a working backend or permission for the HUB to implement one. Backend implementation and any needed write access must be handled in its assigned milestone chat.
 
 Read-only planning inspection on 2026-10-22 found a GD-Sync package declaring 1.0.2; local settings do not list it as enabled. M01 must verify/configure the existing candidate and its actual web service connection. Do not report this observation as installation/configuration performed by the HUB or as verified runtime compatibility.
+
+**Subsequent creator addition, 2026-10-24:** M13 — Polishing is now a separate planned milestone after M12.5, likely using AGY at the creator's discretion. Its detailed brief is in docs/Milestones.md and its pending slice is in devpost/checklist.md (paths relative to the Godot project). The requested docs/reports/AGY_Polishing_report.md is an unfilled template, not completed work. No implementation/dispatch occurs in the HUB; Final Review and learning wrap-up/app map remain separate and open.

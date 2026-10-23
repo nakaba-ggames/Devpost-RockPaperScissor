@@ -1,7 +1,7 @@
 ---
 doc: game-vision
 status: approved
-updated: 2026-10-22
+updated: 2026-10-24
 ---
 
 # Devil's Rock Paper Scissor
@@ -53,8 +53,10 @@ The spec was explicitly approved on 2026-10-22 and establishes technical respons
 
 ## Build Sequence
 
-The creator supplied their flow-first build order on 2026-10-22: rough menu with an early real SDK connection, simulated matchmaking, gameplay, cinematic/result, submenus, full live GD-Sync integration, backend development, and final backend integration. `Milestones.md` owns the approved distribution and handoffs; `../devpost/checklist.md` owns progress. The approved plan has 12 milestones, with three for gameplay and two for submenus. Preserve that supplied group order unless a change is agreed. Rough development retains basic animation; final creator-authored choreography can follow the functional foundations.
+The creator supplied their flow-first build order on 2026-10-22: rough menu with an early real SDK connection, simulated matchmaking, gameplay, cinematic/result, submenus, full live GD-Sync integration, backend development, and final backend integration. `Milestones.md` owns the approved distribution and handoffs; `../devpost/checklist.md` owns progress. The original approved plan has 12 milestones, with three for gameplay and two for submenus. On 2026-10-24 the creator explicitly revised M12 to backend deployment preparation and added M12.5 to finish integration and verify editor/native then local web COM gameplay against deployed functions. Backend and frontend are separate Vercel projects/repositories; backend uses `backend` / `static-api-only` without uploading the export. Creator deploys/tests the frontend after M12.5. This revision preserves product scope and existing approvals; local integration completion is not hosted exploration, human/takeover verification, final presentation or shipping readiness. Polishing/SFX/music and subsequent work belong to another agent; Final Review and learning wrap-up remain open. Preserve that supplied group order unless a change is agreed. Rough development retains basic animation; final creator-authored choreography can follow the functional foundations.
 
 ## Approval
 
 The creator explicitly approved this displayed vision together with AI_Bootstrap, Milestones and the checklist on 2026-10-22 (“Sure”), including the 12-milestone distribution. The original scope approval and the combined approval of the amended scope and consolidated PRD on 2026-10-21 are recorded in `../devpost/scope.md`; the technical spec was explicitly approved on 2026-10-22. Planning approval does not establish implementation or verification.
+
+**Subsequent creator addition, 2026-10-24:** M13 — Polishing is now a separate planned milestone after M12.5, likely using AGY at the creator's discretion. Its detailed brief is in docs/Milestones.md and its pending slice is in devpost/checklist.md (paths relative to the Godot project). The requested docs/reports/AGY_Polishing_report.md is an unfilled template, not completed work. No implementation/dispatch occurs in the HUB; Final Review and learning wrap-up/app map remain separate and open.

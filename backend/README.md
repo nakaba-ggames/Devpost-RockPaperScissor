@@ -1,3 +1,21 @@
+# Backend deployment preparation and M12.5 handoff
+
+**Current authority — creator scope revision, 2026-10-24:** revised M12 **Backend deployment preparation** is complete on existing implementation/configuration-fix commits through `bd02a70` and the creator's explicit confirmation that Vercel deployment/build now succeeds. This confirms deployment/build only, not runtime endpoint/Atlas access from functions or a Godot-to-hosted-backend journey. The HUB performed read-only source/commit/document review, with no new tests or deployment.
+
+Deployment uses **two separate Vercel projects/repositories**. Backend Root Directory: **`backend`**. Output Directory: **`static-api-only`**. `vercel.json` and the upload allowlist exclude the Godot export: do not require or upload `public/m12` or any game package. The backend builds from its committed `.tres`-derived artifact without requiring the Godot project. The creator separately deploys/tests the frontend; this supersedes the older combined/same-origin deployment notes below.
+
+Next assigned work is **M12.5 — Connect Godot to deployed functions and verify editor/local web gameplay**, not execution of this README's historical exercises. Read the complete brief in `../rock-paper-scissor/docs/Milestones.md`, checklist slice 12.5, and the closure addendum/original evidence in `../rock-paper-scissor/docs/reports/M12_Report.md`. Reuse existing twelve `api/` entrypoints, `src/` handlers, history-upload/departure contracts and Godot adapters; add only missing functionality. Existing native loopback/web same-origin URL selection and absent CORS/preflight handling require completion for the deployed backend/separate frontend architecture. Confirm the actual backend HTTPS URL; no exact URL or deployment ID was supplied in the HUB revision request. Configure native and web explicitly and appropriate CORS for actual local/eventual separate frontend origins, including Authorization/JSON and used methods.
+
+Preserve the current database's **m12_** collection separation, existing saved data, approved provisional arena/quest/Ember configuration, generated revision, immutable chunk/paged-read design, participant binding and departure arbitration. Earlier test collections/history remain untouched; no reseeding, preview-history import or simulated receipt fallback. Server-only `MONGODB_URI`/`MONGODB_DB` remain private. Historical nonproduction flags/seed commands below describe M10/M11 and must not replace the approved current release configuration.
+
+Required verification: **A editor/native real COM journey and every applicable backend-powered feature against deployed functions**, then **B one filtered web export served locally against those SAME functions**, including CORS, browser storage/reload and real saved progress. Record endpoint/method coverage and paths not exercised by COM (human join/matchmaking/chat/takeover/departure/history as applicable); never claim those from bot tests. Obtain actual creator editor/local feedback and resolve integration failures. No exhaustive suites, hosted-frontend testing, device matrix or repetition of predecessor suites. On completion write `M12.5_Report.md`, provide local evidence, say **“Ready for your frontend deployment/testing,”** then stop. No frontend deployment, polishing/SFX/music, Final Review completion, learning wrap-up/app map, 6-ship or submission material.
+
+---
+
+## Historical implementation/exercise notes (superseded where inconsistent above)
+
+The following M12/M10/M11 notes preserve implementation contracts and historical evidence. Combined deployment commands, missing-deployment statements and earlier configuration/preview-provider descriptions are not current instructions. Inspect current handlers/settings before use; do not rerun or import historical exercises merely to complete M12.5.
+
 # M12 live integration — functionality build, in progress
 
 Current authored configuration uses equal arena weights, the approved provisional quest catalogue and operational Ember policy. `resources/backend/release_settings.tres` selects **m12_ collections within the existing database**. Earlier M10/M11 collections/accounts/exercise history are preserved and excluded from M12 standings; old exercise commands below are historical evidence, not M12 game inputs.

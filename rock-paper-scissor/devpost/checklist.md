@@ -1,12 +1,12 @@
 ---
 doc: checklist
 status: approved
-updated: 2026-10-22
+updated: 2026-10-24
 ---
 
 # Build Checklist
 
-Plan approved on 2026-10-22: the creator explicitly approved the displayed checklist, Milestones, AI_Bootstrap and Game_Vision together (“Sure”), including the 12-milestone distribution. Approval does not complete any build step or hands-on check.
+Plan approved on 2026-10-22: the creator explicitly approved the displayed checklist, Milestones, AI_Bootstrap and Game_Vision together (“Sure”), including the 12-milestone distribution. Approval does not complete any build step or hands-on check. Creator-authorized revision on 2026-10-24 closes revised M12 as backend deployment preparation and adds pending M12.5 for editor/local-web integration; see Revisions.
 
 Build mode: fast — explicitly selected by the creator in the M01 implementation chat on 2026-10-22. Required hands-on feedback remains part of M01; adjustments follow actual review.
 
@@ -124,34 +124,54 @@ Scope gate: execute only the milestone explicitly assigned by the human. Each sl
   Learner check: Follow one submitted match into a receipt, stored points/statistics and a quest update; retry it and confirm nothing is paid twice.
   Commit: `feat(backend): add match settlement and authoritative quests`
 
-- [ ] **12. Connect Godot to the backend and verify the submission journey**
-  Becomes usable: The hosted portrait game uses real anonymous accounts, live human/bot matches, committed server results and saved menu/submenu/quest data throughout the full journey.
-  Why now: Per the requested order, this is the final replacement of preview identity/data/result providers with the completed backend.
-  PRD ref: `prd.md > The Core Journey`; `prd.md > Opening and Anonymous Entry`; `prd.md > Disconnect and Bot Takeover`; `prd.md > Daily and Weekly Quests`; `prd.md > Phase 5 — Narration, Reveal, and Result`; `prd.md > What We're Building`.
-  Spec ref: `spec.md > HTTP API Client`; `spec.md > Backend API`; `spec.md > Result Commitment Before the Cinematic`; `spec.md > Where It Runs and How Someone Tries It`; `spec.md > Important Failure Modes`; `spec.md > Verification Expectations`.
-  Build: Execute M12 scope and completion criteria in docs/Milestones.md; use only the assigned development/live providers and creator inputs defined there.
-  Verify (mechanical): Run the complete HTTPS journey in two distinct browser identities, then reload to prove saved state. Separately exercise real human/fallback/takeover cases, result timeout/retry/duplicate requests, account errors, all data views and controlled reset boundaries. Inspect package inclusion, assert usage, browser console/runtime logs and supported mobile browsers. Record every actual limitation; do not replace missing device/network evidence with assumptions.
-  Learner check: Explore the deployed full game, try awkward inputs/disconnects and every submenu, then identify anything broken, unclear or unsatisfying for final review.
-  Commit: `feat(integration): connect live backend and verify web journey`
+- [x] **12. Backend deployment preparation**
+  Becomes usable: The backend API can deploy independently on Vercel with Atlas and the generated configuration; no Godot export is required or uploaded.
+  Why now: Creator-authorized 2026-10-24 scope revision closes deployment preparation using the existing implementation/fixes and the creator's successful deployment/build confirmation; remaining integration moves to 12.5.
+  PRD ref: `prd.md > Opening and Anonymous Entry`; `prd.md > What We're Building`.
+  Spec ref: `spec.md > Where It Runs and How Someone Tries It`; `spec.md > Vercel API and MongoDB Persistence`; `spec.md > Backend API`; `spec.md > Shared Scenes and Tuning Resources`.
+  Build: Revised M12 in docs/Milestones.md. Separate backend/frontend Vercel projects/repositories; backend Root Directory `backend`, Output Directory `static-api-only`. Preserve existing client implementation and actual localhost evidence.
+  Verify (mechanical): Existing commits `59a88eb`, `d141aad`, `f66e90c`, `06d4514`, `bd02a70` inspected; current API-only output/exclusions confirmed in source. Creator confirms Vercel deployment/build succeeds after fixes. No new HUB tests/deployment or hosted Godot-to-backend verification; do not infer endpoint/Atlas runtime success from build status.
+  Learner check: Creator confirms successful backend deployment/build. The unperformed gameplay exploration/checkpoint moves to M12.5; original hosted-game exploration remains unperformed.
+  Commit: Existing implementation `59a88eb` and configuration-fix commits through `bd02a70`; revised closure documented without an automatic HUB commit.
+
+- [ ] **12.5. Connect Godot to deployed functions and verify editor/local web gameplay**
+  Becomes usable: Editor/native and one locally served web export complete real versus-COM gameplay and all applicable backend-powered views against the same deployed functions, with durable receipts and saved progress.
+  Why now: Finishes/reuses the original M12 integration before the creator separately deploys/tests the frontend; this follow-on does not renumber earlier milestones or reopen settled configuration.
+  PRD ref: `prd.md > The Core Journey`; `Opening and Anonymous Entry`; `Main Menu and Player Information`; `Detailed Statistics and Records`; `Ranked Matchmaking`; `Disconnect and Bot Takeover`; `Points and Match Classification`; `Phase 5 — Narration, Reveal, and Result`; `Opponent Statistics and Saved Records`; `Leaderboard`; `Daily and Weekly Quests`.
+  Spec ref: `spec.md > Where It Runs and How Someone Tries It`; `HTTP API Client`; `Anonymous Identity and Credentials`; `Backend API`; `Result Commitment Before the Cinematic`; `Bot Controller and Personality Resources`; `Daily and Weekly Quest Coordinator`; `Lifetime Statistics and Derived Percentages`; `Staged Development Providers`; `Live Match Messages`; `Important Failure Modes`; `Verification Expectations`.
+  Build: Execute only the complete M12.5 brief in docs/Milestones.md. Inspect/reuse existing handlers/adapters first; supply missing functionality only. Configure explicit hosted backend URL and CORS for local/eventual separate frontend origins; complete real identity/auth/local persistence/clearing, backend bot/personality, canonical chunked history, durable settlement/status and all menu/stat/record/leaderboard/quest reads. Preserve participant/revision/history/departure contracts, approved Resources and current database m12_ separation. No production preview/simulated fallback.
+  Verify (mechanical): A: editor/native against deployed functions, complete COM journey and every applicable backend feature with real saved data. Only after A passes, B: export once, serve locally, repeat applicable journey against those same functions; verify CORS, browser storage/reload, saved progress, filtered package/assertions and affected diagnostics/logs. Record any failed export acceptance honestly. Record actual endpoint coverage and all COM-unexercised human/join/takeover/departure/history paths. Focused checks only; no exhaustive campaigns, hosted-frontend test, device matrix or repeated prior suites; unexercised behavior is unverified.
+  Learner check: Creator tries editor/local web journey and saved-data views; actual feedback is recorded and in-scope failures resolved. Completion hands off local evidence as ready for the creator's separate frontend deployment/testing, then stops. Hosted frontend verification is not this slice's gate.
+  Commit: `feat(integration): verify deployed functions in editor and local web`
+
+- [ ] **13. Polishing**
+  Becomes usable: The integrated game receives creator-approved presentation refinements, with supplied/approved art, copy, animation and applicable SFX/music verified on the affected paths.
+  Why now: Creator explicitly adds a separate polishing milestone after M12.5 and will probably use AGY; executor selection and assignment remain theirs.
+  PRD ref: `prd.md > Look and Feel`; `Screens and Layout`; `Detailed Statistics and Records`; `Phase 5 — Narration, Reveal, and Result`; `Arena Chat`; `Creator Authoring and Remaining Presentation Decisions`.
+  Spec ref: `spec.md > Godot Presentation`; `Shared Scenes and Tuning Resources`; `Result Commitment Before the Cinematic`; `Where It Runs and How Someone Tries It`.
+  Build: Execute only the M13 brief in docs/Milestones.md when assigned. Reuse existing presentation and respect creator-reserved design, supplied assets/audio and .tres tuning. Preserve gameplay/backend/data contracts; no generated art, redesign or feature expansion without specific creator agreement. Fill docs/reports/AGY_Polishing_report.md after actual work; its current template is not evidence.
+  Verify (mechanical): Focused changed-scene/script diagnostics; normal affected editor flow and proportionate affected-path single-threaded release-browser smoke for readability, motion, layering, completion and any approved web audio; required-resource/export/assertion inspection. No exhaustive/edge campaigns, repeated earlier suites, device matrix or hosted-frontend deployment/testing. Record unavailable tools/assets and unperformed checks honestly.
+  Learner check: Creator reviews the actual changed presentation/audio, gives feedback and explicitly accepts the agreed polishing scope after fixes. This does not complete Final Review or establish shipping readiness.
+  Commit: `feat(polish): refine approved game presentation`
 
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — after M01: creator tried the menu, controls, initial motion, SDK connection presentation and local-only Clear Data testing reset. Feedback on 2026-10-22: “Yes, it works perfectly”. No adjustment requested; implementation committed as `2b773ac`.
 - [x] Integrated local core journey explored — after M06: creator accepts the functional local loop on 2026-10-23 and is satisfied with its tactile feel. No broken behavior or further M06 change requested; lack of art is intentional and no art is to be created here. Final authoring remains separate. Feature commit `23d8316`.
 - [ ] Live multiplayer explored — after M09: creator plays with a second real client and checks timing, chat, cancellation and pre-/post-receipt departures; preview persistence is explicitly identified.
-- [ ] Final kick-the-tires exploration and feedback completed — after M12 at the deployed HTTPS build with real backend data.
+- [ ] M12.5 integration exploration and feedback completed — editor/native then locally served web against the same deployed backend; actual creator feedback resolved. Moved from original M12; hosted-game exploration has not been performed and is not a gate here.
 
 In learn mode, every assigned slice also gets its learner check before completion; in fast mode, these planned hands-on boundaries still require actual feedback. Do not mark a checkpoint performed from an executor-only test or an unreviewed report. Each milestone chat stops at its assignment in either mode.
 
 ## Final Review
 
-- [ ] M12: creator supplies/reviews final allegiance icons, art, entry/matchmaking/outcome choreography, Stats/Record composition and narrative copy. Existing permitted art and temporary approved motion remain functionality presentation; no new art created.
-- [ ] M12: creator supplies support destination and final login/save-error copy.
-- [ ] M12: verify the agreed in-flight departure arbitration through ordinary host/non-host takeover, preserving server commitment as the boundary.
-- [ ] M12: complete hosted HTTPS evidence, available desktop/mobile checks and actual two-client creator exploration before readiness.
+- [ ] M13 / creator-selected polishing agent: creator supplies/reviews final allegiance icons, art, entry/matchmaking/outcome choreography, Stats/Record composition and narrative copy; polish, SFX and music remain subsequent work. Existing approved motion/art are functionality presentation, not final approval.
+- [ ] M13 / creator-selected polishing agent: creator supplies support destination and final login/save-error copy.
+- [ ] Follow-up human/departure evidence: complete unperformed ordinary host/non-host and in-flight arbitration observations, preserving server commitment as the boundary. Historical local host-departure evidence remains in M12_Report.md; COM checks do not complete these items.
+- [ ] Creator performs separate hosted-frontend deployment/testing after M12.5; actual hosted exploration and any available browser/device observations are recorded only when performed. Not an M12.5 completion gate; no device matrix is assigned there.
 - [ ] Final review complete — feedback resolved and learner confirms ready to ship
 
-After M12, the creator explores the actual submission journey, all submenus, real peer/bot behavior and saved account data. Record requested fixes as unchecked tasks here, agree consequential changes, assign their implementation to a milestone/fix chat, and verify/retry them before checking readiness. Targeted creator-authoring/presentation fixes belong here or in their owning milestone, not in an automatically invented extra polish milestone. No reviews or fixes have occurred yet.
+M12.5 finishes at the editor/local-web integration checkpoint and evidence handoff. The creator then deploys/tests the frontend separately. Polishing, SFX, music and subsequent work belong to another agent. Record later feedback/fixes as unchecked tasks, obtain agreement for consequential changes and verify actual work before checking them. Do not use M12 deployment confirmation, COM tests or M12.5 completion as Final Review readiness. Final Review and learning wrap-up/app map remain open until their actual work and creator confirmations are complete.
 
 ## Code Tour and App Map
 
@@ -236,3 +256,9 @@ Activity mode: not chosen; use an appropriate focused investigation or prior pra
 - 2026-10-24, M12 creator decisions: “Just use yours config first, i'll adjust it later of course” authorizes provisional functionality configuration: equal Devil/Angel/no-modifier weights; existing Scissors-1/+1 → Win-3/+3 daily cycle and weekly Play-5/+5, Switch-3/+3, Lie-3/+3; Ember policy equal cards, identity/intention lie 0.6/0.4, switch 0.5, decisions 2–3s, revisions 6–7s. “No seperate database for now ... current database ... functionality stuff” preserves the current Atlas database; M12 uses new m12_ collections so controlled predecessor exercise history is preserved and does not become new game standings. Creator approves immutable history chunks/paged history reads (“Yes its fine”). Vercel guidance requested; no account/project/environment or public SDK distribution approval yet. In-flight departure arbitration is a newly surfaced contract gap, not an approved boundary change. Slice 12 and final exploration remain unchecked; no feature commit or shipping/wrap-up work.
 
 - 2026-10-24, M12 follow-up decisions: creator approves `devils-rps` project choice/setup guidance, the current SDK pair’s public distribution after the concrete recoverable-configuration exposure review (“yes use the current is fine”), and backend departure arbitration serialized against commitment (“sure sure”). CLI device authorization was started for the creator; authenticated account/team/environment and hosted deployment remain pending. Source arbitration is implemented, with mechanical core departure checks still required. No completion/ship claim.
+
+- 2026-10-24, **explicit creator scope change — revised M12 complete / M12.5 planned:** rename M12 to **Backend deployment preparation**. Creator confirms successful Vercel deployment/build after configuration fixes; this is creator-reported deployment/build evidence, not verified Godot-to-hosted-backend gameplay. Read-only HUB review found implementation snapshot `59a88eb` and fixes `d141aad`, `f66e90c`, `06d4514`, `bd02a70`, with current `outputDirectory: static-api-only` and Godot export excluded. Mark only revised slice 12 complete on that existing implementation/confirmation; no new HUB implementation/test/deploy/commit. Preserve M12_Report.md's historical local observations with a dated scope-change addendum; do not rewrite them as hosted evidence. This explicit revision supersedes original M12 hosted/two-client/device acceptance and completion wording above.
+- 2026-10-24, **deployment architecture revision:** two separate Vercel projects/repositories: API/Atlas backend uses Root Directory `backend`, Output Directory `static-api-only`, and must not require/upload the Godot export; creator separately deploys/tests the Godot frontend. The old combined/same-origin `backend/public` deployment plan is superseded. Existing ignored exports may remain historical/local artifacts, never a backend upload dependency.
+- 2026-10-24, **M12.5 acceptance/checkpoint transfer:** finish existing M12 handlers/adapters, explicit hosted API URL/CORS, identity/auth/local persistence/clear, real backend COM/personality, chunked history/durable receipts/status/server rewards and every applicable saved view. Preserve all settled approvals and current-database `m12_` separation. Mandatory order: A editor/native COM against deployed functions, then B one locally served web export against the SAME functions with browser storage/reload/real saved progress. Obtain actual editor/local hands-on feedback, resolve in-scope failures, then mark only 12.5/checkpoint and hand off evidence as ready for the creator's frontend deployment/testing; STOP. Hosted frontend verification is not a gate. Report endpoint/paths not exercised by COM; preserve human/join/takeover/departure gaps as unverified rather than demand expanded campaigns or claim them passed. No exhaustive checks, device matrix, earlier-suite repetition, frontend deployment, other-chat/delegation, polish/SFX/music, 6-ship or submission work. Earlier pending M09/M10/checkpoint boxes, Final Review and learning wrap-up/app map remain open and unchanged in completion state.
+
+- 2026-10-24, **creator-added M13 — Polishing:** add pending slice 13 after M12.5. Creator will probably use AGY; no executor is dispatched or assigned by the HUB. Scope is creator-directed presentation refinement, including supplied/approved SFX/music where applicable, preserving reserved authoring, existing-art restrictions and all integrated gameplay/backend/data contracts. Focused affected-path checks and actual creator polish feedback/acceptance are required; no broad/edge suites or frontend deployment. Prepared `docs/reports/AGY_Polishing_report.md` is explicitly an unfilled template, not an execution/completion claim; it is the named exception to the usual MNN report path. No M13 work starts now, and M12.5, earlier pending boxes, Final Review and learning wrap-up/app map remain open.

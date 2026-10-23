@@ -1,4 +1,35 @@
-# M12 — Connect Godot to the backend and verify the submission journey
+# M12 — Backend deployment preparation
+
+Status: **complete under the creator-revised scope, 2026-10-24 (Asia/Jakarta)**. The creator explicitly confirms successful Vercel deployment/build after configuration fixes. This closes backend deployment preparation only; it does **not** establish a verified Godot-to-hosted-backend journey. M12.5 and its editor/local-web hands-on checkpoint are pending. Final Review, learning wrap-up/app map and shipping remain open.
+
+## Scope-change and closure addendum — 2026-10-24
+
+The creator explicitly renamed/redefined M12 and moved unfinished integration acceptance and its hands-on checkpoint to **M12.5 — Connect Godot to deployed functions and verify editor/local web gameplay**. This addendum supersedes the original scope/status/next-step directions below without replacing their historical evidence. The original hosted-game exploration was not performed and is not marked complete. Earlier pending M09/M10 boxes/checkpoints are not completed by this closure.
+
+**Deployment architecture:** two separate Vercel projects/repositories. Backend API functions connect to MongoDB Atlas with Root Directory **`backend`**, Output Directory **`static-api-only`**. The backend neither requires nor uploads a Godot export. The creator owns the separate frontend deployment/testing. Earlier combined `public/m12` + API/same-origin deployment directions are historical and superseded; existing local export artifacts are preserved, not backend upload inputs.
+
+**Commit/source review (read-only HUB):**
+
+- `59a88eb` (`M12 partial`) preserves the client/backend integration, approved configuration and original local evidence/report. Its message reflects the original broader scope; it is not rewritten.
+- `d141aad` and `f66e90c` update `.vercelignore`; `06d4514` updates the upload allowlist and restores `outputDirectory: static-api-only`; `bd02a70` adds the Node type roots in `tsconfig.json`.
+- Current `backend/vercel.json` builds the API with `npm run build`, includes the generated configuration, excludes `public/**`, `.env*`, `.local/**`, and selects `static-api-only`. The upload allowlist includes API/source/config/build inputs and the empty output marker, not the game package.
+- Existing twelve API entrypoints and real Godot adapters are present. Client HTTP settings still select native loopback and web `window.location.origin`; `src/http.ts` has no CORS/preflight handling. These are concrete M12.5 integration tasks, not a reason to recreate the working handlers.
+
+**Evidence boundary:** deployment/build success is the creator's explicit confirmation in this HUB request. The HUB inspected commits/configuration/report only; no new builds, tests, API calls, Atlas reads, MCP runtime checks or deployments were performed. No exact hosted backend URL, deployment ID or new hosted endpoint response was supplied here. M12.5 must record the exact deployed URL and verify runtime use. Previously recorded localhost API + real Atlas/browser/human/fallback/host-departure observations below remain historical executor-reported evidence, not new HUB verification or deployed-function evidence. The earlier “no deployment”/invalid-token statements describe that earlier execution, not current creator-confirmed deployment status.
+
+**Preserved approvals and data:** provisional arena/quest/Ember Resource configuration, immutable history chunk/paged-read design, departure arbitration serialized against commitment, current SDK-pair distribution approval, unrestricted queue matching, and the current Atlas database's `m12_` collection separation all carry forward. Preserve earlier collections, existing accounts/history and M12 saved progress. Do not reopen decisions, reset/reseed saved data or import preview history.
+
+**M12.5 handoff:** full executable scope/criteria live in `../Milestones.md > M12.5` and `../../devpost/checklist.md > slice 12.5`. Inspect/reuse handlers/adapters; supply missing behavior only. Complete explicit hosted URL/CORS, identity/name/auth/owned persistence/clearing, real COM registration/personality, canonical history/durable server receipts/status/results/rewards and all menu/stat/record/four-category leaderboard/quest views, preserving participant/revision/chunk/departure contracts. No production preview-data or simulated-receipt fallback.
+
+Verification order is **A editor/native COM gameplay against deployed functions**, then **B export once and serve locally against those same functions**, including browser storage/reload and actual saved progress. Obtain actual creator feedback through the editor/local journey. Record actual endpoints/methods and any unexercised human/join/takeover/departure/history paths; COM never proves human multiplayer or takeover. The earlier rematch setup timeout/non-host takeover gap remains unverified; it is not silently closed or converted into a bot-test pass. No exhaustive campaign, hosted-frontend testing, device matrix or earlier-suite repetition is required in M12.5. On completion provide local evidence, say “Ready for your frontend deployment/testing,” and stop before frontend deployment, polish/SFX/music, Final Review, wrap-up or shipping.
+
+**Closure record:** revised checklist slice 12 is complete using the existing implementation/fix commits and creator-confirmed deployment/build. This HUB created no implementation or completion commit and staged nothing. The moved checkpoint remains unchecked; M12.5 report is to be written after actual execution, not created as placeholder evidence.
+
+---
+
+## Preserved original M12 execution record
+
+Original assignment: **Connect Godot to the backend and verify the submission journey**. The following record is preserved as written at the partial implementation checkpoint. Its historical status, old combined-deployment instructions and original completion gates are superseded by the addendum above; its actual observations and limitations are retained.
 
 Status: **partial / local core integration verified in progress; awaiting Vercel authentication and required hosted verification**. 2026-10-24, Asia/Jakarta. Recorded fast mode, M12/slice 12 only. No implementation commit, slice/checkpoint completion, Final Review readiness, learning wrap-up, app map or shipping claim. No delegation or other-chat operations.
 

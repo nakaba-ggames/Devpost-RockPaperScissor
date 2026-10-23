@@ -1,7 +1,7 @@
 ---
 doc: spec
 status: approved
-updated: 2026-10-22
+updated: 2026-10-24
 ---
 
 # Devil's Rock Paper Scissor — Technical Spec
@@ -55,20 +55,19 @@ References: [GD-Sync Asset Library listing](https://godotengine.org/asset-librar
 
 ## Where It Runs and How Someone Tries It
 
-The required player target is a portrait, mobile-ready browser game hosted through Vercel. Single-threaded export, asset filtering, assertion review, animation, and release-browser checks are required by [AI_Bootstrap.md](../docs/AI_Bootstrap.md).
+The player target remains a portrait, mobile-ready, single-threaded browser game. Resource filtering, assertion review, animation and release-browser checks follow [AI_Bootstrap.md](../docs/AI_Bootstrap.md). Initial planning observations are historical; the checklist/reports own actual implementation evidence.
 
-No main scene or export preset was observed in the planning inspection, and no runnable game or backend has been verified. The commands below describe the planned build interface; they are not runnable-deliverable claims. The skill's submission workflow calls for a short demo video and public GitHub repository; the hosted game does not replace them.
+**Creator-approved architecture revision, 2026-10-24:** use **two separate Vercel projects/repositories**. The backend deploys API functions connected to Atlas with Root Directory **`backend`** and Output Directory **`static-api-only`**; it must not require/upload the Godot export. The creator separately deploys/tests the Godot frontend. This supersedes the original combined `backend/public` + API same-origin plan. Existing ignored exports may be retained for historical/local purposes, never as a backend deployment dependency. The generated `.tres`-derived configuration artifact lets backend-only builds run without Godot installed.
 
-Approved deployment layout: retain the sibling Godot and backend source folders, and serve the exported browser files plus `/api/` through one Vercel deployment rooted at `backend/`. Export/copy the game package into `backend/public/`. This gives the deployed game a same-origin API. Confirm the Vercel project configuration in its assigned milestone; no deployment is performed by this HUB.
+Revised M12 closes **Backend deployment preparation** on existing commits and the creator's successful Vercel deployment/build confirmation. This does not verify hosted API runtime, Atlas access from functions, or the Godot-to-hosted-backend journey. M12.5 finishes the existing adapters with the following ordered interface:
 
-Planned local commands:
-1. From the Godot project folder, `godot --editor --path .` opens the project; F6/F5 and MCP playtests become meaningful after the assigned milestone adds the main scene. The actual Godot executable/version must be located and recorded during setup.
-2. From `backend/`, `npm ci` installs the pinned dependencies and `npm run dev` starts the planned Vercel development server. Its default target is `http://localhost:3000`; document any chosen port change. The package/scripts are future files.
-3. From the Godot project folder, `godot --headless --path . --export-release Web ../backend/public/index.html` produces the intended browser package after a single-threaded **Web** preset and matching export templates exist. Ensure the destination exists. Filter export resources as required by the bootstrap.
-4. Open `http://localhost:3000/` for the exported game with its local API. Use separate browser profiles/devices for two distinct anonymous human accounts; two tabs sharing one credential are not a two-account verification.
-5. A milestone executor deploys the prepared static files/API with server environment variables, then repeats the affected checks at the resulting HTTPS URL. Production URLs, credentials, and deployment permissions are not inferred here.
+1. Confirm the exact already-deployed backend HTTPS base URL, deployment/config revision and server-only environment; do not infer a hostname from the chosen project name. Keep MongoDB credentials and anonymous credentials private.
+2. Configure Godot's native/editor and web API adapters explicitly for that backend. The current native loopback/web `window.location.origin` behavior is unfinished integration under the new architecture. Add appropriate backend CORS/preflight for actual local and eventual separate frontend origins and used Authorization/JSON methods; document the actual origin policy. Do not use the frontend's `/api` or a local API as a hidden substitute.
+3. **A:** open the Godot project in the editor and run the native client against those deployed functions. Complete real versus-COM gameplay and every applicable backend-powered feature with actual bot identities and saved data. Resolve integration failures before web acceptance.
+4. **B:** export the filtered single-threaded Web release once to an ignored local frontend-test destination, serve it over local HTTP, and repeat applicable gameplay/features against the **same deployed functions**. Verify real browser CORS, storage/reload and saved progress; record a failed candidate as incomplete acceptance rather than starting a repeated-export campaign. No backend deployment receives this package.
+5. Obtain the required creator editor/local hands-on feedback, resolve in-scope integration failures, write local-test/endpoint evidence and complete M12.5. Say “Ready for your frontend deployment/testing” and stop. The creator performs hosted frontend deployment/testing separately; it is not an M12.5 completion gate.
 
-Initial verification targets: current desktop Chromium and Safari, plus Android Chrome and iOS Safari on available real devices. Record exact versions/devices and limitations; emulation alone does not establish mobile-browser compatibility. A missing device is reported, not silently marked tested.
+Do not expand M12.5 into hosted-frontend verification, device matrices, exhaustive campaigns or earlier-suite repetition. Record human-only/unexercised endpoints and limitations honestly; COM is not evidence for human matchmaking, peer binding/chat or takeover. Later presentation/polish/SFX/music, Final Review, learning wrap-up/app map and submission work remain open and outside this assignment. The full product boundary remains in the PRD; this revision changes milestone acceptance and deployment ownership, not gameplay requirements.
 
 ## Look and Feel
 
@@ -90,7 +89,7 @@ Group adjustable Resource `.tres` data by responsibility: round/scoring rules, m
 
 ### HTTP API Client
 
-Implements `prd.md > Opening and Anonymous Entry`, **Main Menu and Player Information**, **Detailed Statistics and Records**, **Opponent Statistics and Saved Records**, **Leaderboard**, and **Daily and Weekly Quests**. Use Godot HTTPRequest asynchronously with client threading disabled. Keep request scheduling, authentication headers, response parsing, cancellation, and error signals in one small adapter; gameplay/presentation scripts consume typed results/signals.
+Implements `prd.md > Opening and Anonymous Entry`, **Main Menu and Player Information**, **Detailed Statistics and Records**, **Opponent Statistics and Saved Records**, **Leaderboard**, and **Daily and Weekly Quests**. Use Godot HTTPRequest asynchronously with client threading disabled. Keep request scheduling, authentication headers, response parsing, cancellation, and error signals in one small adapter; gameplay/presentation scripts consume typed results/signals. Configure the deployed backend HTTPS origin explicitly for native and web through Inspector-exposed Resource settings; separate frontend/local web origins require appropriate backend CORS/OPTIONS, including Authorization/Content-Type and applicable success/error responses.
 
 Return empty-history states from actual data, and distinguish transport/server errors from invalid-account errors. Never replace remembered credentials merely because a request timed out. Keep the anonymous credential local to API calls; no MongoDB connection string is shipped in the game.
 
@@ -248,7 +247,7 @@ Use thin identity/profile, match lifecycle/events, data-query/menu-entry and res
 - M01 proves an actual GD-Sync SDK service connection while the custom backend authentication uses a labelled development provider. A service connection is not MongoDB/Vercel account authentication.
 - M02–M08 use controlled development matchmaking/opponent/data/result adapters. Their simulated receipts can drive the pre-cinematic acknowledgement contract but never establish real server persistence.
 - M09 uses actual GD-Sync peer/match/chat transport, including ordinary fallback and remaining-player takeover, while profile/rating/bot roster data and result persistence are still development providers.
-- M10–M11 provide independently runnable real API evidence in the requested backend stage; M12 connects the game to those APIs and verifies the entire live saved journey.
+- M10–M11 provide independently runnable real API evidence in the requested backend stage. Revised M12 preserves deployment preparation and substantial initial client integration; M12.5 reuses/finishes it and verifies editor/native then locally served web COM gameplay against deployed functions. Separate hosted frontend testing belongs to the creator afterward. Earlier localhost human/takeover evidence is not deployed-function evidence.
 
 Development fixtures must be isolated and identified in evidence, never imported as real personal match history or left as production fallbacks. The final game still requires the approved anonymous backend identity, live human matchmaking, real result commitment before cinematic start, persistent data, quests and submission presentation. Early rough UI retains basic tweens and `.tres` tuning; creator-authored opening/matchmaking/outcome choreography can follow its functional foundations.
 
@@ -304,11 +303,12 @@ Devpost-RockPaperScissor/
     │   ├── quests/                   # Fresh counters, period expiry, reward settlement
     │   ├── stats/                    # Aggregate updates, leaderboard/record queries
     │   └── db/                       # MongoClient reuse and typed stored structures
-    ├── generated/                    # Versioned deployment data derived from .tres
-    ├── public/                       # Exported web package for the Vercel deployment
+    ├── config/backend-config.json    # Versioned deployment data derived from .tres
+    ├── static-api-only/              # Empty static output; API-only backend deployment
+    ├── public/                       # Historical ignored local exports; excluded from deployment
     ├── package.json                  # Planned dev/build/typecheck scripts
     ├── package-lock.json             # Exact dependency resolution
-    ├── vercel.json                   # API/static deployment configuration
+    ├── vercel.json                   # API-only backend; frontend deployed separately by creator
     └── .env.example                  # Variable names only, no real credentials
 ```
 
@@ -322,7 +322,9 @@ Before cinematic start, unavailable or uncertain persistence follows the approve
 
 ## Verification Expectations
 
-These are future milestone checks, not checks performed by this HUB:
+These are project-wide verification expectations, not checks performed by this HUB. **M12.5 scope override (creator-approved 2026-10-24):** follow the ordered editor/native COM → one local web export checks and actual hands-on feedback in `docs/Milestones.md > M12.5`. Preserve inherited binding/revision/chunk/departure contracts and report COM-unexercised endpoints; broader human/takeover, edge, hosted frontend and device evidence below is not an M12.5 gate and must not be claimed from COM tests. Reuse prior reset-boundary evidence and do not repeat earlier suites. Final Review remains open.
+
+Project-wide expectations retained for their owning checks:
 - First entry, returning browser identity, invalid identity, server failure, and explicit recreation; verify credentials stay outside shared match/public data.
 - Two distinct human accounts through live skill matchmaking, full phase windows/revisions/defaults, and real backend saves. Separately verify fallback bots and takeover when either host or non-host disconnects. Report each category honestly.
 - Host/peer timing, stale messages, cancellation at human-match arrival, and result-submit retries; confirm no duplicate match or point writes. Verify receipt-before-cinematic ordering, uncertain responses, and departures on each side of commitment: pre-commit forfeiture rules versus an unchanged committed result during the cinematic.
@@ -368,8 +370,13 @@ The creator accepted Godot host coordination with backend result calculation rat
 - **Agreed, 2026-10-22:** no disconnected-player reconnection, restoration, or live-match resumption. The server receives/commits the result before the cinematic is triggered; departure during the cinematic does not forfeit or undo it.
 - **Full-spec approval, 2026-10-22:** the creator approved the displayed plan, including the explicitly labelled hidden-field replication for remaining-player bot continuation and animated pre-cinematic acknowledgement/error handling, plus the service/layout recommendations. No returning-player recovery is introduced.
 - **Configuration and authoring:** exact rating-gap values, arena probability weights, bot personality/selection values, quest selection/targets/rewards, and the PRD's reserved presentation must be supplied or agreed before their affected implementation. Do not hide unset values behind invented product defaults.
-- **Workflow:** this HUB prepares documents only. The creator supplied their group order on 2026-10-22. `docs/Milestones.md` and `devpost/checklist.md` contain the proposed 12-milestone distribution, still awaiting review. `5-build` is limited here to preparing/reviewing that plan, never its implementation loop.
+- **Workflow:** this HUB prepares documents only. The original 12-milestone distribution was approved on 2026-10-22. The creator explicitly revised M12 and added M12.5 on 2026-10-24; `docs/Milestones.md` owns scope and `devpost/checklist.md` owns progress. `5-build` is limited here to planning/workflow, never its implementation loop.
+- **Explicit revision, 2026-10-24:** separate frontend/backend Vercel projects/repositories; backend `backend` / `static-api-only`, no game upload. Revised M12 closes on deployment preparation/build confirmation. M12.5 reuses existing implementation and preserves provisional Resource approvals, current Atlas `m12_` separation, immutable history chunks/paged reads and departure arbitration. Creator deploys/tests frontend after editor/local evidence and feedback pass; no reopening settled configuration decisions.
 
 ## Review Status
 
 The creator explicitly approved the displayed technical plan on 2026-10-22: “Yeah i approve, let's move quick”. `4-spec` is complete. Approval covers the listed technical proposals, including remaining-player state handoff and pre-cinematic acknowledgement/error presentation. The creator subsequently supplied their group order and explicitly approved the displayed vision, bootstrap, Milestones and checklist together on 2026-10-22 (“Sure”), including the 12-milestone distribution. The HUB's `5-build` checklist preparation/review is complete; implementation, final review and learning wrap-up remain unperformed. No approval claims implementation or verification. This HUB never enters the implementation loop.
+
+The 2026-10-24 scope/deployment revision above is explicitly authorized by the creator. It does not mark original hosted-game exploration, earlier pending boxes, Final Review or learning wrap-up complete. Polishing, SFX/music and subsequent work belong to another agent.
+
+**Subsequent creator addition, 2026-10-24:** M13 — Polishing is now a separate planned milestone after M12.5, likely using AGY at the creator's discretion. Its detailed brief is in docs/Milestones.md and its pending slice is in devpost/checklist.md (paths relative to the Godot project). The requested docs/reports/AGY_Polishing_report.md is an unfilled template, not completed work. No implementation/dispatch occurs in the HUB; Final Review and learning wrap-up/app map remain separate and open.
