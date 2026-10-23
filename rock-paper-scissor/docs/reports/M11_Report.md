@@ -1,6 +1,6 @@
 # M11 — Backend II: match settlement and authoritative quests
 
-Status: **implementation and scoped real API/Atlas verification complete; implementation commit pending**. Fast mode; slice 11 only. Updated 2026-10-23. Evidence is localhost HTTP with controlled submitted histories and actual Atlas storage, not deployed Vercel or live Godot/backend games.
+Status: **complete**. Implementation commit **`f9cfbd3`** (`feat(backend): add match settlement and authoritative quests`); slice 11 checked after its success. Fast mode; slice 11 only. Updated 2026-10-23. Evidence is localhost HTTP with controlled submitted histories and actual Atlas storage, not deployed Vercel or live Godot/backend games.
 
 ## Scope, references and prerequisite
 
@@ -117,6 +117,6 @@ Supported editor read initially confirmed exact root `/users/karinauval/godot-pr
 
 ## Commit/checklist and M12 handoff
 
-Verified implementation ready for `feat(backend): add match settlement and authoritative quests`. Drafts in `0d4d7bb` preserved. Only explicit M11 continuation files/report/Revisions intended for this commit; slice 11 will be checked after success. No M09/M10 completion, M12/checkpoint/Final Review/learning-wrap-up changes.
+Implementation committed as **`f9cfbd3`**, `feat(backend): add match settlement and authoritative quests`. Drafts in external `0d4d7bb` preserved. The reviewed eight-file continuation diff contains only M11 code/instructions/evidence/Revisions; no predecessor diffs or secrets. Slice 11 is checked after the successful feature commit, with report/checklist completion saved in a following documentation commit. No M09/M10 completion, M12/checkpoint/Final Review/learning-wrap-up changes.
 
 M12 remains **unstarted**. Handoff: permanent bindings, compact wire history, active-instance capture before play, frozen precommit departures, durable receipt before cinematic, same-match query/retry after uncertainty, stable genuine-menu entry IDs, real server time and trusted-host limitation. Applicable production content/selection/arena weights and public SDK distribution still need creator decisions. Exercise approval is not production balancing/deployment approval. No client/provider integration performed.
