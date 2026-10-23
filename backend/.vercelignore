@@ -1,4 +1,4 @@
-# Explicit backend-only upload allowlist. Game exports and secrets are excluded.
+# Reviewed M12 upload allowlist. Only this candidate, API and generated configuration.
 *
 !api/
 !api/**
@@ -15,3 +15,6 @@
 !tsconfig.json
 !vercel.json
 !.vercelignore
+!public/
+!public/m12/
+!public/m12/**

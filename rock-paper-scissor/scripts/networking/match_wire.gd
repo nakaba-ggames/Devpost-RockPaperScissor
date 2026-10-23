@@ -1,10 +1,14 @@
 extends RefCounted
 ## Detached wire data only. Hidden history is never a presentation/policy input.
 static func participant(value: MatchParticipant) -> Dictionary:
-	return {"actorId": value.player_id, "name": value.display_name, "rating": value.overall_points, "peerId": value.peer_id, "control": value.control_kind, "departed": value.departed_before_commit, "takeover": value.takeover_side}
+	return {"publicProfile": value.public_profile.duplicate(true), "actorId": value.player_id, "name": value.display_name, "rating": value.overall_points, "peerId": value.peer_id, "control": value.control_kind, "departed": value.departed_before_commit, "takeover": value.takeover_side}
 
 static func read_participant(value: Dictionary) -> MatchParticipant:
 	var result := MatchParticipant.new()
+	result.public_profile = value.get("publicProfile", {}).duplicate(true)
+	result.switch_percentage = result.public_profile.get("switchPercentage")
+	result.backend_verified = true
+	result.rating_source = "backend"
 	result.player_id = value.actorId
 	result.display_name = value.name
 	result.overall_points = value.rating

@@ -7,7 +7,7 @@ signal result_acknowledged(submission: Dictionary, receipt: Dictionary)
 var candidate: String = ""
 @export var motion: ArenaMotion
 @onready var coordinator: OptionCoordinator = $Coordinator
-@onready var opponent_adapter: Node = $DevelopmentOpponent
+@onready var opponent_adapter: Node = $BotOpponent
 @onready var chat_session: MatchChatSession = $ChatSession
 var chat_open_allowed: bool = true
 var chat_tween: Tween
@@ -56,7 +56,7 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 	$ChatOverlay.hide()
 	$ChatOverlay/Content/Scroll/Messages.text = "No messages this match."
 	if not coordinator.begin_match(context, selected_condition):
-		$Boundary.text = "Arena rules missing. Return to the development menu."
+		$Boundary.text = "Arena rules missing. Return to the menu."
 		$Return.show()
 		return
 	$OpponentName.text = context.opponent.display_name
@@ -64,7 +64,8 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 	selected_condition = coordinator.history.arena_condition
 	$Condition.text = condition_titles[selected_condition]
 	# No account history has been fetched. Never invent a denominator/sample.
-	$Tendency.text = "Opponent initial choices\nRock N/A   •   Paper N/A   •   Scissor N/A"
+	var cards: Dictionary = context.opponent.public_profile.get("initialCardPercentages", {"Rock": null, "Paper": null, "Scissor": null})
+	$Tendency.text = "Opponent initial choices\nRock %s • Paper %s • Scissor %s" % [_percent(cards.Rock), _percent(cards.Paper), _percent(cards.Scissor)]
 	$PlayerTell.text = ""
 	$OpponentTell.text = ""
 	$LocalChoice.text = "Choose your initial card"
@@ -260,7 +261,7 @@ func _prepare_claim(next_phase: String) -> void:
 	$Phase.text = "CLAIM • IDENTITY"
 	$PlayerTell.text = ""
 	$OpponentTell.text = ""
-	$Tendency.text = "Opponent lie tendency: N/A\n" + condition_details[coordinator.history.arena_condition]
+	$Tendency.text = "Opponent lie tendency: " + _percent(context.opponent.public_profile.get("liePercentage")) + "\n" + condition_details[coordinator.history.arena_condition]
 	if next_phase == "identity_claim":
 		# Retain the one chosen representative. Its face never reveals identity.
 		presentation_tween = _tween().set_parallel(true)
@@ -471,3 +472,8 @@ func _submission_effect(side: String, actor_id: String) -> void:
 	var tween := _tween()
 	tween.tween_property(card, "scale", motion.card_scale * motion.submission_pulse_scale, motion.submission_pulse_seconds)
 	tween.tween_property(card, "scale", motion.card_scale, motion.submission_pulse_seconds)
+
+func _percent(value: Variant) -> String:
+	if value == null:
+		return "N/A"
+	return "%.1f%%" % float(value)

@@ -2,6 +2,8 @@ class_name MatchContext
 extends Resource
 ## Reservation-owned round/finalization handoff. No persistent credit or verified peer.
 @export var match_id: String = ""
+@export var deployment_revision: String = ""
+@export var match_nonce: String = ""
 @export var search_generation: int = 0
 @export var local_player: MatchParticipant
 @export var opponent: MatchParticipant

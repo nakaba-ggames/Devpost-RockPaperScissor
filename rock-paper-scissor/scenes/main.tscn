@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dta15ju21h3ou" path="res://scripts/app/main.gd" id="1"]
 [ext_resource type="Resource" path="res://resources/presentation/menu_motion.tres" id="2"]
-[ext_resource type="Script" uid="uid://dihjyuplbc4j5" path="res://scripts/api/local_preview_provider.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/api/live_profile_provider.gd" id="3"]
 [ext_resource type="Script" uid="uid://dl4v23yh4fbi7" path="res://scripts/networking/service_connection.gd" id="4"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/ui/primary_button.tscn" id="6"]
@@ -13,10 +13,10 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/detailed_stats.tscn" id="9_stats"]
 [ext_resource type="PackedScene" path="res://scenes/ui/records.tscn" id="10_records"]
 [ext_resource type="PackedScene" path="res://scenes/ui/leaderboard.tscn" id="11_board"]
-[ext_resource type="Resource" path="res://resources/development/leaderboard_roster.tres" id="12_roster"]
+[ext_resource type="Script" path="res://scripts/api/http_api.gd" id="12_api"]
 
 [ext_resource type="PackedScene" path="res://scenes/ui/quests.tscn" id="13_quests"]
-[ext_resource type="Resource" path="res://resources/quests/development_catalogue.tres" id="14_catalogue"]
+[ext_resource type="Resource" path="res://resources/backend/api_settings.tres" id="14_api"]
 
 [sub_resource type="Theme" id="Theme"]
 default_font_size = 22
@@ -32,11 +32,13 @@ theme = SubResource("Theme")
 script = ExtResource("1")
 motion = ExtResource("2")
 
-[node name="PreviewProvider" type="Node" parent="." unique_id=891081125]
+[node name="ProfileProvider" type="Node" parent="." unique_id=891081125 node_paths=PackedStringArray("api")]
 script = ExtResource("3")
-motion = ExtResource("2")
-roster = ExtResource("12_roster")
-quest_catalogue = ExtResource("14_catalogue")
+api = NodePath("../Api")
+
+[node name="Api" type="Node" parent="."]
+script = ExtResource("12_api")
+settings = ExtResource("14_api")
 
 [node name="ServiceConnection" type="Node" parent="." unique_id=825920571]
 script = ExtResource("4")
@@ -106,7 +108,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Preparing local preview…"
+text = "Connecting to your account…"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -125,7 +127,7 @@ placeholder_text = "Display name"
 [node name="SaveName" parent="Margin/Stack/Body/Entry/NameBox" unique_id=2125893872 instance=ExtResource("6")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Remember preview name"
+text = "Save display name"
 
 [node name="Continue" parent="Margin/Stack/Body/Entry" unique_id=610723094 instance=ExtResource("5")]
 unique_name_in_owner = true
@@ -137,13 +139,13 @@ text = "Tap anywhere to continue"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "Retry local preview"
+text = "Retry account connection"
 
 [node name="NewPreview" parent="Margin/Stack/Body/Entry" unique_id=999146300 instance=ExtResource("5")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "Sign me up again (preview)"
+text = "Sign me up again"
 
 [node name="Menu" type="VBoxContainer" parent="Margin/Stack/Body" unique_id=1505779647]
 unique_name_in_owner = true
@@ -170,7 +172,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 19
-text = "Daily • preparing preview quest"
+text = "Daily • loading saved quest"
 autowrap_mode = 2
 horizontal_alignment = 1
 
@@ -265,7 +267,7 @@ text = "Clear Data • local only"
 [node name="FixtureNotice" type="Label" parent="Margin/Stack/Body/Menu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
-text = "Live GD-Sync queue • preview identities / points"
+text = "Live GD-Sync queue • saved backend accounts"
 horizontal_alignment = 1
 
 [node name="SearchScenario" type="OptionButton" parent="Margin/Stack/Body/Menu"]
@@ -276,7 +278,7 @@ theme_override_font_sizes/font_size = 20
 disabled = true
 item_count = 1
 selected = 0
-popup/item_0/text = "Live queue • any preview rating"
+popup/item_0/text = "Live queue • unrestricted matchmaking"
 popup/item_0/id = 0
 
 [node name="ArenaCondition" type="OptionButton" parent="Margin/Stack/Body/Menu"]
@@ -286,11 +288,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 item_count = 3
 selected = 0
-popup/item_0/text = "Devil's Seduction • fixture"
+popup/item_0/text = "Devil's Seduction"
 popup/item_0/id = 0
-popup/item_1/text = "Angel's Confession • fixture"
+popup/item_1/text = "Angel's Confession"
 popup/item_1/id = 1
-popup/item_2/text = "No modifier • fixture"
+popup/item_2/text = "No modifier"
 popup/item_2/id = 2
 
 [node name="Matchmaking" parent="Margin/Stack/Body" instance=ExtResource("8_search")]
@@ -320,8 +322,8 @@ autowrap_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.62, 0.7, 0.69, 1)
 theme_override_font_sizes/font_size = 17
-text = "DEVELOPMENT PREVIEW • local profile only
-GD-Sync connects networking; no backend login."
+text = "FUNCTIONALITY BUILD • saved backend accounts
+Presentation is still in progress."
 horizontal_alignment = 1
 
 [node name="DetailedStats" parent="." instance=ExtResource("9_stats")]

@@ -9,7 +9,7 @@ extends Resource
 @export var widening_points_per_second: float = -1.0
 ## Creator's jam policy: queue accepts all preview ratings (2026-10-23).
 @export var restrict_rating_gap: bool = false
-@export var preview_bot_agreed: bool = false
+@export var bot_selection_configured: bool = false
 @export var fallback_player_id: String = "dev-bot-ember"
 @export var fallback_display_name: String = "Ember"
 @export var fallback_overall_points: int = 0

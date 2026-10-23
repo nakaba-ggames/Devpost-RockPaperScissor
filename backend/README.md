@@ -1,3 +1,21 @@
+# M12 live integration — functionality build, in progress
+
+Current authored configuration uses equal arena weights, the approved provisional quest catalogue and operational Ember policy. `resources/backend/release_settings.tres` selects **m12_ collections within the existing database**. Earlier M10/M11 collections/accounts/exercise history are preserved and excluded from M12 standings; old exercise commands below are historical evidence, not M12 game inputs.
+
+From backend, `npm run build`, then `PORT=3101 npm start` serves the game and API together at `http://localhost:3101/`. Export the selected single-threaded Web preset to `public/m12/index.html`. Use distinct browser storage identities; the backend credential stays only in this game’s owned browser-local save and Authorization headers.
+
+`POST /api/matches/history` uploads immutable `{matchId,uploadId,index,encodedEvents}` pages. `encodedEvents` is JSON tuples `[actorIndex,phaseIndex,sequence,revision,elapsedMsec,valueIndex,kindIndex]`: four phases in gameplay order; RPS index Rock/Paper/Scissor, intention keep/switch, kind decision/default. Maximum encoded page 48 KiB, request 64 KiB, no total revision-count cap. Finalize accepts `{matchId,rulesRevision,headerJson,uploadId,chunkCount,departures}`; it validates every page/event, then atomically saves eligible updates and a small receipt referencing the complete history. `GET /api/matches/history?matchId=UUID&index=N` reads one committed page for a bound human. Existing small named-history finalization remains compatible.
+
+`POST /api/matches/result` with `{matchId,departedPlayerId}` records a bound human departure in a transaction serialized against commitment. If commitment wins, return it unchanged. If departure records first, finalization uses those exclusion facts, including an already in-flight request after transaction retry. GET on the same route resolves status. Clients preserve history/upload/match identity; a timeout never fabricates progress or a replacement match.
+
+The generated artifact revision identifies the deployment configuration; `configuration.rules.revision` separately identifies authored round rules. Real registration/join uses permanent API IDs and captures current quest instances before arena. Both humans query the receipt themselves. Only a matching durable result gates narration and server-calculated rewards.
+
+Vercel is prepared to serve filtered `public/m12` plus twelve nested API functions, including the generated config artifact. `.vercelignore` excludes earlier exports, private local exercise files, tools, env and private source documents. Public distribution of the SDK’s recoverable two-field client configuration is explicitly approved by the creator for the current game-specific pair. No keys belong in Git/reports. Hosted URL and final release evidence are still pending; see the M12 report in the Godot workspace.
+
+For Vercel setup: complete CLI login, link/create `devils-rps` rooted at backend with Node 24.x/Hobby, then set `MONGODB_URI` and existing `MONGODB_DB` as protected server environment variables in the chosen environment. Never put either value in client code or chat. Atlas egress/network access and HTTPS/nested/static routes must be observed after deployment. No paid service selected. Do not infer hosted checks from localhost evidence.
+
+---
+
 # M10–M11 backend API
 
 Independent anonymous identity/profile, match settlement and authoritative quest API. Godot still uses its existing preview providers; client integration remains M12. No preview history, simulated receipts or preview bot roster are imported. M11 is verified through localhost HTTP against real Atlas using explicitly approved nonproduction configuration.

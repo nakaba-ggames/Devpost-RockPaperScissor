@@ -50,7 +50,13 @@ static func submission(context: MatchContext, rules: ArenaRules) -> Dictionary:
 		recipients.append({"actorId": participant.player_id, "displayName": participant.display_name, "controlKind": participant.control_kind, "departedBeforeCommit": participant.departed_before_commit, "takeoverSide": participant.takeover_side, "eventualEligible": eligible, "persistentCreditAllowed": context.persistent_credit_allowed})
 	if context.result_id.is_empty():
 		context.result_id = context.match_id + ":result"
-	var envelope := {"resultId": context.result_id, "matchId": context.match_id, "rulesRevision": rules.revision, "history": frozen, "result": calculate(frozen, rules), "recipients": recipients, "developmentOnly": context.development_only, "persistentCreditAllowed": context.persistent_credit_allowed}
+	var revision := rules.revision
+	var calculated := {}
+	if context.development_only:
+		calculated = calculate(frozen, rules)
+	else:
+		revision = context.deployment_revision
+	var envelope := {"resultId": context.result_id, "matchId": context.match_id, "rulesRevision": revision, "authoredRulesRevision": rules.revision, "history": frozen, "result": calculated, "recipients": recipients, "developmentOnly": context.development_only, "persistentCreditAllowed": context.persistent_credit_allowed}
 
 	freeze(envelope)
 	return envelope

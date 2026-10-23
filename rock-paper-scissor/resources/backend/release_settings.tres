@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/resources/backend_release_settings.gd" id="1"]
+[resource]
+script = ExtResource("1")
+collection_prefix = "m12_"
+fallback_seed_key = "m12-ember-v1"
+fallback_personality_id = "ember-v1"

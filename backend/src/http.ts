@@ -31,7 +31,7 @@ export function route(method: string, action: Action) {
   };
 }
 
-export async function jsonBody(req: ApiRequest): Promise<Record<string, unknown>> {
+export async function jsonBody(req: ApiRequest, maximumBytes = 8192): Promise<Record<string, unknown>> {
   if (req.headers['content-type']?.split(';')[0]?.trim() !== 'application/json') {
     throw new ApiError(415, 'JSON_REQUIRED', 'Use application/json.');
   }
@@ -42,17 +42,17 @@ export async function jsonBody(req: ApiRequest): Promise<Record<string, unknown>
     for await (const chunk of req) {
       const buffer = Buffer.from(chunk);
       size += buffer.length;
-      if (size > 8192) throw new ApiError(413, 'BODY_TOO_LARGE', 'Request body exceeds 8 KiB.');
+      if (size > maximumBytes) throw new ApiError(413, 'BODY_TOO_LARGE', 'Request exceeds this route’s byte limit; history must be uploaded in chunks.');
       chunks.push(buffer);
     }
     body = Buffer.concat(chunks).toString('utf8');
   }
   if (typeof body === 'string') {
-    if (Buffer.byteLength(body) > 8192) throw new ApiError(413, 'BODY_TOO_LARGE', 'Request body exceeds 8 KiB.');
+    if (Buffer.byteLength(body) > maximumBytes) throw new ApiError(413, 'BODY_TOO_LARGE', 'Request exceeds this route’s byte limit; history must be uploaded in chunks.');
     try { body = JSON.parse(body); } catch { badRequest('Body must be valid JSON.'); }
   }
   if (!body || typeof body !== 'object' || Array.isArray(body)) badRequest('Body must be an object.');
-  if (Buffer.byteLength(JSON.stringify(body)) > 8192) throw new ApiError(413, 'BODY_TOO_LARGE', 'Request body exceeds 8 KiB.');
+  if (Buffer.byteLength(JSON.stringify(body)) > maximumBytes) throw new ApiError(413, 'BODY_TOO_LARGE', 'Request exceeds this route’s byte limit; history must be uploaded in chunks.');
   return body as Record<string, unknown>;
 }
 

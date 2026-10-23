@@ -32,9 +32,6 @@ func _ready() -> void:
 	more.pressed.connect(_load_more)
 	retry.pressed.connect(_retry)
 	category.item_selected.connect(_category_changed)
-	if view_kind == "quests":
-		$Content/DevClock/Daily.pressed.connect(_advance_clock.bind("daily"))
-		$Content/DevClock/Weekly.pressed.connect(_advance_clock.bind("weekly"))
 
 func open(source: ProfileProvider) -> void:
 	provider = source
@@ -115,7 +112,7 @@ func _query(cursor: String) -> void:
 	elif view_kind == "records":
 		response = await provider.request_records(cursor, tuning.page_size)
 	elif view_kind == "quests":
-		response = await provider.request_quests()
+		response = await provider.request_quests(cursor)
 	else:
 		response = await provider.request_leaderboard(METRICS[category.selected], cursor, tuning.page_size)
 	if ticket != generation or not visible:
@@ -129,6 +126,8 @@ func _query(cursor: String) -> void:
 	if view_kind == "stats":
 		_render_stats(response)
 	elif view_kind == "quests":
+		next_cursor = response.get("nextCursor", "")
+		more.visible = not next_cursor.is_empty()
 		_render_quests(response)
 	else:
 		next_cursor = response.nextCursor
@@ -140,7 +139,7 @@ func _query(cursor: String) -> void:
 			for entry in response.entries:
 				_render_entry(entry)
 		if rows.get_child_count() == 0:
-			status.text = "No history retained this session."
+			status.text = "No saved history yet."
 	_animate_rows()
 	print("M07 view ready: %s rows=%d next=%s" % [view_kind, rows.get_child_count(), next_cursor])
 	var back := $Content/Header/Back
@@ -172,7 +171,7 @@ func _percent(value: Variant) -> String:
 
 func _render_stats(data: Dictionary) -> void:
 	if data.matches == 0:
-		status.text = "No history retained this session."
+		status.text = "No saved history yet."
 	_label("%d matches • %d W / %d L / %d D" % [data.matches, data.wins, data.losses, data.draws], rows, true)
 	_label("Win Rate  %s\nWin Streak  %d\nAllegiance  %s" % [_percent(data.winRate), data.winStreak, data.allegiance])
 	_label("Winning final cards", rows, true)
@@ -196,7 +195,10 @@ func _render_record(record: Dictionary) -> void:
 			opponent = actor
 	_label("vs " + str(opponent.displayName), group, true)
 	_label("Initial\nYou: %s\n%s: %s" % [own.initialCard, opponent.displayName, opponent.initialCard], group)
-	_label("Result • %s • +%d points" % [str(record.outcome).capitalize(), record.points], group, true)
+	var points_text := "Points N/A"
+	if record.points != null:
+		points_text = "+%d points" % record.points
+	_label("Result • %s • %s" % [str(record.outcome).capitalize(), points_text], group, true)
 	var pair := HBoxContainer.new()
 	pair.alignment = BoxContainer.ALIGNMENT_CENTER
 	pair.add_theme_constant_override("separation", 32)
@@ -249,10 +251,9 @@ func _prepare_back_caption() -> void:
 	caption.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 func _render_quests(data: Dictionary) -> void:
-	$Content/DevClock.visible = data.developmentOnly
 	if data.has("serverTime"):
 		var local_time := Time.get_datetime_string_from_unix_time(int(data.serverTime) + 7 * 3600).replace("T", " ")
-		status.text = "Dev time • %s GMT+7\nReset 05:00 daily / Monday weekly" % local_time
+		status.text = "Server time • %s GMT+7\nReset 05:00 daily / Monday weekly" % local_time
 	_label("Weekly objectives", rows, true)
 	for quest in data.weeklyQuests:
 		_render_quest(quest)
@@ -265,9 +266,3 @@ func _render_quests(data: Dictionary) -> void:
 
 func _render_quest(quest: Dictionary) -> void:
 	_label("%s\n%d/%d • %s • +%d points" % [quest.title, quest.progress, quest.target, str(quest.state).capitalize(), quest.rewardPoints])
-
-func _advance_clock(period: String) -> void:
-	if busy or moving:
-		return
-	provider.development_advance_quest_clock(period)
-	_query("")

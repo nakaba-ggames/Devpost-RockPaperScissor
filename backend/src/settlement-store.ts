@@ -1,21 +1,24 @@
 import { MongoServerError, type ClientSession } from 'mongodb';
-import { database, mongoClient } from './db.js';
+import { collectionName, database, mongoClient } from './db.js';
+import type { HistoryChunk } from './history-upload.js';
 import type { MenuEntry, QuestContribution, QuestGrant, QuestInstance, QuestOwner, RegisteredMatch } from './settlement-model.js';
 
 export async function settlementCollections() {
   const db = await database();
   return {
-    matches: db.collection<RegisteredMatch>('matches'),
-    questOwners: db.collection<QuestOwner>('questOwners'),
-    questInstances: db.collection<QuestInstance>('questInstances'),
-    questContributions: db.collection<QuestContribution>('questContributions'),
-    questGrants: db.collection<QuestGrant>('questGrants'),
-    menuEntries: db.collection<MenuEntry>('menuEntries')
+    historyChunks: db.collection<HistoryChunk>(collectionName('historyChunks')),
+    matches: db.collection<RegisteredMatch>(collectionName('matches')),
+    questOwners: db.collection<QuestOwner>(collectionName('questOwners')),
+    questInstances: db.collection<QuestInstance>(collectionName('questInstances')),
+    questContributions: db.collection<QuestContribution>(collectionName('questContributions')),
+    questGrants: db.collection<QuestGrant>(collectionName('questGrants')),
+    menuEntries: db.collection<MenuEntry>(collectionName('menuEntries'))
   };
 }
 
 export async function setupSettlementIndexes() {
   const c = await settlementCollections();
+  await c.historyChunks.createIndex({ matchId: 1, uploadId: 1, index: 1 }, { unique: true });
   await c.matches.createIndex({ matchId: 1 }, { unique: true });
   await c.matches.createIndex({ matchNonce: 1 }, { unique: true });
   await c.matches.createIndex({ 'receipt.receiptId': 1 }, {
@@ -30,7 +33,7 @@ export async function setupSettlementIndexes() {
   await c.questGrants.createIndex({ ownerPlayerId: 1, requestId: 1 });
   await c.menuEntries.createIndex({ ownerPlayerId: 1, requestId: 1 }, { unique: true });
   const db = await database();
-  await db.collection('records').createIndex({ matchId: 1, ownerPlayerId: 1 }, { unique: true });
+  await db.collection(collectionName('records')).createIndex({ matchId: 1, ownerPlayerId: 1 }, { unique: true });
 }
 
 let indexesChecked: Promise<void> | undefined;
@@ -43,13 +46,14 @@ export function requireSettlementIndexes() {
 async function checkIndexes() {
   const db = await database();
   const expected: Record<string, string[][]> = {
+    historyChunks: [['matchId', 'uploadId', 'index']],
     matches: [['matchId'], ['matchNonce'], ['receipt.receiptId']],
     questOwners: [['ownerPlayerId']], questInstances: [['questInstanceId']],
     questContributions: [['questInstanceId', 'matchId']], questGrants: [['questInstanceId']],
     menuEntries: [['ownerPlayerId', 'requestId']], records: [['matchId', 'ownerPlayerId']]
   };
   for (const [name, keys] of Object.entries(expected)) {
-    const indexes = await db.collection(name).listIndexes().toArray();
+    const indexes = await db.collection(collectionName(name)).listIndexes().toArray();
     for (const fields of keys) {
       if (!indexes.some(index => index.unique === true && JSON.stringify(Object.keys(index.key)) === JSON.stringify(fields))) {
         throw new Error('Required settlement indexes are missing. Run the explicit setup command.');

@@ -13,3 +13,5 @@ extends Resource
 @export var takeover_side: bool = false
 # Null means no fetched history, never a fabricated zero-percent tendency.
 @export var switch_percentage: Variant = null
+
+@export var public_profile: Dictionary = {}

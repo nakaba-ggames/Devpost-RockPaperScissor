@@ -29,7 +29,7 @@ text = "Back"
 [node name="Notice" type="Label" parent="Content" index="1"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
-text = "Session preview • resets on reload"
+text = "Saved backend data"
 autowrap_mode = 2
 [node name="Category" type="OptionButton" parent="Content" index="2"]
 layout_mode = 2

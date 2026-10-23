@@ -5,20 +5,4 @@
 view_kind = "quests"
 view_title = "Quests"
 [node name="Notice" parent="Content" index="1"]
-text = "Approved development examples • session only"
-[node name="DevClock" type="HBoxContainer" parent="Content" index="7"]
-layout_mode = 2
-[node name="Daily" parent="Content/DevClock" instance=ExtResource("2")]
-layout_mode = 2
-size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 48)
-theme_override_font_sizes/font_size = 18
-text = "Dev: next day"
-tooltip_text = "Advance preview time directly to the next 05:00 GMT+7. No reward settlement."
-[node name="Weekly" parent="Content/DevClock" instance=ExtResource("2")]
-layout_mode = 2
-size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 48)
-theme_override_font_sizes/font_size = 18
-text = "Dev: next Monday"
-tooltip_text = "Advance preview time directly to Monday 05:00 GMT+7. No OS clock change."
+text = "Server quests • rewards settle on menu entry"

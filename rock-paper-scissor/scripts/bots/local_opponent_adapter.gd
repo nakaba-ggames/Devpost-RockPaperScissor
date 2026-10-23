@@ -22,7 +22,7 @@ func _process(_delta: float) -> void:
 	if coordinator == null or not coordinator.phase in ["option", "identity_claim", "switch_claim", "final_choice"]:
 		return
 	if coordinator.context.session != null:
-		if not coordinator.context.session.authority() or not coordinator.context.opponent.control_kind in ["development_bot", "takeover_bot"]:
+		if not coordinator.context.session.authority() or not coordinator.context.opponent.control_kind in ["fallback_bot", "development_bot", "takeover_bot"]:
 			return
 	if observed_phase != coordinator.phase:
 		observed_phase = coordinator.phase

@@ -45,11 +45,11 @@ func start_option() -> void:
 	if phase != "intro":
 		return
 	history.option_started_elapsed_msec = elapsed_msec()
-	deadline_msec = elapsed_msec() + int(rules.option_seconds * 1000.0)
+	deadline_msec = history.option_started_elapsed_msec + int(rules.option_seconds * 1000.0)
 	history.option_deadline_elapsed_msec = deadline_msec
 	phase = "option"
 	option_started.emit()
-	print("M03 Option started: full 15-second window; development context, no persistent credit")
+	print("M03 Option started: full 15-second window; accepted history retained")
 
 func _process(_delta: float) -> void:
 	if elapsed_msec() < deadline_msec:
@@ -80,7 +80,10 @@ func accept_choice(actor_id: String, choice: String) -> bool:
 
 func _record_event(actor_history: InitialChoiceHistory, kind: String, revised: bool) -> void:
 	sequence += 1
-	actor_history.events.append({"matchId": context.match_id, "phase": "option", "actorId": actor_history.actor_id, "sequence": sequence, "revision": actor_history.events.size(), "kind": kind, "revised": revised, "elapsedMsec": elapsed_msec(), "optionElapsedMsec": elapsed_msec() - history.option_started_elapsed_msec, "payload": {"initialCard": actor_history.initial_card}})
+	var event_time := elapsed_msec()
+	if kind == "default":
+		event_time = history.option_locked_elapsed_msec
+	actor_history.events.append({"matchId": context.match_id, "phase": "option", "actorId": actor_history.actor_id, "sequence": sequence, "revision": actor_history.events.size(), "kind": kind, "revised": revised, "elapsedMsec": event_time, "optionElapsedMsec": event_time - history.option_started_elapsed_msec, "payload": {"initialCard": actor_history.initial_card}})
 
 func _lock() -> void:
 	if phase != "option":
@@ -127,8 +130,9 @@ func start_claim(phase_name: String) -> bool:
 	var duration := rules.identity_claim_seconds
 	if phase_name == "switch_claim":
 		duration = rules.switch_claim_seconds
-	deadline_msec = elapsed_msec() + int(duration * 1000.0)
-	history.claim_timing[phase_name] = {"started": elapsed_msec(), "deadline": deadline_msec, "locked": -1}
+	var started := elapsed_msec()
+	deadline_msec = started + int(duration * 1000.0)
+	history.claim_timing[phase_name] = {"started": started, "deadline": deadline_msec, "locked": -1}
 	for actor_history in history.initial_choices:
 		actor_history.claim_phases[phase_name] = {"defaulted": false, "locked": false, "lockedElapsedMsec": -1, "events": []}
 	phase = phase_name
@@ -170,7 +174,10 @@ func _record_claim_event(actor_history: InitialChoiceHistory, kind: String, revi
 	var payload := {"identityClaim": actor_history.identity_claim}
 	if phase == "switch_claim":
 		payload = {"switchClaim": actor_history.switch_claim}
-	var event := {"matchId": context.match_id, "phase": phase, "actorId": actor_history.actor_id, "sequence": sequence, "revision": state.events.size(), "kind": kind, "revised": revised, "elapsedMsec": elapsed_msec(), "phaseElapsedMsec": elapsed_msec() - int(history.claim_timing[phase].started), "payload": payload}
+	var event_time := elapsed_msec()
+	if kind == "default":
+		event_time = history.claim_timing[phase].locked
+	var event := {"matchId": context.match_id, "phase": phase, "actorId": actor_history.actor_id, "sequence": sequence, "revision": state.events.size(), "kind": kind, "revised": revised, "elapsedMsec": event_time, "phaseElapsedMsec": event_time - int(history.claim_timing[phase].started), "payload": payload}
 	state.events.append(event)
 	actor_history.events.append(event)
 
@@ -212,8 +219,9 @@ func _ready() -> void:
 func start_final() -> bool:
 	if phase != "m04_complete" or not history.claims_presentation_complete:
 		return false
-	deadline_msec = elapsed_msec() + int(rules.final_choice_seconds * 1000.0)
-	history.final_timing = {"started": elapsed_msec(), "deadline": deadline_msec, "locked": -1}
+	var started := elapsed_msec()
+	deadline_msec = started + int(rules.final_choice_seconds * 1000.0)
+	history.final_timing = {"started": started, "deadline": deadline_msec, "locked": -1}
 	for actor_history in history.initial_choices:
 		actor_history.final_state = {"defaulted": false, "locked": false, "lockedElapsedMsec": -1, "events": []}
 	phase = "final_choice"
@@ -237,7 +245,10 @@ func accept_final(actor_id: String, choice: String) -> bool:
 
 func _record_final_event(actor_history: InitialChoiceHistory, kind: String, revised: bool) -> void:
 	sequence += 1
-	var event := {"matchId": context.match_id, "phase": "final_choice", "actorId": actor_history.actor_id, "sequence": sequence, "revision": actor_history.final_state.events.size(), "kind": kind, "revised": revised, "elapsedMsec": elapsed_msec(), "phaseElapsedMsec": elapsed_msec() - int(history.final_timing.started), "payload": {"finalCard": actor_history.final_card}}
+	var event_time := elapsed_msec()
+	if kind == "default":
+		event_time = history.final_timing.locked
+	var event := {"matchId": context.match_id, "phase": "final_choice", "actorId": actor_history.actor_id, "sequence": sequence, "revision": actor_history.final_state.events.size(), "kind": kind, "revised": revised, "elapsedMsec": event_time, "phaseElapsedMsec": event_time - int(history.final_timing.started), "payload": {"finalCard": actor_history.final_card}}
 	actor_history.final_state.events.append(event)
 	actor_history.events.append(event)
 
@@ -259,7 +270,7 @@ func _lock_final() -> void:
 		result_sink.submit(context.result_submission)
 	else:
 		_result_failed(context.result_id, "Result sink missing.", false)
-	print("M05 final locked after %dms; history/result frozen; no persistent credit" % (history.final_timing.locked - history.final_timing.started))
+	print("M12 final locked after %dms; history and eligibility frozen for delivery" % (history.final_timing.locked - history.final_timing.started))
 	final_locked.emit()
 
 func _receipt(result_id: String, receipt: Dictionary) -> void:
@@ -277,4 +288,4 @@ func finish_final_presentation() -> void:
 	history.final_presentation_complete = true
 	phase = "m05_complete"
 	round_ready.emit(context)
-	print("M05 complete: M06 handoff ready; simulated receipt only; reservation retained")
+	print("M12 round closed; receipt gate controls cinematic; reservation retained")

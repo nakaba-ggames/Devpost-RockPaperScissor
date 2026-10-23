@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="QuestCatalogue" load_steps=8 format=3]
+[ext_resource type="Script" path="res://scripts/quests/quest_catalogue.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/quests/quest_definition.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/quests/scissors.tres" id="3"]
+[ext_resource type="Resource" path="res://resources/quests/wins.tres" id="4"]
+[ext_resource type="Resource" path="res://resources/quests/weekly_play.tres" id="5"]
+[ext_resource type="Resource" path="res://resources/quests/weekly_switch.tres" id="6"]
+[ext_resource type="Resource" path="res://resources/quests/weekly_lie.tres" id="7"]
+[resource]
+script = ExtResource("1")
+revision = "m12-functionality-catalogue-v1"
+development_only = false
+daily_selection = "ordered_cycle"
+daily_cycle = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+weekly_objectives = Array[ExtResource("2")]([ExtResource("5"), ExtResource("6"), ExtResource("7")])

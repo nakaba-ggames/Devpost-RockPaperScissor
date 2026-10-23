@@ -52,6 +52,10 @@ func _query() -> bool:
 	return false
 
 static func matches(submission: Dictionary, receipt: Dictionary) -> bool:
+	if submission.is_empty():
+		return false
+	if not receipt.get("persisted", false) or not receipt.get("serverAcknowledged", false) or receipt.get("simulated", true) or receipt.get("historyDigest") != submission.get("historyDigest") or str(receipt.get("committedAt", "")).is_empty():
+		return false
 	return not submission.is_empty() and not str(receipt.get("receiptId", "")).is_empty() and receipt.get("resultId") == submission.get("resultId") and receipt.get("matchId") == submission.get("matchId") and receipt.get("rulesRevision") == submission.get("rulesRevision")
 
 func retry() -> void:

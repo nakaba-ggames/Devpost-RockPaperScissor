@@ -1,5 +1,5 @@
 extends MatchSession
-## Real service queue and one reservation. Profiles/results remain preview data.
+## Real service queue; permanent API participant binding before arena play.
 const Request = preload("res://addons/GD-Sync/Scripts/Types/MatchmakingRequest.gd")
 const Wire = preload("res://scripts/networking/match_wire.gd")
 signal packet_received(kind: String, envelope: Dictionary, sender: int)
@@ -7,6 +7,12 @@ signal peer_departed(peer: int)
 signal authority_changed
 @export var settings: MatchmakingSettings
 @export var rules: ArenaRules
+@export var bot_personality: Resource
+var api: Node
+var deployment_revision: String = ""
+var registration_body: Dictionary = {}
+var binding_confirming: bool = false
+var offer_observation: String = ""
 var sdk: Node
 var scenario: int = 0 # Old game-facing start signature; never selects a fake human.
 var arena_condition: int = 0
@@ -26,8 +32,6 @@ var sent_messages: int = 0
 var received_messages: int = 0
 var wire_sequence: int = 0
 var received_sequences: Dictionary = {}
-var prepared_result: Dictionary = {}
-var prepared_receipt: Dictionary = {}
 var handshake_started_msec: int = 0
 var pairing_observation: String = ""
 var profile_observation: String = ""
@@ -54,8 +58,8 @@ func begin(player: MatchParticipant) -> int:
 	if sdk == null or sdk.get_client_id() < 0 or not sdk.is_active():
 		report_failure(token, "GD-Sync is not connected. Return and retry the connection.")
 		return token
-	if not settings.rating_policy_configured or not settings.preview_bot_agreed:
-		report_failure(token, "Preview matchmaking configuration needs creator agreement.")
+	if not settings.rating_policy_configured or not settings.bot_selection_configured:
+		report_failure(token, "Matchmaking configuration needs creator agreement.")
 		return token
 	if settings.fallback_min_seconds < 30.0 or settings.fallback_max_seconds > 45.0 or settings.fallback_min_seconds > settings.fallback_max_seconds:
 		report_failure(token, "Fallback configuration must stay within 30–45 seconds.")
@@ -81,7 +85,7 @@ func begin(player: MatchParticipant) -> int:
 		request.set_skill_range(settings.allowed_rating_gap, settings.maximum_rating_gap, settings.widening_points_per_second)
 	else:
 		request.clear_skill_matching() # Creator: no rating restriction for this jam.
-	print("M09 queue generation=%d previewRating=%d unrestricted=%s fallback=%.3fs" % [token, player.overall_points, not settings.restrict_rating_gap, fallback_wait_seconds])
+	print("M09 queue generation=%d rating=%d unrestricted=%s fallback=%.3fs" % [token, player.overall_points, not settings.restrict_rating_gap, fallback_wait_seconds])
 	sdk.matchmaking_start(request)
 	_fallback_after(token)
 	return token
@@ -109,22 +113,34 @@ func _fallback_after(token: int) -> void:
 		local_player = null
 		failed.emit(token, "Search cancellation was not confirmed. No fallback was started.")
 		return
-	var bot := MatchParticipant.new()
-	bot.player_id = settings.fallback_player_id
-	bot.display_name = settings.fallback_display_name
-	bot.overall_points = settings.fallback_overall_points
-	bot.control_kind = "development_bot"
-	var context := _new_context(local_player, bot, token)
-	context.transport = "gdsync_fallback_preview"
+	var fallback_generation := generation
+	var registration: Dictionary = await api.send("matches/register", HTTPClient.METHOD_POST, {"matchNonce": _nonce(), "fallbackRequested": true, "rulesRevision": deployment_revision})
+	if generation != fallback_generation:
+		return
+	if registration.has("error"):
+		local_player = null
+		failed.emit(token, str(registration.error.message))
+		return
+	if local_player == null or reservation != null:
+		return
+	var bot := _participant(registration.opponentPublicProfile)
+	bot.control_kind = "fallback_bot"
+	if bot_personality == null or registration.get("botPersonalityId") != bot_personality.profile_id:
+		failed.emit(token, "The assigned opponent policy is unavailable.")
+		return
+	var context := _new_context(local_player, bot, token, registration.matchId)
+	context.transport = "gdsync_fallback"
 	reservation = context
-	print("M09 ordinary fallback after %.3fs; SDK queue cancelled; bot=%s" % [fallback_wait_seconds, bot.player_id])
 	found.emit(context)
 
 func cancel() -> void:
 	if closing:
 		return
 	if not searching:
-		cancelled.emit(generation)
+		var token := generation
+		generation += 1
+		local_player = null
+		cancelled.emit(token)
 		return
 	var token := generation
 	searching = false
@@ -207,7 +223,7 @@ func _joined(lobby: String) -> void:
 	handshake_started_msec = Time.get_ticks_msec()
 	# Matchmaking may move to another relay and assign a new client ID.
 	local_player.peer_id = sdk.get_client_id()
-	sdk.player_set_data("m09Profile", Wire.participant(local_player))
+	sdk.player_set_data("m12Profile", Wire.participant(local_player))
 	print("M09 lobby joined ownPeer=%d host=%d" % [sdk.get_client_id(), sdk.get_host()])
 	_try_pair()
 
@@ -224,7 +240,7 @@ func _try_pair() -> void:
 	for peer in peers:
 		if peer == sdk.get_client_id():
 			continue
-		var data: Dictionary = sdk.player_get_data(peer, "m09Profile", {})
+		var data: Dictionary = sdk.player_get_data(peer, "m12Profile", {})
 		if data.is_empty():
 			return
 		if data.get("peerId", -1) != peer or data.get("actorId", "").is_empty():
@@ -233,28 +249,39 @@ func _try_pair() -> void:
 				print("M09 awaiting current peer profile bound=%s actual=%s" % [data.get("peerId", -1), peer])
 			return # Wait for the profile from this relay's current peer identity.
 		if data.actorId == local_player.player_id:
-			_fail_search("Independent preview identities are required. Use a distinct browser profile.")
+			_fail_search("Independent accounts are required. Use a distinct browser profile.")
 			return
-		pending_context = _new_context(local_player, Wire.read_participant(data), generation)
-		print("M09 profile binding accepted; offering canonical match")
 		offer_sent = true
+		var token := generation
+		registration_body = {"matchNonce": _nonce(), "lobbyId": pending_lobby, "peerPlayerId": data.actorId, "fallbackRequested": false, "rulesRevision": deployment_revision}
+		var registration: Dictionary = await api.send("matches/register", HTTPClient.METHOD_POST, registration_body)
+		if not is_current(token):
+			return
+		if registration.has("error"):
+			_fail_search(str(registration.error.message))
+			return
+		pending_context = _new_context(local_player, Wire.read_participant(data), generation, registration.matchId)
+		pending_context.match_nonce = registration_body.matchNonce
 		sdk.lobby_close()
-		offer_payload = {"lobbyName": pending_lobby, "actors": [Wire.participant(local_player), data], "history": pending_context.round_log.debug_snapshot()}
+		offer_payload = {"deploymentRevision": deployment_revision, "matchNonce": pending_context.match_nonce, "lobbyName": pending_lobby, "actors": [Wire.participant(local_player), data], "history": pending_context.round_log.debug_snapshot()}
 		offer_retry_msec = 0
 
-func _new_context(first: MatchParticipant, second: MatchParticipant, token: int) -> MatchContext:
+func _new_context(first: MatchParticipant, second: MatchParticipant, token: int, server_match_id: String) -> MatchContext:
 	var context := MatchContext.new()
-	context.match_id = "live-preview-" + Crypto.new().generate_random_bytes(16).hex_encode()
+	context.match_id = server_match_id
+	context.deployment_revision = deployment_revision
+	context.development_only = false
+	context.persistent_credit_allowed = true
 	context.search_generation = token
 	context.local_player = first
 	context.opponent = second
-	context.transport = "gdsync_peer_preview"
+	context.transport = "gdsync_peer"
 	context.session = self
 	context.canonical_actor_ids.assign([first.player_id, second.player_id])
 	var history := RoundLog.new()
 	history.match_id = context.match_id
 	history.rules_revision = rules.revision
-	history.arena_condition = arena_condition
+	history.arena_condition = _condition()
 	for participant in [first, second]:
 		var actor := InitialChoiceHistory.new()
 		actor.actor_id = participant.player_id
@@ -265,7 +292,7 @@ func _new_context(first: MatchParticipant, second: MatchParticipant, token: int)
 	return context
 
 func authority() -> bool:
-	if reservation != null and reservation.transport == "gdsync_fallback_preview":
+	if reservation != null and reservation.transport == "gdsync_fallback":
 		return true
 	return sdk != null and sdk.is_host()
 
@@ -292,6 +319,8 @@ func _receive(kind: String, envelope: Dictionary) -> void:
 	if kind in ["offer", "offer_ack", "reserved"]:
 		print("M09 handshake packet=%s sender=%d" % [kind, sender])
 	if sender < 0 or closing or not sdk.lobby_get_all_clients().has(sender):
+		if kind == "offer":
+			_note_offer("membership sender=%d peers=%s closing=%s" % [sender, str(sdk.lobby_get_all_clients()), closing])
 		return
 	if kind == "offer":
 		_receive_offer(envelope, sender)
@@ -306,11 +335,20 @@ func _receive(kind: String, envelope: Dictionary) -> void:
 	received_sequences[sender] = envelope.sequence
 	received_messages += 1
 	received_bytes += var_to_bytes(envelope).size()
-	if kind == "offer_ack" and searching and pending_context != null and sdk.is_host():
+	if kind == "offer_ack" and searching and pending_context != null and sdk.is_host() and not binding_confirming:
+		binding_confirming = true
+		var token := generation
+		var registration: Dictionary = await api.send("matches/register", HTTPClient.METHOD_POST, registration_body)
+		binding_confirming = false
+		if not is_current(token) or pending_context == null:
+			return
+		if registration.has("error") or registration.get("status") != "ready":
+			_fail_search("Participant binding could not be confirmed. Return and retry.")
+			return
+		_apply_public_profile(pending_context.opponent, registration.opponentPublicProfile)
 		send_to(sender, "reserved", {}, pending_context)
 		commit_found(generation, pending_context)
 		pending_context = null
-		print("M09 human reserved host peer=%d match=%s" % [sender, reservation.match_id])
 	elif kind == "reserved" and searching and pending_context != null and sender == sdk.get_host():
 		commit_found(generation, pending_context)
 		pending_context = null
@@ -320,27 +358,46 @@ func _receive(kind: String, envelope: Dictionary) -> void:
 
 func _receive_offer(envelope: Dictionary, sender: int) -> void:
 	if not searching or sdk.get_host() != sender or pending_lobby.is_empty():
+		_note_offer("authority sender=%d host=%d searching=%s lobbyEmpty=%s" % [sender, sdk.get_host(), searching, pending_lobby.is_empty()])
 		return
 	var data: Dictionary = envelope.get("payload", {})
+	if data.get("deploymentRevision", "") != deployment_revision:
+		_note_offer("configuration revision mismatch")
+		return
 	if data.get("lobbyName", "") != pending_lobby or pending_lobby != sdk.lobby_get_name():
+		_note_offer("lobby binding mismatch")
 		return
 	if pending_context != null:
-		if pending_context.match_id == envelope.get("matchId", "") and pending_context.opponent.peer_id == sender:
+		if pending_context.match_id == envelope.get("matchId", "") and pending_context.opponent.peer_id == sender and pending_context.opponent.backend_verified:
 			send_to(sender, "offer_ack", {}, pending_context)
 		return
 	var actors: Array = data.get("actors", [])
 	if actors.size() != 2 or actors[0].peerId != sender or actors[1].peerId != sdk.get_client_id() or actors[1].actorId != local_player.player_id or data.history.rulesRevision != rules.revision:
+		_note_offer("participant/rule binding mismatch")
 		return
 	var context := MatchContext.new()
 	context.match_id = envelope.matchId
+	context.deployment_revision = deployment_revision
+	context.development_only = false
+	context.persistent_credit_allowed = true
+	context.match_nonce = data.get("matchNonce", "")
 	context.search_generation = generation
 	context.local_player = local_player
 	context.opponent = Wire.read_participant(actors[0])
+	context.opponent.backend_verified = false
 	context.session = self
-	context.transport = "gdsync_peer_preview"
+	context.transport = "gdsync_peer"
 	context.canonical_actor_ids.assign([actors[0].actorId, actors[1].actorId])
 	context.round_log = Wire.read_history(data.history)
 	pending_context = context
+	var token := generation
+	var registration: Dictionary = await api.send("matches/join", HTTPClient.METHOD_POST, {"matchId": context.match_id, "matchNonce": context.match_nonce})
+	if not is_current(token) or pending_context != context:
+		return
+	if registration.has("error") or registration.get("status") != "ready":
+		_fail_search("Could not join the registered match. Return and retry.")
+		return
+	_apply_public_profile(context.opponent, registration.opponentPublicProfile)
 	received_sequences[sender] = envelope.sequence
 	send_to(sender, "offer_ack", {}, context)
 
@@ -377,6 +434,7 @@ func _reset_wire() -> void:
 	pending_lobby = ""
 	pending_context = null
 	offer_sent = false
+	offer_observation = ""
 	offer_payload = {}
 	offer_retry_msec = 0
 	handshake_started_msec = 0
@@ -384,9 +442,43 @@ func _reset_wire() -> void:
 	profile_observation = ""
 	wire_sequence = 0
 	received_sequences.clear()
-	prepared_result = {}
-	prepared_receipt = {}
 	sent_bytes = 0
 	received_bytes = 0
 	sent_messages = 0
 	received_messages = 0
+
+func _nonce() -> String:
+	return preload("res://scripts/api/http_api.gd").uuid()
+
+func _participant(data: Dictionary) -> MatchParticipant:
+	var player := MatchParticipant.new()
+	player.player_id = data.playerId
+	player.display_name = data.displayName
+	player.overall_points = data.overallPoints
+	player.public_profile = data.duplicate(true)
+	player.switch_percentage = data.switchPercentage
+	player.backend_verified = true
+	player.rating_source = "backend"
+	return player
+
+func _condition() -> int:
+	var total := rules.devil_weight + rules.angel_weight + rules.no_modifier_weight
+	var draw := randf() * total
+	if draw < rules.devil_weight:
+		return 0
+	if draw < rules.devil_weight + rules.angel_weight:
+		return 1
+	return 2
+
+func _apply_public_profile(player: MatchParticipant, data: Dictionary) -> void:
+	player.display_name = data.displayName
+	player.overall_points = data.overallPoints
+	player.public_profile = data.duplicate(true)
+	player.switch_percentage = data.switchPercentage
+	player.backend_verified = true
+	player.rating_source = "backend"
+
+func _note_offer(reason: String) -> void:
+	if reason != offer_observation:
+		offer_observation = reason
+		print("M12 offer waiting: " + reason)

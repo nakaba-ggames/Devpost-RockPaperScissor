@@ -1,10 +1,11 @@
+import { releaseConfiguration } from '../src/config.js';
 import { randomUUID } from 'node:crypto';
 import { closeDatabase, collections } from '../src/db.js';
 import { newBot } from '../src/model.js';
 
 // Creator approved this backend identity on 2026-10-23, separately from preview Ember.
 // No personality, balances, fixture statistics, history or receipts are imported.
-const seedKey = 'm10-ember-v1';
+const seedKey = releaseConfiguration.fallback_seed_key;
 
 try {
   const { players } = await collections();

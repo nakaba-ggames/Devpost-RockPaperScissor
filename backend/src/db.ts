@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import { releaseConfiguration } from './config.js';
 import { ApiError } from './errors.js';
 import type { Player, SavedRecord } from './model.js';
 
@@ -31,9 +32,17 @@ export async function database() {
   return (await mongoClient()).db(process.env.MONGODB_DB);
 }
 
+export function collectionName(name: string) {
+  // Same Atlas database, isolated M12 functionality collections. Existing
+  // exercise accounts/history stay in their original collections, untouched.
+  const prefix = releaseConfiguration?.collection_prefix ?? '';
+  if (!/^[a-zA-Z0-9_]{0,40}$/.test(prefix)) throw new ApiError(503, 'SERVICE_NOT_CONFIGURED', 'Invalid collection namespace.');
+  return prefix + name;
+}
+
 export async function collections() {
   const db = await database();
-  return { players: db.collection<Player>('players'), records: db.collection<SavedRecord>('records') };
+  return { players: db.collection<Player>(collectionName('players')), records: db.collection<SavedRecord>(collectionName('records')) };
 }
 
 // Only the local server/process scripts close the pool; functions never close per request.

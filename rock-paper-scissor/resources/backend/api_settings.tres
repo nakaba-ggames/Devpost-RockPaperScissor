@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/api/api_settings.gd" id="1"]
+[resource]
+script = ExtResource("1")
+native_api_origin = "http://127.0.0.1:3101"
+request_timeout_seconds = 20.0
+result_poll_seconds = 2.0
+history_events_per_chunk = 128

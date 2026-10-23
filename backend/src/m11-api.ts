@@ -1,3 +1,4 @@
+import { putHistoryChunk, readHistoryChunk, natural } from './history-upload.js';
 import { authenticate } from './auth.js';
 import { jsonBody, onlyKeys, onlyQuery, route } from './http.js';
 import { badRequest } from './errors.js';
@@ -39,12 +40,33 @@ export function createM11Handlers(options: M11Options = {}) {
       await ready();
       return { body: await matches.join(caller, body) };
     }),
+    historyUpload: route('POST', async (req, url) => {
+      onlyQuery(url, []);
+      const caller = await authenticate(req);
+      const body = await jsonBody(req, 64 * 1024);
+      await ready();
+      return { body: await putHistoryChunk(caller.playerId, body) };
+    }),
+    history: route('GET', async (req, url) => {
+      onlyQuery(url, ['matchId', 'index']);
+      const caller = await authenticate(req);
+      const raw = url.searchParams.get('index');
+      if (raw === null || !/^\d{1,15}$/.test(raw)) badRequest('Invalid history page.');
+      return { body: await readHistoryChunk(caller.playerId, identifier(url.searchParams.get('matchId')), natural(Number(raw))) };
+    }),
     finalize: route('POST', async (req, url) => {
       onlyQuery(url, []);
       const caller = await authenticate(req);
       const body = await jsonBody(req);
       await ready();
       return { body: await matches.finalize(caller, body) };
+    }),
+    departure: route('POST', async (req, url) => {
+      onlyQuery(url, []);
+      const caller = await authenticate(req);
+      const body = await jsonBody(req);
+      await ready();
+      return { body: await matches.depart(caller, body) };
     }),
     result: route('GET', async (req, url) => {
       onlyQuery(url, ['matchId']);

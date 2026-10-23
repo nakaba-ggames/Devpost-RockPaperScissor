@@ -6,15 +6,14 @@
 [ext_resource type="Script" path="res://scripts/networking/live_round_coordinator.gd" id="4"]
 [ext_resource type="Resource" path="res://resources/arena/option_rules.tres" id="5"]
 [ext_resource type="Script" path="res://scripts/bots/local_opponent_adapter.gd" id="6"]
-[ext_resource type="Resource" path="res://resources/development/arena_fixture.tres" id="7"]
 
 [ext_resource type="Script" path="res://scripts/networking/peer_chat.gd" id="8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/arena_chat.tscn" id="9"]
 [ext_resource type="PackedScene" path="res://scenes/ui/speech_bubble.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="11"]
 
-[ext_resource type="Resource" path="res://resources/bots/development_personality.tres" id="12"]
-[ext_resource type="Script" path="res://scripts/networking/peer_result_sink.gd" id="13"]
+[ext_resource type="Resource" path="res://resources/bots/ember_personality.tres" id="12"]
+[ext_resource type="Script" path="res://scripts/api/backend_result_sink.gd" id="13"]
 [ext_resource type="Script" path="res://scripts/arena/submission_particles.gd" id="14"]
 [ext_resource type="Resource" path="res://resources/presentation/submission_effect.tres" id="15"]
 [ext_resource type="PackedScene" path="res://scenes/ui/reveal.tscn" id="16"]
@@ -36,7 +35,7 @@ script = ExtResource("4")
 rules = ExtResource("5")
 result_sink = NodePath("../ResultSink")
 
-[node name="DevelopmentOpponent" type="Node" parent="." index="18" unique_id=2089189068]
+[node name="BotOpponent" type="Node" parent="." index="18" unique_id=2089189068]
 script = ExtResource("6")
 personality = ExtResource("12")
 

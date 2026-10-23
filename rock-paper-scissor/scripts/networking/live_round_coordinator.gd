@@ -1,5 +1,5 @@
 extends "res://scripts/arena/option_coordinator.gd"
-## Existing rules/history with host acceptance and peer-memory continuation.
+## Host acceptance, peer continuation and independently queried backend commitment.
 const Wire = preload("res://scripts/networking/match_wire.gd")
 var transport: Node
 var starting: bool = false
@@ -143,7 +143,7 @@ func _decision_input(actor: String, value: String, required_phase: String) -> bo
 			return super.accept_final(actor, value)
 		return super.accept_claim(actor, value)
 	if actor != context.local_player.player_id:
-		if not transport.authority() or not context.opponent.control_kind in ["development_bot", "takeover_bot"]:
+		if not transport.authority() or not context.opponent.control_kind in ["fallback_bot", "takeover_bot"]:
 			return false
 	var key := phase + ":" + actor
 	var revision: int = local_revision.get(key, 0) + 1
@@ -177,7 +177,7 @@ func _lock_claim() -> void:
 	_publish()
 
 func _lock_final() -> void:
-	# The peer result sink publishes the frozen final state before proposing ACK.
+	# The backend sink publishes the frozen final state, then resolves commitment.
 	super._lock_final()
 
 func _state() -> Dictionary:
@@ -211,7 +211,9 @@ func _apply_state(data: Dictionary, revision: int) -> void:
 			context.opponent.takeover_side = actor.takeover
 			context.opponent.control_kind = actor.control
 	context.result_id = data.resultId
-	context.result_submission = data.submission.duplicate(true)
+	if context.result_submission.is_empty() and not data.submission.is_empty():
+		context.result_submission = data.submission.duplicate(true)
+		result_sink.observe(context.result_submission)
 	if not data.get("tell", {}).is_empty():
 		print("M09 peer accepted phase=%s revised=%s" % [phase, data.tell.revised])
 		decision_accepted.emit(data.tell.actorId, data.tell.revised)
@@ -251,59 +253,22 @@ func _packet(kind: String, envelope: Dictionary, sender: int) -> void:
 		_accept(envelope.actorId, str(data.get("value", "")), envelope.revision)
 	elif kind == "state" and sender == host and not transport.authority() and context.result_receipt.is_empty():
 		_apply_state(data, envelope.revision)
-	elif kind == "result_prepare" and sender == host and context.result_receipt.is_empty():
-		if _valid_result(data):
-			transport.prepared_result = data.submission.duplicate(true)
-			transport.prepared_receipt = data.receipt.duplicate(true)
-			transport.send_peer("result_ready", {"resultId": data.submission.resultId})
-			# This peer's ACK is the development boundary: both peers now hold
-			# the same receipt. Keep it even if the host leaves before its echo.
-			_install_result(data.submission, data.receipt)
-	elif kind == "result_ready" and transport.authority() and not transport.prepared_result.is_empty() and data.get("resultId") == context.result_id:
-		_commit_result()
-	elif kind == "result_commit" and sender == host and _valid_result(data):
-		_install_result(data.submission, data.receipt)
 
-func _valid_result(data: Dictionary) -> bool:
-	var submission: Dictionary = data.get("submission", {})
-	var receipt: Dictionary = data.get("receipt", {})
-	return submission.get("matchId") == context.match_id and submission.get("resultId") == context.match_id + ":result" and submission.get("rulesRevision") == rules.revision and receipt.get("resultId") == submission.get("resultId") and receipt.get("matchId") == context.match_id and receipt.get("simulated") == true and receipt.get("serverAcknowledged") == false and receipt.get("persisted") == false and receipt.get("persistentCreditAllowed") == false
+func publish_final_state() -> void:
+	_publish()
 
 func propose_result(submission: Dictionary) -> void:
-	if not transport.authority() or not context.result_receipt.is_empty():
-		return
-	transport.prepared_result = submission.duplicate(true)
-	transport.prepared_receipt = {"matchId": context.match_id, "resultId": context.result_id, "rulesRevision": rules.revision, "receiptId": "simulated:" + context.result_id, "simulated": true, "serverAcknowledged": false, "persisted": false, "persistentCreditAllowed": false}
-	_publish()
-	if transport.has_human_peer():
-		transport.send_peer("result_prepare", {"submission": transport.prepared_result, "receipt": transport.prepared_receipt})
-	else:
-		_commit_result()
-
-func _commit_result() -> void:
-	var submission: Dictionary = transport.prepared_result
-	var receipt: Dictionary = transport.prepared_receipt
-	if submission.is_empty() or not context.result_receipt.is_empty():
-		return
-	# Canonical DEVELOPMENT ACK: host publishes after the peer retained the same
-	# frozen result/receipt. This is live memory, never durable server commitment.
-	transport.send_peer("result_commit", {"submission": submission, "receipt": receipt})
-	_install_result(submission, receipt)
-
-func _install_result(submission: Dictionary, receipt: Dictionary) -> void:
-	if not context.result_receipt.is_empty():
-		return
-	context.result_submission = submission.duplicate(true)
-	context.result_id = submission.resultId
-	context.result_receipt = receipt.duplicate(true)
-	result_sink.install_receipt(context.result_id, receipt)
-	print("M09 canonical development ACK match=%s digest=%s eligible=%s simulated=true persisted=false" % [context.match_id, JSON.stringify(submission).sha256_text(), str(submission.recipients.map(func(actor): return actor.eventualEligible))])
+	result_sink.submit(submission)
 
 func _departed(peer: int) -> void:
 	if context == null or peer != context.opponent.peer_id:
 		return
 	if not context.result_receipt.is_empty():
 		print("M09 post-ACK peer departure retained match=%s digest=%s" % [context.match_id, JSON.stringify(context.result_submission).sha256_text()])
+		return
+	result_sink.record_departure(context.opponent.player_id)
+	if not context.result_submission.is_empty():
+		result_sink.retry(context.result_submission)
 		return
 	context.opponent.departed_before_commit = true
 	context.opponent.takeover_side = true
@@ -330,10 +295,9 @@ func _continue_survivor() -> void:
 	_adopt_clock()
 	print("M09 takeover retained phase=%s deadline=%d events=%d departedPeer=%d" % [phase, deadline_msec, sequence, context.opponent.peer_id])
 	if not context.result_submission.is_empty():
-		# Final history is already locked. Change only pre-ACK attribution; no
-		# invented choices or second result identity.
-		context.result_submission = RoundResolver.submission(context, rules)
-		propose_result(context.result_submission)
+		# Frozen delivery may already be committed. Resolve its status; never
+		# rewrite eligibility based on a later transport departure.
+		result_sink.retry(context.result_submission)
 	else:
 		for next_phase in ready_phases.keys():
 			_try_start(next_phase)
@@ -351,6 +315,8 @@ func transport_lost() -> void:
 	finalization_failed.emit(context.result_id, "Connection ended. This match cannot be resumed.", false)
 
 func leave_context() -> void:
+	if result_sink != null:
+		result_sink.dispose()
 	if transport != null:
 		transport.coordinator = null
 	super.leave_context()

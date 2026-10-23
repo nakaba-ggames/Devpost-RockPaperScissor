@@ -4,4 +4,4 @@
 view_kind = "leaderboard"
 view_title = "Leaderboard"
 [node name="Notice" parent="Content" index="1"]
-text = "Development preview • session + sample roster"
+text = "Saved standings • four categories"

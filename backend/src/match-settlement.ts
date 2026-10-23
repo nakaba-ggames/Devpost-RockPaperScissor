@@ -1,12 +1,13 @@
+import { validateUploadedHistory } from './history-upload.js';
 import { randomUUID } from 'node:crypto';
 import type { ClientSession } from 'mongodb';
-import { rulesRevision } from './config.js';
+import { rulesRevision, releaseConfiguration } from './config.js';
 import { collections } from './db.js';
 import { ApiError, badRequest } from './errors.js';
 import { onlyKeys } from './http.js';
 import { publicProfile, type Player } from './model.js';
 import type { Binding, Receipt, RegisteredMatch } from './settlement-model.js';
-import { applyCompetitiveResult, calculateActors, digest, identifier, validateHistory } from './settlement-rules.js';
+import { applyCompetitiveResult, calculateActors, digest, identifier, validateHistory, settlementConfiguration } from './settlement-rules.js';
 import { settlementCollections, settlementTransaction } from './settlement-store.js';
 import { captureQuests, contributeQuests } from './authoritative-quests.js';
 import type { ServerClock } from './server-time.js';
@@ -24,8 +25,11 @@ async function registrationView(match: RegisteredMatch, viewerPlayerId: string, 
     const player = await players.findOne({ playerId: opponent.playerId }, { session });
     if (player) opponentPublicProfile = publicProfile(player);
   }
+  let botPersonalityId: string | null = null;
+  if (opponent?.controlKind === 'fallback_bot') botPersonalityId = releaseConfiguration.fallback_personality_id;
   return {
     matchId: match.matchId, status: match.status, rulesRevision: match.rulesRevision,
+    botPersonalityId,
     opponentPublicProfile,
     participantBindings: match.bindings.map(binding => ({ playerId: binding.playerId, displayName: binding.displayName, boundAt: binding.boundAt }))
   };
@@ -34,7 +38,7 @@ function resultView(match: RegisteredMatch) {
   if (match.status === 'committed' && match.receipt) {
     return { matchId: match.matchId, status: match.status, savedResult: match.receipt };
   }
-  return { matchId: match.matchId, status: match.status, savedResult: null };
+  return { matchId: match.matchId, status: match.status, savedResult: null, departures: match.departures ?? [] };
 }
 
 export function matchSettlement(clock: ServerClock, allowExerciseEmber: boolean) {
@@ -76,8 +80,10 @@ export function matchSettlement(clock: ServerClock, allowExerciseEmber: boolean)
           expectedPeerPlayerId, rulesRevision, bindings: [first], status: 'waiting', createdAt: now
         };
         if (body.fallbackRequested) {
-          if (!allowExerciseEmber) throw new ApiError(503, 'BOT_SELECTION_UNCONFIGURED', 'Fallback selection requires creator agreement.');
-          const bot = await players.findOne({ kind: 'bot', botSeedKey: 'm10-ember-v1' }, { session });
+          let seedKey = releaseConfiguration?.fallback_seed_key;
+          if (!seedKey && allowExerciseEmber) seedKey = 'm10-ember-v1';
+          if (!seedKey) throw new ApiError(503, 'BOT_SELECTION_UNCONFIGURED', 'Fallback selection requires creator agreement.');
+          const bot = await players.findOne({ kind: 'bot', botSeedKey: seedKey }, { session });
           if (!bot?.displayName) throw new ApiError(503, 'BOT_PROFILE_UNAVAILABLE', 'Approved fallback profile is unavailable.');
           match.bindings.push({ playerId: bot.playerId, displayName: bot.displayName, controlKind: 'fallback_bot', questInstanceIds: [], boundAt: now });
           match.status = 'ready';
@@ -114,37 +120,67 @@ export function matchSettlement(clock: ServerClock, allowExerciseEmber: boolean)
       });
     },
 
+    async depart(caller: Player, body: Record<string, unknown>) {
+      onlyKeys(body, ['matchId', 'departedPlayerId']);
+      const matchId = identifier(body.matchId);
+      const departedPlayerId = identifier(body.departedPlayerId);
+      return settlementTransaction(async session => {
+        const { matches } = await settlementCollections();
+        const match = await matches.findOne({ matchId }, { session });
+        if (!match) throw new ApiError(404, 'MATCH_NOT_FOUND', 'Registration does not exist.');
+        boundParticipant(match, caller.playerId);
+        // The transaction/write lock, not client receipt timing, arbitrates.
+        if (match.status === 'committed') return resultView(match);
+        if (!match.bindings.some(row => row.playerId === departedPlayerId && row.controlKind === 'human')) badRequest('Only a bound human can depart.');
+        if (match.departures?.includes(departedPlayerId)) return resultView(match);
+        const departures = [...new Set([...(match.departures ?? []), departedPlayerId])].sort();
+        await matches.updateOne({ matchId, status: match.status }, { $set: { departures }, $inc: { departureRevision: 1 } }, { session });
+        match.departures = departures;
+        return resultView(match);
+      });
+    },
+
     async finalize(caller: Player, body: Record<string, unknown>) {
-      onlyKeys(body, ['matchId', 'rulesRevision', 'roundLog', 'departures']);
+      onlyKeys(body, ['matchId', 'rulesRevision', 'roundLog', 'departures', 'uploadId', 'headerJson', 'chunkCount']);
       const matchId = identifier(body.matchId);
       if (body.rulesRevision !== rulesRevision) badRequest('Unknown rules revision.');
       if (!Array.isArray(body.departures) || body.departures.length > 1) badRequest('Expected at most one pre-commit departure.');
-      const departures = body.departures.map(identifier).sort();
+      const submittedDepartures = body.departures.map(identifier).sort();
       return settlementTransaction(async session => {
         const { matches } = await settlementCollections();
         const { players, records } = await collections();
         const match = await matches.findOne({ matchId }, { session });
         if (!match) throw new ApiError(404, 'MATCH_NOT_FOUND', 'Registration does not exist.');
         boundParticipant(match, caller.playerId);
-        if (departures.includes(caller.playerId)) throw new ApiError(403, 'ELIGIBLE_SUBMITTER_REQUIRED', 'A remaining eligible human must submit.');
+        let departures = [...new Set([...(match.departures ?? []), ...submittedDepartures])].sort();
+        if (match.status === 'committed') departures = match.receipt!.departures;
+        if (match.status !== 'committed' && departures.includes(caller.playerId)) throw new ApiError(403, 'ELIGIBLE_SUBMITTER_REQUIRED', 'A remaining eligible human must submit.');
         if (match.bindings.length !== 2 || match.status === 'waiting') throw new ApiError(409, 'MATCH_NOT_READY', 'Human binding must finish before play.');
         if (match.rulesRevision !== rulesRevision) badRequest('Registration rules revision mismatch.');
         for (const departed of departures) {
           if (!match.bindings.some(binding => binding.playerId === departed && binding.controlKind === 'human')) badRequest('Only a bound human may depart into takeover.');
         }
-        const history = validateHistory(body.roundLog, matchId, match.bindings.map(binding => binding.playerId));
-        const submissionDigest = digest({ history, departures });
+        let uploaded;
+        let history;
+        if (body.uploadId !== undefined) {
+          if (body.roundLog !== undefined) badRequest('Choose one history representation.');
+          uploaded = await validateUploadedHistory(match, body, session);
+          history = uploaded.history;
+        } else {
+          history = validateHistory(body.roundLog, matchId, match.bindings.map(binding => binding.playerId));
+        }
+        const submissionDigest = digest({ history, historyDigest: uploaded?.historyDigest, departures });
         if (match.status === 'committed') {
-          if (match.submissionDigest !== submissionDigest) throw new ApiError(409, 'FINALIZATION_CONFLICT', 'Committed history and eligibility cannot be rewritten.');
+          if (digest(submittedDepartures) !== digest(match.submittedDepartures ?? match.receipt!.departures) || match.submissionDigest !== submissionDigest) throw new ApiError(409, 'FINALIZATION_CONFLICT', 'Committed history and eligibility cannot be rewritten.');
           return resultView(match);
         }
         const now = clock(); // Re-evaluated if the driver retries the transaction.
         const actors = calculateActors(history, departures);
         const receipt: Receipt = { receiptId: randomUUID(), resultId: `${matchId}:result`, matchId,
-          committedAt: now, rulesRevision, history, departures, actors };
+          committedAt: now, rulesRevision, authoredRulesRevision: String(settlementConfiguration.rules.revision), history, departures, actors, ...uploaded };
         // Take the registration write lock before applying any credit.
         const locked = await matches.updateOne({ matchId, status: 'ready' },
-          { $set: { status: 'committed', submissionDigest, receipt } }, { session });
+          { $set: { status: 'committed', submissionDigest, submittedDepartures, receipt } }, { session });
         if (locked.modifiedCount !== 1) throw new Error('Finalization invariant failed.');
         // Stable owner ordering avoids opposite-participant lock ordering.
         const bindings = [...match.bindings].sort((a, b) => a.playerId.localeCompare(b.playerId));
@@ -161,7 +197,7 @@ export function matchSettlement(clock: ServerClock, allowExerciseEmber: boolean)
           await records.insertOne({ recordId: randomUUID(), matchId, ownerPlayerId: binding.playerId, eligible: true, committedAt: now,
             self: { playerId: binding.playerId, displayName: binding.displayName, initialCard: actor.initialCard, finalCard: actor.finalCard },
             opponent: { playerId: opponent.playerId, displayName: opponent.displayName, initialCard: other.initialCard, finalCard: other.finalCard },
-            result: result.outcome }, { session });
+            result: result.outcome, points: result.points }, { session });
           if (binding.controlKind === 'human') {
             await contributeQuests(binding.playerId, binding.questInstanceIds, binding.boundAt, matchId, actor, result, now, session);
           }

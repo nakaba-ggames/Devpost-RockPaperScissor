@@ -25,7 +25,7 @@ export default route('GET', async (req, url) => {
   }
   const { records } = await collections();
   const rows = await records.find(filter, { projection: {
-    _id: 0, recordId: 1, matchId: 1, committedAt: 1, result: 1,
+    _id: 0, recordId: 1, matchId: 1, committedAt: 1, result: 1, points: 1,
     'self.playerId': 1, 'self.displayName': 1, 'self.initialCard': 1, 'self.finalCard': 1,
     'opponent.playerId': 1, 'opponent.displayName': 1, 'opponent.initialCard': 1, 'opponent.finalCard': 1
   } }).sort({ committedAt: -1, recordId: 1 }).limit(limit + 1).toArray();

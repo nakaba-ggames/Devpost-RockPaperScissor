@@ -46,6 +46,7 @@ export interface SavedRecord {
   self: { playerId: string; displayName: string; initialCard: Card; finalCard: Card };
   opponent: { playerId: string; displayName: string; initialCard: Card; finalCard: Card };
   result: 'win' | 'loss' | 'draw';
+  points?: number;
 }
 
 const publicFields = [

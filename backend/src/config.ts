@@ -10,3 +10,5 @@ if (revision !== `sha256:${digest}` || payload.schemaVersion !== 1) {
   throw new Error('Invalid backend configuration revision. Re-export approved Resources.');
 }
 export const rulesRevision: string = revision;
+
+export const releaseConfiguration = payload.configuration.release as { collection_prefix: string; fallback_seed_key: string; fallback_personality_id: string };

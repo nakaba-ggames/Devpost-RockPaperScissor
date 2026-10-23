@@ -8,17 +8,17 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_button.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://scenes/ui/primary_button.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://scenes/arena/arena.tscn" id="9"]
-[ext_resource type="Resource" path="res://resources/development/arena_fixture.tres" id="10"]
+[ext_resource type="Resource" path="res://resources/bots/ember_personality.tres" id="10_bot"]
 [node name="Matchmaking" type="VBoxContainer"]
 custom_minimum_size = Vector2(490, 0)
 theme_override_constants/separation = 18
 script = ExtResource("1")
 motion = ExtResource("5")
-arena_fixture = ExtResource("10")
 [node name="Session" type="Node" parent="."]
 script = ExtResource("2")
 settings = ExtResource("3")
 rules = ExtResource("4")
+bot_personality = ExtResource("10_bot")
 [node name="Dots" type="Timer" parent="."]
 [node name="Search" type="VBoxContainer" parent="."]
 layout_mode = 2

@@ -91,7 +91,7 @@ export function validateHistory(input: unknown, matchId: string, participantIds:
       actorId: playerId, startingOrder: row.startingOrder.map(card), initialCard: card(row.initialCard),
       identityClaim: card(row.identityClaim), switchClaim: row.switchClaim, finalCard: card(row.finalCard), events: []
     };
-    if (!Array.isArray(row.events) || row.events.length < 4 || row.events.length > 64) badRequest('Expected bounded phase decision history.');
+    if (!Array.isArray(row.events) || row.events.length < 4) badRequest('Expected complete phase decision history.');
     let previousSequence = -1;
     let previousElapsed = -1;
     let previousPhase = -1;
@@ -99,7 +99,7 @@ export function validateHistory(input: unknown, matchId: string, participantIds:
     const revisions = new Map<string, number>();
     for (const raw of row.events) {
       const event = object(raw);
-      onlyKeys(event, ['phase', 'sequence', 'revision', 'elapsedMsec', 'value']);
+      onlyKeys(event, ['phase', 'sequence', 'revision', 'elapsedMsec', 'value', 'kind']);
       const phaseIndex = phases.indexOf(event.phase as typeof phases[number]);
       if (phaseIndex < 0 || phaseIndex < previousPhase) badRequest('Invalid event phase ordering.');
       const phase = phases[phaseIndex]!;
@@ -117,7 +117,10 @@ export function validateHistory(input: unknown, matchId: string, participantIds:
       } else {
         value = card(event.value);
       }
-      actor.events.push({ phase, sequence, revision, elapsedMsec, value });
+      if (event.kind !== undefined && event.kind !== 'decision' && event.kind !== 'default') badRequest('Invalid event kind.');
+      const accepted: ActorHistory['events'][number] = { phase, sequence, revision, elapsedMsec, value };
+      if (event.kind !== undefined) accepted.kind = event.kind;
+      actor.events.push(accepted);
       lastValues.set(phase, value);
       revisions.set(phase, revision + 1);
       globalSequences.add(sequence);

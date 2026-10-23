@@ -12,7 +12,7 @@ var quest_clock := QuestClock.new()
 var quests: QuestCoordinator
 var quest_matches: Dictionary = {}
 var menu_snapshot: Dictionary = {}
-var profile: PreviewProfile
+var profile: PlayerProfile
 var credited_results: Dictionary = {}
 var records: Array[Dictionary] = []
 @export var roster: Resource
@@ -23,7 +23,7 @@ func begin_session() -> void:
 	await get_tree().create_timer(motion.entry_delay).timeout
 	var config := ConfigFile.new()
 	var result := config.load(SAVE_PATH)
-	profile = PreviewProfile.new()
+	profile = PlayerProfile.new()
 	credited_results.clear()
 	records.clear()
 	_reset_quests()
@@ -246,7 +246,7 @@ func _refresh_menu_snapshot(grants: Array[Dictionary]) -> void:
 		profile.daily_quest_text = "Daily • %s  %d/%d • +%d" % [daily.title, daily.progress, daily.target, daily.rewardPoints]
 	menu_snapshot_updated.emit(menu_snapshot.duplicate(true))
 
-func request_quests() -> Dictionary:
+func request_quests(_cursor: String = "") -> Dictionary:
 	await get_tree().create_timer(motion.entry_delay).timeout
 	if profile == null:
 		return _no_session()

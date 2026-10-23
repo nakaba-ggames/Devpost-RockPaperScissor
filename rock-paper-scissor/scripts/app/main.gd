@@ -1,7 +1,7 @@
 extends Control
 
 @export var motion: MenuMotion
-@onready var provider: ProfileProvider = $PreviewProvider
+@onready var provider: ProfileProvider = $ProfileProvider
 @onready var service: Node = $ServiceConnection
 @onready var entry: VBoxContainer = %Entry
 @onready var menu: VBoxContainer = %Menu
@@ -10,14 +10,16 @@ extends Control
 @onready var continue_button: Button = %Continue
 @onready var feedback: Label = %Feedback
 @onready var matchmaking: VBoxContainer = %Matchmaking
-var menu_profile: PreviewProfile
+var menu_profile: PlayerProfile
 var screen_tween: Tween
 var feedback_tween: Tween
 var can_continue: bool = false
 var changing_screen: bool = false
 
 func _ready() -> void:
-	%ArenaCondition.select(matchmaking.arena_fixture.condition)
+	matchmaking.session.api = $Api
+	%SearchScenario.hide()
+	%ArenaCondition.hide()
 	print("M01 engine: ", Engine.get_version_info().string)
 	if OS.has_feature("web"):
 		var browser_info = JavaScriptBridge.get_interface("navigator")
@@ -39,8 +41,6 @@ func _ready() -> void:
 	%Play.pressed.connect(_play)
 	matchmaking.return_requested.connect(_return_from_search)
 	matchmaking.match_ready.connect(_arena_entered)
-	matchmaking.before_arena.connect(provider.begin_preview_match)
-	matchmaking.get_node("Arena").result_acknowledged.connect(provider.apply_acknowledged_result)
 	%Leaderboard.pressed.connect(_open_data.bind($LeaderboardView))
 	%Record.pressed.connect(_open_data.bind($Records))
 	%Stats.pressed.connect(_open_data.bind($DetailedStats))
@@ -62,17 +62,17 @@ func _restart_entry() -> void:
 	continue_button.hide()
 	%RetryEntry.hide()
 	%NewPreview.hide()
-	%EntryStatus.text = "Preparing local preview…"
+	%EntryStatus.text = "Connecting to your account…"
 	menu.hide()
 	entry.show()
 	entry.modulate.a = 1.0
 	provider.begin_session()
 
-func _identity_ready(profile: PreviewProfile) -> void:
+func _identity_ready(profile: PlayerProfile) -> void:
 	%RetryEntry.hide()
 	%NewPreview.hide()
 	if profile.display_name.is_empty():
-		%EntryStatus.text = "Name your local preview"
+		%EntryStatus.text = "Choose a display name (1–24 characters)"
 		name_box.show()
 		name_input.grab_focus()
 		_fade_in(name_box)
@@ -93,9 +93,11 @@ func _continue() -> void:
 	if not can_continue or changing_screen:
 		return
 	can_continue = false
+	%Play.disabled = true
 	provider.enter_menu()
 
-func _menu_ready(profile: PreviewProfile) -> void:
+func _menu_ready(profile: PlayerProfile) -> void:
+	%Play.disabled = false
 	menu_profile = profile
 	%PlayerName.text = profile.display_name
 	%Points.text = "%d Overall Points" % profile.overall_points
@@ -175,7 +177,7 @@ func _local_cleared() -> void:
 	changing_screen = false
 	_restart_entry()
 	_fade_in(entry)
-	_show_feedback("Local preview cleared. Enter a new name to start again.")
+	_show_feedback("Local account data cleared. The previous backend account remains; creating a new account.")
 
 func _connection_changed(text: String) -> void:
 	%ConnectionStatus.text = text
@@ -197,8 +199,11 @@ func _play() -> void:
 	player.overall_points = menu_profile.overall_points
 	matchmaking.show()
 	matchmaking.modulate.a = 0.0
-	matchmaking.arena_condition = %ArenaCondition.selected
-	matchmaking.start(player, %SearchScenario.selected)
+	matchmaking.session.deployment_revision = provider.deployment_revision
+	player.backend_verified = true
+	player.rating_source = "backend"
+	player.public_profile = {}
+	matchmaking.start(player, 0)
 	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
 	screen_tween.tween_property(matchmaking, "modulate:a", 1.0, motion.fade_seconds)
 	await screen_tween.finished
@@ -214,6 +219,7 @@ func _return_from_search() -> void:
 	screen_tween.tween_property(matchmaking, "modulate:a", 0.0, motion.fade_seconds)
 	await screen_tween.finished
 	matchmaking.hide()
+	%Play.disabled = true
 	provider.enter_menu()
 	_arena_chrome(true)
 	menu.modulate.a = 0.0
@@ -242,7 +248,7 @@ func _quest_menu_snapshot(snapshot: Dictionary) -> void:
 	%Points.text = "%d Overall Points" % snapshot.profile.overallPoints
 	var daily: Dictionary = snapshot.dailyQuest
 	if daily.is_empty():
-		%DailyQuest.text = "Daily • no preview catalogue"
+		%DailyQuest.text = "Daily • unavailable"
 	else:
 		%DailyQuest.text = "Daily • %s  %d/%d • +%d" % [daily.title, daily.progress, daily.target, daily.rewardPoints]
 	if menu.visible:

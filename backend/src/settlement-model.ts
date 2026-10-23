@@ -19,6 +19,7 @@ export interface ActorHistory {
   events: DecisionEvent[];
 }
 export interface DecisionEvent {
+  kind?: 'decision' | 'default';
   phase: 'option' | 'identity_claim' | 'switch_claim' | 'final_choice';
   sequence: number;
   revision: number;
@@ -57,6 +58,10 @@ export interface Receipt {
   committedAt: Date;
   rulesRevision: string;
   history: RoundHistory;
+  authoredRulesRevision?: string;
+  historyDigest?: string;
+  historyUploadId?: string;
+  historyChunkCount?: number;
   departures: string[];
   actors: CalculatedActor[];
 }
@@ -70,6 +75,9 @@ export interface RegisteredMatch {
   bindings: Binding[];
   status: 'waiting' | 'ready' | 'committed';
   createdAt: Date;
+  departures?: string[];
+  departureRevision?: number;
+  submittedDepartures?: string[];
   submissionDigest?: string;
   receipt?: Receipt;
 }

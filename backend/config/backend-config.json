@@ -1,7 +1,15 @@
 {
-  "revision": "sha256:d0e9b971b245891addf9a13e056bec263c5e5a18b3cd07e6935e8a3a9637edf3",
+  "revision": "sha256:12276ec41b7eb7894a2423e7721475ddbc225def4bf99c6459caaddd7e27787c",
   "configuration": {
-    "productionReady": false,
+    "bot": {
+      "development_fixture": false,
+      "identity_lie_chance": 0.6,
+      "intention_lie_chance": 0.4,
+      "profile_id": "ember-v1",
+      "revision_chance": 1,
+      "switch_chance": 0.5
+    },
+    "productionReady": true,
     "quests": {
       "daily_cycle": [
         {
@@ -22,8 +30,8 @@
         }
       ],
       "daily_selection": "ordered_cycle",
-      "development_only": true,
-      "revision": "m08-creator-approved-preview-v1",
+      "development_only": false,
+      "revision": "m12-functionality-catalogue-v1",
       "weekly_objectives": [
         {
           "card": "Scissor",
@@ -51,29 +59,36 @@
         }
       ]
     },
+    "release": {
+      "collection_prefix": "m12_",
+      "fallback_personality_id": "ember-v1",
+      "fallback_seed_key": "m12-ember-v1"
+    },
     "rules": {
       "angel_draw_bonus": 7,
-      "angel_weight": -1,
+      "angel_weight": 1,
       "angel_win_bonus": 15,
       "devil_draw_bonus": 5,
-      "devil_weight": -1,
+      "devil_weight": 1,
       "devil_win_bonus": 10,
       "draw_points": 3,
       "final_choice_seconds": 15,
       "identity_claim_seconds": 15,
       "loss_points": 0,
-      "no_modifier_weight": -1,
+      "no_modifier_weight": 1,
       "option_seconds": 15,
-      "production_weights_configured": false,
-      "revision": "m05-round-v1",
+      "production_weights_configured": true,
+      "revision": "m12-round-v1",
       "switch_claim_seconds": 15,
       "win_points": 10
     }
   },
   "schemaVersion": 1,
   "sourceFiles": {
-    "resources/arena/option_rules.tres": "a081601558ecb23ef28d628774f51c999b7bcc8dee681228f191cdcb3b629062",
-    "resources/quests/development_catalogue.tres": "af139da5870fd63cae383fed0e3f5723797079a8a98d9d2ff9b5c9392d19a6f7",
+    "resources/arena/option_rules.tres": "1e79994d2da8cb06001ba4c296a43d2887e5c9e9d1c6224cddf9f2cdba10260f",
+    "resources/backend/release_settings.tres": "25c1c34265034c247a29a24035e9fe80aebde35c5fb9a61d14497a7169d3ae80",
+    "resources/bots/ember_personality.tres": "583936894043559b1aedd164edc97d36ea249557b0ce4f8c7120b39e119fc28b",
+    "resources/quests/release_catalogue.tres": "50c242c0b43d22b663179ba9258dc5a6705087fa840d5ccf00a1c37ba501db95",
     "resources/quests/scissors.tres": "9e3bc7760ad6bc01cda9b6dba811b052ac707b83faed5fef5e81d5d0568e2926",
     "resources/quests/weekly_lie.tres": "fa38cdadc0e42c4857a6ca47938b1c93e49d08416b655f3860d56149cd235ac3",
     "resources/quests/weekly_play.tres": "b3c80af758369450b4fd4566a8cf5441e35de259d0ecee07c6e46f480a9c2615",
@@ -81,6 +96,8 @@
     "resources/quests/wins.tres": "b183340aaacf8650cb2745dfba71851061e816c18b34de55c4de8321e4b35b38",
     "scripts/quests/quest_catalogue.gd": "fcf5a2bbff6b85ecb60eab42f51715a43394bf37897cdbc12013af14d2771816",
     "scripts/quests/quest_definition.gd": "26308b7d637e9c692ceabc268d3f16be524a9c6de07d6420afb6df5c3976efa6",
-    "scripts/resources/arena_rules.gd": "f42a3e077fe3f8f16e21917cada44eb7d55aa49f2c70dd8bef277fc31e887c27"
+    "scripts/resources/arena_rules.gd": "f42a3e077fe3f8f16e21917cada44eb7d55aa49f2c70dd8bef277fc31e887c27",
+    "scripts/resources/backend_release_settings.gd": "43e9cd0cfdbc271353d376d7ca197d204d7bb4acf80bbe883ffd0be52b6f6242",
+    "scripts/resources/bot_personality.gd": "6a1fc682ccae0b9eed255070ccd9b5cf7d04974db685a1958214e37f082aec07"
   }
 }

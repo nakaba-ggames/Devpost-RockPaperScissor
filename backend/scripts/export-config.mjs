@@ -11,7 +11,7 @@ try {
   // Copies are exact build inputs; all authored data stays in the original .tres files.
   const inputs = [
     'scripts/resources/arena_rules.gd', 'scripts/quests/quest_catalogue.gd', 'scripts/quests/quest_definition.gd',
-    'resources/arena/option_rules.tres', 'resources/quests/development_catalogue.tres',
+    'resources/arena/option_rules.tres', 'resources/quests/release_catalogue.tres', 'resources/backend/release_settings.tres', 'scripts/resources/backend_release_settings.gd', 'resources/bots/ember_personality.tres', 'scripts/resources/bot_personality.gd',
     ...['scissors', 'wins', 'weekly_play', 'weekly_switch', 'weekly_lie'].map(name => `resources/quests/${name}.tres`)
   ];
   writeFileSync(join(directory, 'project.godot'), 'config_version=5\n');

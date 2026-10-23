@@ -3,8 +3,8 @@ extends Node
 ## Small asynchronous seam for the M10/M12 API provider.
 ## No credentials are sent to GD-Sync and no account API exists in M01.
 
-signal identity_ready(profile: PreviewProfile)
-signal menu_ready(profile: PreviewProfile)
+signal identity_ready(profile: PlayerProfile)
+signal menu_ready(profile: PlayerProfile)
 signal menu_snapshot_updated(snapshot: Dictionary)
 signal request_failed(kind: String, detail: String)
 signal local_data_cleared
@@ -35,7 +35,7 @@ func request_records(_cursor: String = "", _limit: int = 3) -> Dictionary:
 func request_leaderboard(_metric: String, _cursor: String = "", _limit: int = 3) -> Dictionary:
 	return {"error": {"code": "unavailable", "message": "Leaderboard unavailable.", "retryable": true}}
 
-func request_quests() -> Dictionary:
+func request_quests(_cursor: String = "") -> Dictionary:
 	return {"error": {"code": "unavailable", "message": "Quests unavailable.", "retryable": true}}
 
 func begin_preview_match(_match_id: String) -> void:

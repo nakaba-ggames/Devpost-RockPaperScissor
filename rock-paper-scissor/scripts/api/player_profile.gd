@@ -1,6 +1,6 @@
-class_name PreviewProfile
+class_name PlayerProfile
 extends Resource
-## Development data only. Never an authenticated backend profile.
+## Shared view model populated by the selected provider; never holds credentials.
 
 @export var player_id: String = ""
 @export var display_name: String = ""
@@ -18,4 +18,4 @@ extends Resource
 @export var initial_cards: Dictionary = {"Rock": 0, "Paper": 0, "Scissor": 0}
 @export var final_cards: Dictionary = {"Rock": 0, "Paper": 0, "Scissor": 0}
 @export var winning_cards: Dictionary = {"Rock": 0, "Paper": 0, "Scissor": 0}
-@export var daily_quest_text: String = "Daily quest • not available in M01"
+@export var daily_quest_text: String = "Daily quest • loading"

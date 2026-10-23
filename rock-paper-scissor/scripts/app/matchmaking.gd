@@ -7,7 +7,6 @@ signal before_arena(match_id: String)
 @onready var session: MatchSession = $Session
 @onready var search: VBoxContainer = $Search
 @onready var destination: Control = $Arena
-@export var arena_fixture: ArenaFixture
 var arena_condition: int = 0
 @onready var card: Control = $Search/CardSpace/SearchCard
 @onready var dots: Timer = $Dots
