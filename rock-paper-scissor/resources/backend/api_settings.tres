@@ -2,7 +2,7 @@
 [ext_resource type="Script" path="res://scripts/api/api_settings.gd" id="1"]
 [resource]
 script = ExtResource("1")
-native_api_origin = "http://127.0.0.1:3101"
+backend_api_origin = "https://devpost-rockpaperscissor-backend.vercel.app"
 request_timeout_seconds = 20.0
 result_poll_seconds = 2.0
 history_events_per_chunk = 128

@@ -13,6 +13,11 @@ var credential: String = ""
 var pending: Array[Dictionary] = []
 var active: Dictionary = {}
 var request_node: HTTPRequest
+var timing_enabled: bool = OS.get_cmdline_user_args().has("--network-timing")
+
+func _ready() -> void:
+	if OS.has_feature("web"):
+		timing_enabled = bool(JavaScriptBridge.eval("new URLSearchParams(window.location.search).get('network_timing') === '1'", true))
 
 static func failure(code: String, message: String, retryable: bool = true) -> Dictionary:
 	return {"error": {"code": code, "message": message, "retryable": retryable}}
@@ -25,7 +30,7 @@ func send(path: String, method: int = HTTPClient.METHOD_GET, body: Dictionary = 
 	if private and credential.is_empty():
 		return failure("CREDENTIAL_MISSING", "An anonymous account is required.", false)
 	var ticket := Ticket.new()
-	pending.append({"ticket": ticket, "path": path, "method": method, "body": body.duplicate(true), "private": private})
+	pending.append({"ticket": ticket, "path": path, "method": method, "body": body.duplicate(true), "private": private, "queued_msec": Time.get_ticks_msec()})
 	_dispatch.call_deferred()
 	return await ticket.completed
 
@@ -33,14 +38,13 @@ func _dispatch() -> void:
 	if not active.is_empty() or pending.is_empty():
 		return
 	active = pending.pop_front()
+	active.started_msec = Time.get_ticks_msec()
 	request_node = HTTPRequest.new()
 	request_node.use_threads = false
 	request_node.timeout = settings.request_timeout_seconds
 	add_child(request_node)
 	request_node.request_completed.connect(_completed)
-	var origin: String = settings.native_api_origin
-	if OS.has_feature("web"):
-		origin = str(JavaScriptBridge.eval("window.location.origin", true))
+	var origin: String = settings.backend_api_origin.trim_suffix("/")
 	var headers := PackedStringArray(["Content-Type: application/json", "Accept: application/json"])
 	if active.private:
 		headers.append("Authorization: Bearer " + credential)
@@ -51,7 +55,13 @@ func _dispatch() -> void:
 	if error != OK:
 		_finish(failure("REQUEST_UNAVAILABLE", "Saved data is unavailable. Wait and retry."))
 
-func _completed(result: int, status: int, _headers: PackedStringArray, bytes: PackedByteArray) -> void:
+func _completed(result: int, status: int, headers: PackedStringArray, bytes: PackedByteArray) -> void:
+	if timing_enabled:
+		var server_timing := "unavailable"
+		for header in headers:
+			if header.to_lower().begins_with("server-timing:"):
+				server_timing = header.substr(14).strip_edges()
+		print("NetworkTiming route=%s method=%d queue_ms=%d request_ms=%d status=%d server=%s" % [active.path.split("?")[0], active.method, active.started_msec - active.queued_msec, Time.get_ticks_msec() - int(active.started_msec), status, server_timing])
 	if result != HTTPRequest.RESULT_SUCCESS:
 		_finish(failure("CONNECTION_UNCERTAIN", "The request could not be confirmed. Wait and retry."))
 		return

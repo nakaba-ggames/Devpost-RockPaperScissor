@@ -1,6 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
-import { rulesRevision } from './config.js';
+import { backendConfiguration, rulesRevision } from './config.js';
 import { ApiError, badRequest } from './errors.js';
 import { onlyKeys } from './http.js';
 import type { Card, Player } from './model.js';
@@ -14,7 +13,7 @@ interface Configuration {
     daily_cycle: QuestDefinition[]; weekly_objectives: QuestDefinition[];
   };
 }
-export const settlementConfiguration: Configuration = JSON.parse(readFileSync('config/backend-config.json', 'utf8')).configuration;
+export const settlementConfiguration = backendConfiguration as Configuration;
 
 export function requireSettlementConfiguration(isolatedExerciseRevision?: string) {
   if (isolatedExerciseRevision !== undefined) {

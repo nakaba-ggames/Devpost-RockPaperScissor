@@ -1,0 +1,19 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="Script" path="res://scripts/networking/connection_requirement.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/api/live_profile_provider.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/api/http_api.gd" id="3"]
+[ext_resource type="Resource" path="res://resources/backend/api_settings.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/networking/service_connection.gd" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/ui/opening_sequence.tscn" id="6"]
+[node name="ConnectionRequirement" type="Node"]
+script = ExtResource("1")
+[node name="ProfileProvider" type="Node" parent="." node_paths=PackedStringArray("api")]
+script = ExtResource("2")
+api = NodePath("../Api")
+[node name="Api" type="Node" parent="."]
+script = ExtResource("3")
+settings = ExtResource("4")
+[node name="ServiceConnection" type="Node" parent="."]
+script = ExtResource("5")
+[node name="OpeningSequence" parent="." instance=ExtResource("6")]
+

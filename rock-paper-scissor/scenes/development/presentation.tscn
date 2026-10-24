@@ -1,0 +1,37 @@
+[gd_scene format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/development/presentation_main.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/development/presentation_provider.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/development/presentation_match_session.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/arena/option_coordinator.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/development/local_result_sink.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/development/presentation_gate.gd" id="9"]
+[ext_resource type="Script" path="res://scripts/development/local_preview_chat.gd" id="10"]
+[ext_resource type="Resource" path="res://resources/presentation/menu_motion.tres" id="11"]
+[ext_resource type="Resource" path="res://resources/quests/development_catalogue.tres" id="12"]
+[node name="Presentation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2")
+[node name="UI" parent="." instance=ExtResource("1")]
+[node name="ProfileProvider" type="Node" parent="."]
+script = ExtResource("3")
+motion = ExtResource("11")
+quest_catalogue = ExtResource("12")
+[node name="Session" parent="UI/Margin/Stack/Body/Matchmaking"]
+script = ExtResource("6")
+[node name="Coordinator" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
+script = ExtResource("7")
+[node name="ResultSink" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
+script = ExtResource("8")
+[node name="ReceiptGate" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
+script = ExtResource("9")
+[node name="ChatSession" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
+script = ExtResource("10")
+[editable path="UI"]
+[editable path="UI/Margin/Stack/Body/Matchmaking"]
+[editable path="UI/Margin/Stack/Body/Matchmaking/Arena"]

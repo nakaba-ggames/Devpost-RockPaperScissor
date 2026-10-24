@@ -12,6 +12,48 @@ Required verification: **A editor/native real COM journey and every applicable b
 
 ---
 
+## M12.5 integration configuration — 2026-10-24, acceptance pending
+
+The creator supplied `https://devpost-rockpaperscissor-backend.vercel.app`.
+New GET probes of `/api/profile` and `/api/leaderboard?metric=overallPoints&limit=1`
+returned Vercel `500 FUNCTION_INVOCATION_FAILED`. Creator-provided runtime logs
+identify a missing `/var/task/config/backend-config.json`, before route execution.
+The backend root `/` has no homepage; use actual `/api` routes to check runtime.
+
+The repair statically imports the versioned JSON artifact with a JSON import
+attribute and shares the validated configuration with settlement. TypeScript
+copies the JSON into the compiled module tree and Vercel can trace the explicit
+dependency; runtime loading no longer depends on the process working directory.
+Do not regenerate balance or reseed data for this repair. The repair was deployed as `dpl_6zE2HnPzq9gXPgd2RkuBHz76yoma`; actual leaderboard
+GET 200, preflight 204 and missing-auth PATCH 401 with CORS verified startup.
+Native and one locally served web candidate completed real COM/saved-data checks;
+creator hands-on acceptance and the M12.5 completion commit remain pending. See
+`../rock-paper-scissor/docs/reports/M12.5_Report.md` for current evidence.
+
+Godot `resources/backend/api_settings.tres` exposes `backend_api_origin` for both
+native/editor and web. It selects the supplied HTTPS backend, independently of
+the local or separately deployed frontend's origin. HTTPRequest remains asynchronous
+with `use_threads = false`.
+
+CORS defaults to the exact local origins `http://localhost:8125` and
+`http://127.0.0.1:8125`. Before the creator deploys the frontend, set the backend
+environment variable `CORS_ALLOWED_ORIGINS` to its actual HTTPS origin (comma-separated
+for multiple origins, without paths or trailing slashes), then redeploy the backend.
+No future hostname is assumed. Malformed/non-HTTPS extra origins are ignored.
+Preflight supports GET/POST/PATCH and Authorization/Content-Type/Accept; OPTIONS
+returns 204 without authentication or database access. Allowed browser origins
+receive CORS headers on route success and caught errors, including auth errors.
+Unlisted origins receive 403 without permission headers. Native requests without
+Origin remain supported. No cookies/Access-Control-Allow-Credentials are used;
+CORS does not replace the existing bearer authentication or owner/participant checks.
+
+The Web preset destination is the ignored Godot-local `export/m12.5/index.html`.
+Do not export until editor/native acceptance A passes. The planned local HTTP
+server binds 127.0.0.1:8125; this is frontend-only, using the deployed API.
+No frontend export/deployment or A/B acceptance is claimed by this configuration.
+
+---
+
 ## Historical implementation/exercise notes (superseded where inconsistent above)
 
 The following M12/M10/M11 notes preserve implementation contracts and historical evidence. Combined deployment commands, missing-deployment statements and earlier configuration/preview-provider descriptions are not current instructions. Inspect current handlers/settings before use; do not rerun or import historical exercises merely to complete M12.5.

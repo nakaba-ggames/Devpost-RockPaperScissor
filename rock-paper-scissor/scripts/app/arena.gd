@@ -63,7 +63,7 @@ func begin(match_context: MatchContext, selected_condition: int) -> void:
 	$PlayerName.text = context.local_player.display_name + " • You"
 	selected_condition = coordinator.history.arena_condition
 	$Condition.text = condition_titles[selected_condition]
-	# No account history has been fetched. Never invent a denominator/sample.
+	# Registration/join supplied this match's public snapshot. No UI-triggered fetch.
 	var cards: Dictionary = context.opponent.public_profile.get("initialCardPercentages", {"Rock": null, "Paper": null, "Scissor": null})
 	$Tendency.text = "Opponent initial choices\nRock %s • Paper %s • Scissor %s" % [_percent(cards.Rock), _percent(cards.Paper), _percent(cards.Scissor)]
 	$PlayerTell.text = ""

@@ -9,6 +9,7 @@ var pending_departures: Array[String] = []
 var receipts: Dictionary = {}
 var generation: int = 0
 var delivering: bool = false
+var delivery_started_msec: int = 0
 
 func bind_session(session: Node, controller: Node) -> void:
 	api = session.api
@@ -29,6 +30,7 @@ func submit(submission: Dictionary) -> void:
 
 func observe(submission: Dictionary, should_submit: bool = false) -> void:
 	if frozen.is_empty():
+		delivery_started_msec = Time.get_ticks_msec()
 		frozen = submission.duplicate(true)
 		wire = Wire.encode(frozen.history, frozen.rulesRevision, api.settings.history_events_per_chunk)
 		for row in frozen.recipients:
@@ -136,6 +138,8 @@ func _accept(receipt: Dictionary) -> void:
 	coordinator.context.result_submission = envelope
 	coordinator.context.result_receipt = confirmed
 	receipts[frozen.resultId] = confirmed
+	if api.timing_enabled:
+		print("NetworkTiming settlement_ms=%d chunks=%d" % [Time.get_ticks_msec() - delivery_started_msec, wire.chunkCount])
 	acknowledged.emit(frozen.resultId, confirmed.duplicate(true))
 	print("M12 durable receipt before cinematic match=%s receipt=%s" % [receipt.matchId, receipt.receiptId])
 

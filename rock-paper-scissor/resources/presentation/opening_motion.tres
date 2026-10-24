@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="OpeningMotion" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/resources/opening_motion.gd" id="1"]
+[resource]
+script = ExtResource("1")
+fly_seconds = 0.4
+hold_seconds = 0.6
+travel_pixels = 36.0
+

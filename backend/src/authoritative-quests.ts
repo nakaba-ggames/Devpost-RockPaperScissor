@@ -46,7 +46,10 @@ async function weekly(ownerPlayerId: string, now: Date, session: ClientSession) 
 export async function currentQuests(ownerPlayerId: string, now: Date, session: ClientSession): Promise<QuestOwner> {
   const { questOwners, questInstances } = await settlementCollections();
   const periods = questPeriods(now);
-  let owner = await questOwners.findOne({ ownerPlayerId }, { session });
+  // Read the current owner while taking the same serialization write. Keeping
+  // these in one command avoids a separate network round trip before expiry.
+  let owner = await questOwners.findOneAndUpdate({ ownerPlayerId },
+    { $inc: { revision: 1 } }, { session, returnDocument: 'after' });
   if (!owner) {
     const created: QuestOwner = {
       ownerPlayerId, revision: 1, dayStart: periods.dayStart, weekStart: periods.weekStart,
@@ -56,25 +59,28 @@ export async function currentQuests(ownerPlayerId: string, now: Date, session: C
     await questOwners.insertOne(created, { session });
     return created;
   }
-  await questOwners.updateOne({ ownerPlayerId }, { $inc: { revision: 1 } }, { session });
   if (now < owner.dayStart || now < owner.weekStart) {
     throw new ApiError(503, 'CLOCK_MOVED_BACKWARD', 'Quest authority cannot move backwards for an existing owner.');
   }
   await questInstances.updateMany({ ownerPlayerId, status: { $in: ['active', 'completed'] }, expiresAt: { $lte: now } },
     { $set: { status: 'expired', expiredAt: now } }, { session });
-  if (+owner.dayStart !== +periods.dayStart) {
+  const newDay = +owner.dayStart !== +periods.dayStart;
+  const newWeek = +owner.weekStart !== +periods.weekStart;
+  if (newDay) {
     owner.dayStart = periods.dayStart;
     owner.dailySequence = 0;
     owner.dailyInstanceId = await daily(ownerPlayerId, 0, now, session);
   }
-  if (+owner.weekStart !== +periods.weekStart) {
+  if (newWeek) {
     owner.weekStart = periods.weekStart;
     owner.weeklyInstanceIds = await weekly(ownerPlayerId, now, session);
   }
-  await questOwners.updateOne({ ownerPlayerId }, { $set: {
-    dayStart: owner.dayStart, weekStart: owner.weekStart, dailySequence: owner.dailySequence,
-    dailyInstanceId: owner.dailyInstanceId, weeklyInstanceIds: owner.weeklyInstanceIds
-  } }, { session });
+  if (newDay || newWeek) {
+    await questOwners.updateOne({ ownerPlayerId }, { $set: {
+      dayStart: owner.dayStart, weekStart: owner.weekStart, dailySequence: owner.dailySequence,
+      dailyInstanceId: owner.dailyInstanceId, weeklyInstanceIds: owner.weeklyInstanceIds
+    } }, { session });
+  }
   return owner;
 }
 
@@ -110,11 +116,11 @@ export async function contributeQuests(ownerPlayerId: string, capturedIds: strin
   }
 }
 
-export async function payMenuRewards(ownerPlayerId: string, requestId: string, now: Date, session: ClientSession) {
-  await currentQuests(ownerPlayerId, now, session); // Expiry always precedes payment.
+async function payMenuRewards(ownerPlayerId: string, requestId: string, now: Date, session: ClientSession) {
+  const owner = await currentQuests(ownerPlayerId, now, session); // Expiry always precedes payment.
   const { menuEntries, questInstances, questGrants } = await settlementCollections();
   const { players } = await collections();
-  if (await menuEntries.findOne({ ownerPlayerId, requestId }, { session })) return;
+  if (await menuEntries.findOne({ ownerPlayerId, requestId }, { session })) return owner;
   await menuEntries.insertOne({ ownerPlayerId, requestId, enteredAt: now }, { session });
   const payable = await questInstances.find({ ownerPlayerId, status: 'completed', expiresAt: { $gt: now } }, { session }).toArray();
   let points = 0;
@@ -128,10 +134,21 @@ export async function payMenuRewards(ownerPlayerId: string, requestId: string, n
   }
   if (points > 0) await players.updateOne({ playerId: ownerPlayerId },
     { $inc: { overallPoints: points, revision: 1 }, $set: { updatedAt: now } }, { session });
+  return owner;
+}
+
+// Owner is reused only within this transaction and this exact server time.
+// Payment changes statuses/points, so the view still reads those fresh below.
+export async function menuEntryView(ownerPlayerId: string, requestId: string, now: Date, session: ClientSession) {
+  const owner = await payMenuRewards(ownerPlayerId, requestId, now, session);
+  return readQuestView(ownerPlayerId, owner, now, session, requestId);
 }
 
 export async function questView(ownerPlayerId: string, now: Date, session: ClientSession, requestId?: string, historyBefore?: number) {
-  const owner = await currentQuests(ownerPlayerId, now, session);
+  return readQuestView(ownerPlayerId, await currentQuests(ownerPlayerId, now, session), now, session, requestId, historyBefore);
+}
+
+async function readQuestView(ownerPlayerId: string, owner: QuestOwner, now: Date, session: ClientSession, requestId?: string, historyBefore?: number) {
   const { questInstances, questGrants } = await settlementCollections();
   const { players } = await collections();
   const player = await players.findOne({ playerId: ownerPlayerId }, { session });

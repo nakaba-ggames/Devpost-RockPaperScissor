@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "godot-rps": {
+      "command": "/Users/karinauval/.nvm/versions/node/v24.15.0/bin/node",
+      "args": [
+        "/Users/karinauval/.local/share/godot-mcp-toolkit-bridge/node_modules/@npgamedev/godot-mcp-server/dist/index.js"
+      ],
+      "cwd": "/Users/karinauval/Godot-Projects/Devpost-MadeWIthAI-Jam/Devpost-RockPaperScissor/rock-paper-scissor",
+      "env": {
+        "GODOT_MCP_CONFIG_VERSION": "1",
+        "GODOT_MCP_PROJECT_PATH": "/Users/karinauval/Godot-Projects/Devpost-MadeWIthAI-Jam/Devpost-RockPaperScissor/rock-paper-scissor",
+        "PATH": "/Users/karinauval/.nvm/versions/node/v24.15.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    }
+  }
+}

@@ -88,7 +88,7 @@ func apply_acknowledged_result(submission: Dictionary, receipt: Dictionary) -> b
 		return false
 	if receipt.get("persisted", true) or receipt.get("serverAcknowledged", true) or receipt.get("persistentCreditAllowed", true):
 		return false
-	if not preload("res://scripts/results/receipt_gate.gd").matches(submission, receipt):
+	if not preload("res://scripts/development/presentation_receipt.gd").matches(submission, receipt):
 		return false
 	if credited_results.has(submission.resultId):
 		return false

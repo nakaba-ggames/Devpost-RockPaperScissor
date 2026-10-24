@@ -5,7 +5,7 @@ import { badRequest } from './errors.js';
 import { identifier, requireSettlementConfiguration } from './settlement-rules.js';
 import { requireSettlementIndexes, settlementTransaction } from './settlement-store.js';
 import { matchSettlement } from './match-settlement.js';
-import { payMenuRewards, questView } from './authoritative-quests.js';
+import { menuEntryView, questView } from './authoritative-quests.js';
 import { serverClock, type ServerClock } from './server-time.js';
 
 interface M11Options {
@@ -83,8 +83,7 @@ export function createM11Handlers(options: M11Options = {}) {
       await ready();
       return { body: await settlementTransaction(async session => {
         const now = clock();
-        await payMenuRewards(caller.playerId, requestId, now, session);
-        return questView(caller.playerId, now, session, requestId);
+        return menuEntryView(caller.playerId, requestId, now, session);
       }) };
     }),
     quests: route('GET', async (req, url) => {

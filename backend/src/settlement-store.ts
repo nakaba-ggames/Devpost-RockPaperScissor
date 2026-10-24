@@ -2,6 +2,7 @@ import { MongoServerError, type ClientSession } from 'mongodb';
 import { collectionName, database, mongoClient } from './db.js';
 import type { HistoryChunk } from './history-upload.js';
 import type { MenuEntry, QuestContribution, QuestGrant, QuestInstance, QuestOwner, RegisteredMatch } from './settlement-model.js';
+import { timed } from './request-timing.js';
 
 export async function settlementCollections() {
   const db = await database();
@@ -39,7 +40,7 @@ export async function setupSettlementIndexes() {
 let indexesChecked: Promise<void> | undefined;
 export function requireSettlementIndexes() {
   if (!indexesChecked) {
-    indexesChecked = checkIndexes().catch(error => { indexesChecked = undefined; throw error; });
+    indexesChecked = timed('indexes', checkIndexes).catch(error => { indexesChecked = undefined; throw error; });
   }
   return indexesChecked;
 }
@@ -70,10 +71,10 @@ export async function settlementTransaction<T>(work: (session: ClientSession) =>
   for (let attempt = 0; ; attempt++) {
     const session = client.startSession();
     try {
-      return await session.withTransaction(() => work(session), {
+      return await timed('transaction', () => session.withTransaction(() => work(session), {
         readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' },
         readPreference: 'primary', maxCommitTimeMS: 10_000, timeoutMS: 15_000
-      });
+      }));
     } catch (error) {
       // A competing first registration/quest-owner insert can lose a unique
       // index race. Read the winning document in a new transaction/snapshot.

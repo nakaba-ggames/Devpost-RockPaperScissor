@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """Inspect a local release directory without displaying SDK configuration values."""
 from pathlib import Path
+import argparse
 import hashlib
 import json
 import re
 import struct
 
 root = Path(__file__).resolve().parents[1]
-pack = root.parent / 'backend/public/m12/index.pck'
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--pack', type=Path, default=root.parent / 'backend/public/m12/index.pck')
+parser.add_argument('--manifest', type=Path, default=root / 'docs/reports/M12_PackManifest.txt')
+args = parser.parse_args()
+pack = args.pack
 data = pack.read_bytes()
 magic, version = struct.unpack_from('<II', data)
 if magic != 0x43504447 or version != 4:
@@ -46,5 +51,5 @@ summary = {'entries': count, 'bytes': len(data), 'sha256': hashlib.sha256(data).
 print(json.dumps(summary, indent=2))
 if unwanted or missing or assertions:
     raise SystemExit('Release package needs repair.')
-manifest = root / 'docs/reports/M12_PackManifest.txt'
+manifest = args.manifest
 manifest.write_text('\n'.join(paths) + '\n' + json.dumps(summary, indent=2) + '\n')
