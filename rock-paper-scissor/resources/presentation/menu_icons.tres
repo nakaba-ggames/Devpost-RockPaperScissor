@@ -7,10 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dedeynsbe3r74" path="res://Graphics/PresentationIcons/NavRecords.png" id="4_wp8lx"]
 [ext_resource type="Texture2D" uid="uid://fifq1msnk05h" path="res://Graphics/PresentationIcons/NavStats.png" id="6_ljmgj"]
 [ext_resource type="Texture2D" uid="uid://dv5giuqjggfe4" path="res://Graphics/PresentationIcons/MenuTrophy.png" id="7_l7iyl"]
-
-[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/ResultWinIcon.png" id="result_win"]
-[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/ResultDrawIcon.png" id="result_draw"]
-[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/ResultLossIcon.png" id="result_loss"]
+[ext_resource type="Texture2D" uid="uid://cv4h35354rvx5" path="res://Graphics/PresentationIcons/ResultDrawIcon.png" id="result_draw"]
+[ext_resource type="Texture2D" uid="uid://by4lqv4cfe1ar" path="res://Graphics/PresentationIcons/ResultLossIcon.png" id="result_loss"]
+[ext_resource type="Texture2D" uid="uid://c2dk1ss8v1cou" path="res://Graphics/PresentationIcons/ResultWinIcon.png" id="result_win"]
 
 [resource]
 script = ExtResource("1")

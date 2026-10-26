@@ -10,6 +10,7 @@ signal presentation_requested
 
 const LOADING_SPINNER = preload("res://Graphics/PresentationIcons/LoadingSpinner.png")
 const SOUND_CONFIG = preload("res://resources/presentation/ui_sound_config.tres")
+const NAME_FILTER = preload("res://resources/presentation/username_filter.tres")
 
 @export var motion: MenuMotion
 @onready var entry: VBoxContainer = %Entry
@@ -31,6 +32,7 @@ var can_continue: bool = false
 var changing_screen: bool = false
 var menu_homes: Dictionary = {}
 var menu_spinner: TextureRect
+var name_warning: Label
 
 func _ready() -> void:
 	menu_spinner = TextureRect.new()
@@ -52,7 +54,20 @@ func _ready() -> void:
 	get_tree().node_added.connect(_pixel_node_added)
 	%SearchScenario.hide()
 	%ArenaCondition.hide()
+	name_warning = Label.new()
+	name_warning.name = "NameValidationWarning"
+	name_warning.text = NAME_FILTER.warning_text
+	name_warning.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_warning.add_theme_color_override("font_color", NAME_FILTER.invalid_color)
+	name_warning.add_theme_font_size_override("font_size", NAME_FILTER.warning_font_size)
+	name_warning.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	name_box.add_child(name_warning)
+	name_box.move_child(name_warning, %SaveName.get_index() + 1)
+	name_warning.hide()
 	%SaveName.pressed.connect(_save_name)
+	name_input.text_changed.connect(_clear_name_warning)
+	_clear_name_warning()
 	name_input.text_submitted.connect(_name_submitted)
 	continue_button.pressed.connect(_request_continue)
 	%RetryEntry.pressed.connect(func(): retry_entry_requested.emit())
@@ -148,7 +163,17 @@ func _request_continue() -> void:
 		continue_requested.emit()
 
 func _save_name() -> void:
+	if NAME_FILTER.blocks(name_input.text):
+		name_input.add_theme_color_override("font_color", NAME_FILTER.invalid_color)
+		name_input.add_theme_color_override("font_selected_color", NAME_FILTER.invalid_color)
+		name_warning.show()
+		return
 	name_requested.emit(name_input.text)
+
+func _clear_name_warning(_text: String = "") -> void:
+	name_input.add_theme_color_override("font_color", NAME_FILTER.normal_color)
+	name_input.add_theme_color_override("font_selected_color", NAME_FILTER.normal_color)
+	name_warning.hide()
 
 func _name_submitted(_text: String) -> void:
 	_save_name()
@@ -184,6 +209,7 @@ func show_continue(display_name: String) -> void:
 		title_intro.set_live_entry_state("", true)
 
 func show_name_prompt() -> void:
+	_clear_name_warning()
 	show_pending("Choose a display name (1–24 characters)")
 	name_box.show()
 	name_input.grab_focus()

@@ -19,6 +19,8 @@ var arena_condition: int = 0
 ## Refreshed from the authenticated menu profile before every live search.
 var completed_matches: int = -1
 var first_play: bool = false
+## Frozen by backend registration, never inferred from a local preview flag.
+var intro_bot_match: bool = false
 var fallback_wait_seconds: float = 0.0
 var search_started_msec: int = 0
 var pending_lobby: String = ""
@@ -55,6 +57,7 @@ func _ready() -> void:
 func begin(player: MatchParticipant) -> int:
 	if closing or pending_context != null:
 		return 0
+	intro_bot_match = false
 	var token := super.begin(player)
 	if token == 0:
 		return 0
@@ -141,6 +144,7 @@ func _fallback_after(token: int) -> void:
 	if bot_personality == null or registration.get("botPersonalityId") != bot_personality.profile_id:
 		failed.emit(token, "The assigned opponent policy is unavailable.")
 		return
+	intro_bot_match = registration.get("botBehavior", "standard") == "intro_loss"
 	var context := _new_context(local_player, bot, token, registration.matchId)
 	context.transport = "gdsync_fallback"
 	reservation = context

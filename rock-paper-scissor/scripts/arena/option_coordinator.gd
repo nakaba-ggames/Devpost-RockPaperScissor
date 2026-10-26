@@ -243,9 +243,9 @@ func accept_final(actor_id: String, choice: String) -> bool:
 	decision_accepted.emit(actor_id, revised)
 	return true
 
-func _record_final_event(actor_history: InitialChoiceHistory, kind: String, revised: bool) -> void:
+func _record_final_event(actor_history: InitialChoiceHistory, kind: String, revised: bool, accepted_msec: int = -1) -> void:
 	sequence += 1
-	var event_time := elapsed_msec()
+	var event_time := elapsed_msec() if accepted_msec < 0 else accepted_msec
 	if kind == "default":
 		event_time = history.final_timing.locked
 	var event := {"matchId": context.match_id, "phase": "final_choice", "actorId": actor_history.actor_id, "sequence": sequence, "revision": actor_history.final_state.events.size(), "kind": kind, "revised": revised, "elapsedMsec": event_time, "phaseElapsedMsec": event_time - int(history.final_timing.started), "payload": {"finalCard": actor_history.final_card}}

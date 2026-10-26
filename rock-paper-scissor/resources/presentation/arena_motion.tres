@@ -22,10 +22,3 @@ bubble_seconds = 0.25
 chat_seconds = 0.14
 submission_pulse_scale = 1.16
 submission_pulse_seconds = 0.14
-
-previous_choice_position = Vector2(211, 600)
-previous_choice_scale = 0.5
-previous_choice_caption = "PREVIOUSLY"
-previous_choice_caption_y = -52.0
-previous_choice_caption_font_size = 24
-previous_choice_flip_seconds = 4.0

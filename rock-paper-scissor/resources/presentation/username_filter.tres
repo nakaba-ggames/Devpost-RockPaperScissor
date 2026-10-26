@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/resources/username_filter.gd" id="1"]
+[resource]
+script = ExtResource("1")
+banned_words = PackedStringArray("fuck", "fucking", "fucked", "fucker", "motherfucker", "fuckyou", "fuckoff", "fuckface", "fuckhead", "fuckwit", "shit", "shitty", "shithead", "bullshit", "horseshit", "dipshit", "batshit", "asshole", "assholes", "arse", "arsehole", "ass", "asswipe", "assface", "bastard", "bastards", "bitch", "bitches", "bitchy", "sonofabitch", "cunt", "cunts", "twat", "twats", "dick", "dicks", "dickhead", "dickface", "cock", "cocks", "cocksucker", "cocksuckers", "prick", "pricks", "penis", "vagina", "pussy", "pussies", "tits", "titties", "boob", "boobs", "blowjob", "handjob", "rimjob", "wank", "wanker", "wankers", "jerkoff", "jackoff", "jizz", "cum", "cumshot", "semen", "sperm", "dildo", "dildos", "anal", "anus", "porn", "porno", "pornography", "hentai", "sex", "sexy", "sexting", "slut", "sluts", "whore", "whores", "skank", "skanks", "hooker", "hookers", "rape", "rapist", "pedophile", "paedophile", "pedo", "incest", "bestiality", "zoophilia", "necrophilia", "nigger", "nigga", "faggot", "fag", "kike", "spic", "chink")
+warning_text = "Please choose a different name."
+invalid_color = Color(0.937, 0.392, 0.392, 1)
+normal_color = Color(1, 1, 1, 1)
+warning_font_size = 20

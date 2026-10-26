@@ -30,7 +30,7 @@ func _initialize() -> void:
 		source_files[definition.resource_path.trim_prefix("res://")] = FileAccess.get_sha256(definition.resource_path)
 	var configuration := {
 		"rules": _fields(rules, rule_fields),
-		"release": _fields(release, ["collection_prefix", "fallback_seed_key", "fallback_personality_id"]),
+		"release": _fields(release, ["collection_prefix", "fallback_seed_key", "fallback_personality_id", "intro_bot_names", "regular_bot_names"]),
 		"bot": _fields(personality, ["profile_id", "development_fixture", "identity_lie_chance", "intention_lie_chance", "switch_chance", "revision_chance"]),
 		"quests": {
 			"revision": quests.get("revision"), "development_only": quests.get("development_only"),

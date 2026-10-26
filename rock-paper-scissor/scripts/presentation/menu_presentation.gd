@@ -16,6 +16,16 @@ func _ready() -> void:
 	%Quests.icon = icons.quests
 	$Trophy.texture = icons.trophy
 	$QuestCrown.texture = icons.crown
+	# Center text against its visible panel/track, rather than stale label bounds.
+	var quest_panel: Control = $QuestPanel
+	var quest_track: Control = $QuestProgress
+	var inset := quest_track.position.x - quest_panel.position.x
+	%DailyQuest.position.x = quest_panel.position.x + inset
+	%DailyQuest.size.x = quest_panel.size.x - 2.0 * inset
+	%DailyQuest.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$QuestCounter.position.x = quest_track.position.x
+	$QuestCounter.size.x = quest_track.size.x
+	$QuestCounter.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	empty_recent_texture = $Recent.get_child(0).get_node("Disc").texture
 	_clear_recent()
 

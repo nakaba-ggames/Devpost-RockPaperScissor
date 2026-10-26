@@ -121,6 +121,8 @@ func _try_start(next_phase: String) -> void:
 	else:
 		super.start_claim(next_phase)
 	starting = false
+	if phase == "final_choice":
+		_sync_intro_bot_final(elapsed_msec())
 	_publish()
 	print("M09 host phase=%s deadline=%d epoch=match-elapsed" % [phase, deadline_msec])
 
@@ -165,8 +167,32 @@ func _accept(actor: String, value: String, revision: int) -> bool:
 		print("M09 accepted phase=%s actor=%s revision=%d" % [phase, actor, revision])
 		var own := history.actor(actor)
 		var event: Dictionary = own.events.back()
+		if phase == "final_choice" and actor == context.local_player.player_id:
+			_sync_intro_bot_final(int(event.elapsedMsec))
 		_publish({"actorId": actor, "revised": event.revised})
 	return accepted
+
+func _sync_intro_bot_final(accepted_msec: int) -> void:
+	if phase != "final_choice" or not transport.authority() or transport.get("intro_bot_match") != true or context.opponent.control_kind != "fallback_bot":
+		return
+	var human := history.actor(context.local_player.player_id)
+	var bot := history.actor(context.opponent.player_id)
+	# An untouched human final defaults to starting_order[0] in _lock_final.
+	var human_card: String = human.final_card if not human.final_card.is_empty() else human.starting_order[0]
+	var losing_card: String = {"Rock": "Scissor", "Paper": "Rock", "Scissor": "Paper"}[human_card]
+	if bot.final_card == losing_card:
+		return
+	var revised := not bot.final_card.is_empty()
+	bot.final_card = losing_card
+	# One atomic policy response to an already accepted human decision. Sharing
+	# its acceptance time avoids a second clock check rejecting a last-ms choice.
+	# This remains a real choice event; ordinary resolution and backend scoring apply.
+	_record_final_event(bot, "decision", revised, accepted_msec)
+	var key := "final_choice:" + bot.actor_id
+	var revision: int = int(local_revision.get(key, 0)) + 1
+	local_revision[key] = revision
+	accepted_revisions[key] = revision
+	decision_accepted.emit(bot.actor_id, revised)
 
 func _lock() -> void:
 	super._lock()

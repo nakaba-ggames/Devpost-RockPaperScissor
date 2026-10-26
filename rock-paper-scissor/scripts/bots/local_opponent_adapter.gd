@@ -24,6 +24,10 @@ func _process(_delta: float) -> void:
 	if coordinator.context.session != null:
 		if not coordinator.context.session.authority() or not coordinator.context.opponent.control_kind in ["fallback_bot", "development_bot", "takeover_bot"]:
 			return
+	# Introductory final responses belong to the live coordinator; regular policy
+	# stays own-only and cannot overwrite the guaranteed losing response.
+	if coordinator.phase == "final_choice" and coordinator.context.opponent.control_kind == "fallback_bot" and coordinator.context.session != null and coordinator.context.session.get("intro_bot_match") == true:
+		return
 	if observed_phase != coordinator.phase:
 		observed_phase = coordinator.phase
 		schedule = policy.schedule()

@@ -12,4 +12,4 @@ if (revision !== `sha256:${digest}` || payload.schemaVersion !== 1) {
 export const rulesRevision: string = revision;
 export const backendConfiguration = payload.configuration;
 
-export const releaseConfiguration = payload.configuration.release as { collection_prefix: string; fallback_seed_key: string; fallback_personality_id: string };
+export const releaseConfiguration = payload.configuration.release as { collection_prefix: string; fallback_seed_key: string; fallback_personality_id: string; intro_bot_names?: string[]; regular_bot_names?: string[] };

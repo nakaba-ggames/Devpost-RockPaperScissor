@@ -70,6 +70,7 @@ export interface RegisteredMatch {
   matchNonce: string;
   creatorPlayerId: string;
   registrationDigest: string;
+  botBehavior?: 'intro_loss' | 'standard';
   expectedPeerPlayerId: string | null;
   rulesRevision: string;
   bindings: Binding[];

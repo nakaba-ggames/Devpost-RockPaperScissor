@@ -1,18 +1,9 @@
-[gd_resource type="Resource" script_class="MatchmakingSettings" load_steps=2 format=3]
-[ext_resource type="Script" path="res://scripts/resources/matchmaking_settings.gd" id="1"]
+[gd_resource type="Resource" script_class="MatchmakingSettings" format=3 uid="uid://cqiwyx74q1xae"]
+
+[ext_resource type="Script" uid="uid://55uwufxxw17p" path="res://scripts/resources/matchmaking_settings.gd" id="1"]
+
 [resource]
 script = ExtResource("1")
-first_bot_seconds = 5.0
-fallback_min_seconds = 15.0
-fallback_max_seconds = 15.0
 rating_policy_configured = true
-allowed_rating_gap = -1
-maximum_rating_gap = -1
-widening_points_per_second = -1.0
-restrict_rating_gap = false
 bot_selection_configured = true
-handshake_timeout_seconds = 30.0
-handshake_retry_seconds = 1.0
-cancellation_timeout_seconds = 10.0
-clock_sync_seconds = 2.0
 queue_tag = "devils-rps-m12-v1"

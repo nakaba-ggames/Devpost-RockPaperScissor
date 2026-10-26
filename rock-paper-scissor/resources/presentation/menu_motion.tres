@@ -11,5 +11,3 @@ transition = 2
 menu_enter_seconds = 0.22
 menu_exit_seconds = 0.16
 menu_transition = 3.0
-loading_spinner_size = 48.0
-loading_spinner_seconds = 1.4

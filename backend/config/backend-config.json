@@ -1,5 +1,5 @@
 {
-  "revision": "sha256:12276ec41b7eb7894a2423e7721475ddbc225def4bf99c6459caaddd7e27787c",
+  "revision": "sha256:152969fdd776898b4428e922ee94fd5d3d92dae0e608cdc24ef0b57e49081e52",
   "configuration": {
     "bot": {
       "development_fixture": false,
@@ -62,7 +62,31 @@
     "release": {
       "collection_prefix": "m12_",
       "fallback_personality_id": "ember-v1",
-      "fallback_seed_key": "m12-ember-v1"
+      "fallback_seed_key": "m12-ember-v1",
+      "intro_bot_names": [
+        "Sunny",
+        "Pip",
+        "Clover",
+        "Mochi",
+        "Bubbles",
+        "Peaches",
+        "Button",
+        "Sprout",
+        "Chirpy",
+        "Pudding"
+      ],
+      "regular_bot_names": [
+        "Ash",
+        "Cinder",
+        "Nova",
+        "Blaze",
+        "Raven",
+        "Vex",
+        "Onyx",
+        "Flint",
+        "Nyx",
+        "Rook"
+      ]
     },
     "rules": {
       "angel_draw_bonus": 7,
@@ -86,7 +110,7 @@
   "schemaVersion": 1,
   "sourceFiles": {
     "resources/arena/option_rules.tres": "1e79994d2da8cb06001ba4c296a43d2887e5c9e9d1c6224cddf9f2cdba10260f",
-    "resources/backend/release_settings.tres": "25c1c34265034c247a29a24035e9fe80aebde35c5fb9a61d14497a7169d3ae80",
+    "resources/backend/release_settings.tres": "fd3fc41a30ba5c2e82bb7c78ce85c4128084d5255ecaf680fa7a0887abd16ce3",
     "resources/bots/ember_personality.tres": "583936894043559b1aedd164edc97d36ea249557b0ce4f8c7120b39e119fc28b",
     "resources/quests/release_catalogue.tres": "50c242c0b43d22b663179ba9258dc5a6705087fa840d5ccf00a1c37ba501db95",
     "resources/quests/scissors.tres": "9e3bc7760ad6bc01cda9b6dba811b052ac707b83faed5fef5e81d5d0568e2926",
@@ -97,7 +121,7 @@
     "scripts/quests/quest_catalogue.gd": "fcf5a2bbff6b85ecb60eab42f51715a43394bf37897cdbc12013af14d2771816",
     "scripts/quests/quest_definition.gd": "26308b7d637e9c692ceabc268d3f16be524a9c6de07d6420afb6df5c3976efa6",
     "scripts/resources/arena_rules.gd": "f42a3e077fe3f8f16e21917cada44eb7d55aa49f2c70dd8bef277fc31e887c27",
-    "scripts/resources/backend_release_settings.gd": "43e9cd0cfdbc271353d376d7ca197d204d7bb4acf80bbe883ffd0be52b6f6242",
+    "scripts/resources/backend_release_settings.gd": "f6d1b3382b47ffee13941399caf5ec51db8cdeb888346872868fbd1221ae7f51",
     "scripts/resources/bot_personality.gd": "6a1fc682ccae0b9eed255070ccd9b5cf7d04974db685a1958214e37f082aec07"
   }
 }

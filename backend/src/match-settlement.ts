@@ -1,11 +1,12 @@
+import { botRoster } from './bot-roster.js';
 import { validateUploadedHistory } from './history-upload.js';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, randomInt } from 'node:crypto';
 import type { ClientSession } from 'mongodb';
 import { rulesRevision, releaseConfiguration } from './config.js';
 import { collections } from './db.js';
 import { ApiError, badRequest } from './errors.js';
 import { onlyKeys } from './http.js';
-import { publicProfile, type Player } from './model.js';
+import { newBot, publicProfile, type Player } from './model.js';
 import type { Binding, Receipt, RegisteredMatch } from './settlement-model.js';
 import { applyCompetitiveResult, calculateActors, digest, identifier, validateHistory, settlementConfiguration } from './settlement-rules.js';
 import { settlementCollections, settlementTransaction } from './settlement-store.js';
@@ -30,6 +31,7 @@ async function registrationView(match: RegisteredMatch, viewerPlayerId: string, 
   return {
     matchId: match.matchId, status: match.status, rulesRevision: match.rulesRevision,
     botPersonalityId,
+    botBehavior: opponent?.controlKind === 'fallback_bot' ? (match.botBehavior ?? 'standard') : null,
     opponentPublicProfile,
     participantBindings: match.bindings.map(binding => ({ playerId: binding.playerId, displayName: binding.displayName, boundAt: binding.boundAt }))
   };
@@ -83,8 +85,17 @@ export function matchSettlement(clock: ServerClock, allowExerciseEmber: boolean)
           let seedKey = releaseConfiguration?.fallback_seed_key;
           if (!seedKey && allowExerciseEmber) seedKey = 'm10-ember-v1';
           if (!seedKey) throw new ApiError(503, 'BOT_SELECTION_UNCONFIGURED', 'Fallback selection requires creator agreement.');
+          const intro = human.completedMatches === 0;
+          const roster = botRoster(intro);
+          const selected = roster.length ? roster[randomInt(roster.length)] : undefined;
+          if (selected) {
+            seedKey = selected.seedKey;
+            await players.updateOne({ botSeedKey: seedKey },
+              { $setOnInsert: newBot(randomUUID(), selected.displayName, seedKey) }, { upsert: true, session });
+          }
           const bot = await players.findOne({ kind: 'bot', botSeedKey: seedKey }, { session });
-          if (!bot?.displayName) throw new ApiError(503, 'BOT_PROFILE_UNAVAILABLE', 'Approved fallback profile is unavailable.');
+          if (!bot?.displayName || Object.hasOwn(bot, 'credentialHash')) throw new ApiError(503, 'BOT_PROFILE_UNAVAILABLE', 'Approved fallback profile is unavailable.');
+          match.botBehavior = intro ? 'intro_loss' : 'standard';
           match.bindings.push({ playerId: bot.playerId, displayName: bot.displayName, controlKind: 'fallback_bot', questInstanceIds: [], boundAt: now });
           match.status = 'ready';
         }
