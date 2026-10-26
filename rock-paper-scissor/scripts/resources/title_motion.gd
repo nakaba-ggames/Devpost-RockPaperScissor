@@ -32,7 +32,6 @@ extends Resource
 @export var exit_transition: Tween.TransitionType = Tween.TRANS_BACK
 @export var exit_ease: Tween.EaseType = Tween.EASE_IN
 
-@export_group("Web entry and recovery")
-@export var web_start_copy: String = "TAP TO START"
+@export_group("Connection recovery")
 @export var retry_button_size: Vector2 = Vector2(260, 56)
 @export var retry_bottom_margin: float = 70.0

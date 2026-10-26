@@ -11,6 +11,5 @@ devil_seconds = 0.34
 spinner_fade_seconds = 0.12
 center_seconds = 0.22
 exit_seconds = 0.28
-web_start_copy = "TAP TO START"
 retry_button_size = Vector2(260, 56)
 retry_bottom_margin = 70.0

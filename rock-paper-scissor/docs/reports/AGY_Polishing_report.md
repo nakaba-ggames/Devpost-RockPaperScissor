@@ -13,6 +13,12 @@ Status: **closed by explicit creator acceptance, 2026-10-26**. The creator says 
 
 ---
 
+## Creator removal of initial Tap to Start — untested, 2026-10-26
+
+- Explicit creator correction: remove the extra initial “Tap to Start” and rebuild. Removed its title input gate, signal, state and copy Resource field. Live web now automatically starts the title and real backend/GD-Sync connection, matching native startup. Existing end-of-title “TAP ANYWHERE TO CONTINUE”, bottom-center Retry fix, live-label cleanup and all prior UI changes are preserved. Earlier mobile-entry section's tap-gate description is superseded by this correction.
+- Intended source changes: `scripts/networking/connection_requirement.gd`, `scripts/presentation/title_intro_sequence.gd`, `scripts/resources/title_motion.gd`, `resources/presentation/title_motion.tres`. No scene edits/saves. No tests or gameplay/browser/mobile/hosted run, no commits or deployment.
+- Local export completed (exit 0) only at sibling `builds/index.html`; PCK 7516536 bytes, SHA-256 `9dc5503eeb200bebd0a322b6d3b9eb5a2e4c8723f2f832caa55d3093a4561f5a`. Known GD-Sync editor shutdown diagnostic retained in `/tmp/rps-remove-start-gate-20261026/export.log`. Protected hashes unchanged: `scenes/main.tscn` = `2176ffadcf4a4b867f46a12fc2d0fee1cd34a5c0a11907d03f771b7e2a5baa9b`, `scenes/development/presentation.tscn` = `2145d9239408df39f3be715f9c6c186ebbb6174609d9cb6fd4e2f9db70784d25`, `scenes/ui/game_ui.tscn` = `12dcbcd386b04fc59445f9d121a5d057f5fbcc6907efaa2a9b5968832c872ccd`.
+
 ## Live development-label cleanup — untested, 2026-10-26
 
 - Creator requested removal of “GD-Sync Connected” and remaining development labels, plus a local export, explicitly without tests. `GameUI` now hides and empties the live connection-status label so later screen transitions cannot reveal its diagnostic text. Connection failure/loss messages in the title/entry use plain player-facing recovery copy without SDK names/configuration codes. Retry visibility and existing SDK status handling remain intact.

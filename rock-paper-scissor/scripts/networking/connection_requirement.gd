@@ -26,11 +26,8 @@ func start(view: GameUI) -> void:
 		ui.get_node(button_name).z_index = ui.title_intro.z_index + 1
 	_place_connection_retry()
 	ui.connection_status(service.status_text)
-	if OS.has_feature("web"):
-		ui.title_intro.web_start_requested.connect(_start_services, CONNECT_ONE_SHOT)
 	ui.play_title_intro(true)
-	if not OS.has_feature("web"):
-		_start_services()
+	_start_services()
 
 func _start_services() -> void:
 	_restart()
