@@ -44,6 +44,11 @@ extends Resource
 @export var grain_frame_rate: float = 12.0
 @export var vignette_strength: float = 0.18
 @export_group("Result cards")
+@export var result_dim_alpha: float = 0.55
+@export var name_gap: float = 12.0
+@export var name_margin: float = 14.0
+@export var name_height: float = 56.0
+@export var name_font_size: int = 20
 @export var local_card_position: Vector2 = Vector2(40, 200)
 @export var opponent_card_position: Vector2 = Vector2(300, 200)
 @export var offscreen_margin: float = 30.0
@@ -89,8 +94,11 @@ extends Resource
 @export var draw_copy: String = "DRAW"
 
 @export_group("Reveal suspense")
-@export var shake_start_beat: int = 4
-@export var shake_start_hz: float = 0.65
-@export var shake_end_hz: float = 5.0
-@export var shake_start_degrees: float = 0.6
-@export var shake_end_degrees: float = 2.5
+@export var shake_start_beat: int = 0
+@export var shake_start_hz: float = 1.8
+@export var shake_end_hz: float = 6.0
+@export var shake_start_degrees: float = 2.0
+@export var shake_end_degrees: float = 5.0
+
+@export var suspense_center_y: float = 385.0
+@export var suspense_card_gap: float = 24.0

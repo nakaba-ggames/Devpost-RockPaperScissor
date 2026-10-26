@@ -34,5 +34,9 @@ extends Resource
 @export var table_position: Vector2 = Vector2(12, -15)
 
 @export_group("Previous choice reminder")
+@export var previous_choice_caption: String = "PREVIOUSLY"
+@export var previous_choice_caption_y: float = -52.0
+@export var previous_choice_caption_font_size: int = 24
+@export var previous_choice_flip_seconds: float = 4.0
 @export var previous_choice_position: Vector2 = Vector2(211, 600)
 @export_range(0.1, 1.0) var previous_choice_scale: float = 0.5

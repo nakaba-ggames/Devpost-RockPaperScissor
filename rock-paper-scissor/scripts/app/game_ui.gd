@@ -8,6 +8,7 @@ signal recreate_requested
 signal retry_connection_requested
 signal presentation_requested
 
+const LOADING_SPINNER = preload("res://Graphics/PresentationIcons/LoadingSpinner.png")
 const SOUND_CONFIG = preload("res://resources/presentation/ui_sound_config.tres")
 
 @export var motion: MenuMotion
@@ -29,8 +30,24 @@ var feedback_tween: Tween
 var can_continue: bool = false
 var changing_screen: bool = false
 var menu_homes: Dictionary = {}
+var menu_spinner: TextureRect
 
 func _ready() -> void:
+	menu_spinner = TextureRect.new()
+	menu_spinner.name = "MenuLoadingSpinner"
+	menu_spinner.texture = LOADING_SPINNER
+	menu_spinner.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	menu_spinner.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	menu_spinner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	menu_spinner.z_index = 30
+	add_child(menu_spinner)
+	menu_spinner.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	menu_spinner.offset_left = -motion.loading_spinner_size / 2.0
+	menu_spinner.offset_top = -motion.loading_spinner_size / 2.0
+	menu_spinner.offset_right = motion.loading_spinner_size / 2.0
+	menu_spinner.offset_bottom = motion.loading_spinner_size / 2.0
+	menu_spinner.pivot_offset = Vector2.ONE * motion.loading_spinner_size / 2.0
+	menu_spinner.hide()
 	_apply_pixel_case(self)
 	get_tree().node_added.connect(_pixel_node_added)
 	%SearchScenario.hide()
@@ -57,6 +74,19 @@ func _ready() -> void:
 	matchmaking.destination.get_node("Reveal").outcome_requested.connect(music.stop_for_result)
 	matchmaking.destination.get_node("Reveal").cinematic_started.connect(music.fade_out)
 	matchmaking.destination.get_node("Reveal").winner_revealed.connect(music.play_menu)
+	matchmaking.destination.get_node("Reveal").winner_revealed.connect(_show_result_background)
+
+func _process(delta: float) -> void:
+	if menu_spinner.visible:
+		menu_spinner.rotation += TAU * delta / maxf(motion.loading_spinner_seconds, 0.01)
+
+func _set_menu_loading(active: bool) -> void:
+	menu_spinner.visible = active
+	%EntryStatus.visible = not active
+
+func _show_result_background() -> void:
+	scrolling_bg.show()
+	scrolling_bg.set_pattern_active(true)
 
 func _play_btn_sfx() -> void:
 	SOUND_CONFIG.play(self, "tab_select")
@@ -124,6 +154,9 @@ func _name_submitted(_text: String) -> void:
 	_save_name()
 
 func show_pending(text: String) -> void:
+	_set_menu_loading(text.begins_with("Opening menu"))
+	if menu_spinner.visible:
+		text = ""
 	if persistent_matches:
 		# Keep recovery guidance while hiding service names and diagnostic codes.
 		if text.begins_with("GD-Sync"):
@@ -140,6 +173,7 @@ func show_pending(text: String) -> void:
 	%EntryStatus.text = text
 
 func show_continue(display_name: String) -> void:
+	_set_menu_loading(false)
 	name_box.hide()
 	%EntryStatus.text = "Ready"
 	if not display_name.is_empty():
@@ -173,6 +207,7 @@ func connection_status(text: String) -> void:
 	%RetryConnection.visible = text.contains("failed") or text.contains("disconnected")
 
 func reset_data_views() -> void:
+	_set_menu_loading(false)
 	for view in [$DetailedStats, $Records, $LeaderboardView, $QuestsView]:
 		view.reset()
 	name_input.clear()
@@ -181,6 +216,7 @@ func reset_data_views() -> void:
 	changing_screen = false
 
 func _menu_ready(profile: PlayerProfile) -> void:
+	_set_menu_loading(false)
 	%Play.disabled = false
 	menu_profile = profile
 	menu.present_profile(profile, provider)
@@ -189,6 +225,8 @@ func _menu_ready(profile: PlayerProfile) -> void:
 
 func _transition_to_menu() -> void:
 	changing_screen = true
+	$Margin/Stack/Brand.hide()
+	$Margin/Stack/Subtitle.hide()
 	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
 	screen_tween.tween_property(entry, "modulate:a", 0.0, motion.fade_seconds)
 	await screen_tween.finished
@@ -197,6 +235,8 @@ func _transition_to_menu() -> void:
 	changing_screen = false
 
 func _animate_menu_entrance() -> void:
+	$Margin/Stack/Brand.hide()
+	$Margin/Stack/Subtitle.hide()
 	music.play_menu()
 	menu.show()
 	menu.modulate.a = 1.0
@@ -324,6 +364,7 @@ func _return_from_search() -> void:
 	await screen_tween.finished
 	matchmaking.hide()
 	%Play.disabled = true
+	_set_menu_loading(true)
 	provider.enter_menu()
 	_arena_chrome(true)
 	await _animate_menu_entrance()
@@ -335,8 +376,8 @@ func _arena_entered(context: MatchContext) -> void:
 	music.play_gameplay()
 
 func _arena_chrome(shown: bool) -> void:
-	$Margin/Stack/Brand.visible = shown and entry.visible
-	$Margin/Stack/Subtitle.visible = shown and entry.visible
+	$Margin/Stack/Brand.visible = shown and entry.visible and not menu.visible
+	$Margin/Stack/Subtitle.visible = shown and entry.visible and not menu.visible
 	$Margin/Stack/FeedbackSpace.visible = shown
 	$Margin/Stack/PreviewNotice.visible = shown and not persistent_matches
 

@@ -1,18 +1,18 @@
 # Devil’s Rock Paper Scissor — Shipping checklist
 
-Updated 2026-10-27 (Asia/Jakarta). No shared-checkout staging/commits, successful push, upload or submission by this session. A license-only commit was prepared in an isolated temporary clone after explicit creator authorization; publishing is blocked by missing GitHub authentication. Creator overrides govern: no video inspection, gameplay checks, exports, implementation, deployment or unauthorized publication.
+Updated 2026-10-27 (Asia/Jakarta). No shared-checkout staging/commits, successful push, upload or submission by the agent. The earlier isolated license-only push failed; the creator subsequently added the license files, and the public LICENSE is now verified. New repository README remains local for review. Creator overrides govern: no video inspection, gameplay checks, exports, implementation, deployment or unauthorized publication.
 
 ## Current status
 
 | Item | Status |
 | --- | --- |
-| Repository | https://github.com/nakaba-ggames/Devpost-RockPaperScissor is now public, verified by GitHub metadata and the signed-out browser. Main is a515314 at inspection. Connector has read-only access; local Git has no authenticated push; available browser still shows Sign in. |
-| Privacy review | Bounded local scan completed; selected credential patterns had no matches. Tracked builds, test evidence and metadata need a publication decision. See [review](../docs/reports/Git_Shipping_Review_2026-10-26.md). |
-| Technical documentation | [Client/source README](../README.md) prepared for review; backend setup already exists, with historical sections clearly distinguished. No project-wide license selected. |
+| Repository | https://github.com/nakaba-ggames/Devpost-RockPaperScissor is public, verified through GitHub and the signed-out browser. Public LICENSE is now readable on main. Current local creator commit is f46dde9; this is not an assertion about every remote branch/history. Connector remains read-only. |
+| Privacy review | Bounded local scan completed; selected credential patterns had no matches. Tracked builds, test evidence and metadata were present in the now-public baseline; cleanup/history changes need creator direction. See [review](../docs/reports/Git_Shipping_Review_2026-10-26.md) for limits. |
+| Technical documentation | New [repository README](../../README.md) prepared for review; [Godot source README](../README.md) links to it. Includes gameplay, source setup, hosting boundaries and current license terms. Local links/formatting checked; nothing committed/pushed by agent. |
 | Demo video | No URL found in inspected shipping records. Await URL and creator confirmation of reviewer access and working-game content. Record as creator-confirmed only; never open/analyze the video. |
 | Submission fields | Signed-in form inspected. Name carried forward; pitch, complete story sections and main-technology answer drafted from approved facts and creator answers in [submission draft](submission-draft.md). Wording review/approval pending. No answers entered/saved online. |
 | Exit survey | Required personal selections captured: Individual; Indonesia; resources None; hit usage limit/paywall; confidence 5; value = saved time, fun, enabled something new. Optional responses unanswered. Creator eligibility declarations and online completion not confirmed. |
-| License URL | Creator explicitly authorizes adding/changing the project license. Standard MIT prepared for original code, copyright 2026 nakaba-ggames, with LICENSING.md preserving third-party terms and excluding artwork/audio/fonts/branding. Ready files in [license-files/](license-files/). Isolated commit 4518fae is not published: push failed for missing GitHub sign-in; browser sign-in requested. No valid public project-license URL yet. |
+| License URL | [Public MIT LICENSE](https://github.com/nakaba-ggames/Devpost-RockPaperScissor/blob/main/LICENSE) verified through GitHub contents API. Copyright 2026 nakaba-ggames; complete standard text. Root LICENSE/LICENSING.md exist in creator commit f46dde9. Scope notes preserve third-party terms and exclude artwork/audio/fonts/branding. Earlier isolated agent commit 4518fae was not pushed. |
 | Submission | Devpost shows an Untitled DRAFT, 1/5 steps done, after creator completed CAPTCHA. No submitted-entry confirmation; no automatic submission. |
 
 ## Readiness reconciliation

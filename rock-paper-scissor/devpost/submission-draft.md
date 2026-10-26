@@ -63,7 +63,7 @@ These go to judges/organizers unless the form marks them as appearing in the gal
 | Did the cost of AI (subscription, tokens, credits) affect what you did? | Yes | No, I never thought about it; It made me cut scope or switch to a cheaper model; I hit a usage limit or paywall; It stopped me from doing something I wanted to do. Multiple choices permitted. |
 | Now, how confident are you that you could plan and build a small, maintainable project with a coding agent? | Yes | Scale 1 (No idea where to start) to 5 (Easily). |
 | If we could fix one thing before the next person tries this, what should it be? | No | Creator's experience only. |
-| URL to your open-source license within your code repository. | Yes | Explicitly requires public repository and complete open-source license file detectable in repository About. License/URL pending. |
+| URL to your open-source license within your code repository. | Yes | Verified public MIT file: https://github.com/nakaba-ggames/Devpost-RockPaperScissor/blob/main/LICENSE. Online entry not performed by agent. |
 | What kind of value did your project create for you? (select all that apply) | Yes | Saved me time; Made or saved me money; Created delight / was just fun; Let me do something I couldn't do before. Appears in gallery. |
 | Tell us more about the value your project provides for you? | No | Creator's experience only. |
 | Explain how your project meets the main technology requirement. | Yes | Draft below based on creator process and approved planning records; awaiting creator review. |
@@ -78,7 +78,7 @@ These go to judges/organizers unless the form marks them as appearing in the gal
 - **Value categories:** “Saved me time”; “Created delight / was just fun”; “Let me do something I couldn't do before.” Explicit creator selections. Do not select the money category.
 - Optional organization name, improvement feedback and value elaboration: no answer supplied; leave blank unless creator chooses to add one.
 - Required personal survey selections are captured locally. Creator eligibility declarations, online completion and wording review remain pending.
-- **License decision, updated 2026-10-27:** after clarification of lasting open-source permissions, creator made the repository public and explicitly authorized adding/changing the license. Standard MIT and scope notes prepared, copyright 2026 nakaba-ggames; publish only the two root license files. Publication remains blocked by GitHub authentication. Do not enter a license URL until the file is actually public, and do not substitute a third-party license URL.
+- **License decision, updated 2026-10-27:** creator authorized the license and subsequently added root LICENSE/LICENSING.md in local commit f46dde9. Public standard MIT LICENSE verified through GitHub contents API, copyright 2026 nakaba-ggames. Use its direct file URL above. Earlier agent push failed; no license was published by the agent.
 
 ### Main technology requirement — proposed answer
 
@@ -88,4 +88,4 @@ The additional-info form also includes required majority-age/eligibility/new-pro
 
 ## Review state
 
-Name carried forward. Pitch, complete story sections and main-technology answer drafted from approved project facts and creator answers; no wording approval yet. Tags proposed. Required personal survey selections captured locally; creator eligibility declarations and online completion not confirmed. Optional answers may remain blank. Public source verified; authorized license files await GitHub authentication/publication; video URL pending. Last observed Devpost entry is an Untitled DRAFT; its preview is not proof of submission. No final wording approval or submission confirmation. User may edit Devpost separately; never overwrite unsaved form contents.
+Name carried forward. Pitch, complete story sections and main-technology answer drafted from approved project facts and creator answers; no wording approval yet. Tags proposed. Required personal survey selections captured locally; creator eligibility declarations and online completion not confirmed. Optional answers may remain blank. Public source and MIT license file verified; video URL pending. Last observed Devpost entry is an Untitled DRAFT; its preview is not proof of submission. No final wording approval or submission confirmation. User may edit Devpost separately; never overwrite unsaved form contents.

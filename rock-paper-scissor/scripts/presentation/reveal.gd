@@ -1,6 +1,6 @@
 extends Control
 ## Reads only an acknowledged frozen envelope. Never settles or credits a result.
-signal card_suspense(angle: float)
+signal card_suspense(angle: float, progress: float)
 signal continue_requested
 signal retreat_requested(seconds: float)
 signal outcome_requested(seconds: float)
@@ -52,7 +52,7 @@ func _process(delta: float) -> void:
 		suspense_frequency = lerpf(tuning.shake_start_hz, tuning.shake_end_hz, progress)
 		suspense_phase += TAU * suspense_frequency * delta
 		var angle := sin(suspense_phase) * deg_to_rad(lerpf(tuning.shake_start_degrees, tuning.shake_end_degrees, progress))
-		card_suspense.emit(angle)
+		card_suspense.emit(angle, progress)
 		if state in ["cards_entering", "outcome"]:
 			for card in [$Outcome/LocalCard, $Outcome/OpponentCard]:
 				var visual: Control = card.get_node("Visual")
@@ -131,7 +131,7 @@ func present(envelope: Dictionary, receipt: Dictionary, actor_id: String) -> voi
 		if index == tuning.shake_start_beat:
 			suspense_active = true
 			suspense_elapsed = 0.0
-			suspense_phase = 0.0
+			suspense_phase = PI / 2.0
 			var remaining_beats := lines.size() - index
 			var remaining_pairs := float(remaining_beats) / 2.0
 			suspense_duration = remaining_beats * (tuning.text_hold_seconds + tuning.fade_seconds * 2.0) + remaining_pairs * tuning.fade_seconds + tuning.fade_seconds + tuning.black_hold_seconds + tuning.card_enter_seconds + tuning.flash_seconds * tuning.flash_peak_fraction
@@ -217,6 +217,7 @@ func _enter_result_cards(_actor_id: String) -> void:
 		card.scale = Vector2.ONE
 		card.modulate = Color.WHITE
 		card.pivot_offset = card.get_node("Visual").size / 2.0
+		_layout_card_caption(card)
 	local.position = tuning.local_card_position
 	opponent.position = tuning.opponent_card_position
 	local.position.x = origin.x - local.get_node("Visual").size.x - tuning.offscreen_margin
@@ -225,6 +226,16 @@ func _enter_result_cards(_actor_id: String) -> void:
 	tween.tween_property(local, "position", tuning.local_card_position, tuning.card_enter_seconds)
 	tween.tween_property(opponent, "position", tuning.opponent_card_position, tuning.card_enter_seconds)
 	await tween.finished
+
+func _layout_card_caption(card: Control) -> void:
+	var visual: Control = card.get_node("Visual")
+	var caption: Label = card.get_node("Caption")
+	caption.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	caption.position = Vector2(visual.position.x - tuning.name_margin, visual.position.y + visual.size.y + tuning.name_gap)
+	caption.size = Vector2(visual.size.x + tuning.name_margin * 2.0, tuning.name_height)
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	caption.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	caption.add_theme_font_size_override("font_size", tuning.name_font_size)
 
 func _flash_result(actor_id: String) -> void:
 	$Flash.show()
@@ -246,12 +257,14 @@ func _show_result(actor_id: String) -> void:
 	var winner_name: String = tuning.draw_name
 	var is_draw: bool = local_result.outcome == "draw"
 	emphasis = create_tween().set_parallel(true).set_trans(tuning.card_transition).set_ease(tuning.card_ease)
+	emphasis.tween_property($Treatment, "modulate:a", tuning.result_dim_alpha, tuning.card_emphasis_seconds)
 	for result in submission.result.actors:
 		var card: Control = $Outcome/OpponentCard
 		if result.actorId == actor_id:
 			card = $Outcome/LocalCard
 		var display_name := _display_name(result.actorId)
 		card.reveal_face(result.finalCard, display_name)
+		_layout_card_caption(card)
 		var scale_value := 1.0
 		var alpha := 1.0
 		if result.outcome == "win":
@@ -368,6 +381,6 @@ func _stop_suspense() -> void:
 	suspense_active = false
 	suspense_elapsed = 0.0
 	suspense_frequency = 0.0
-	card_suspense.emit(0.0)
+	card_suspense.emit(0.0, 0.0)
 	for card in [$Outcome/LocalCard, $Outcome/OpponentCard]:
 		card.get_node("Visual").rotation = 0.0

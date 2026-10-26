@@ -579,7 +579,7 @@ func _phase_change_banner() -> void:
 	await presentation_tween.finished
 	$PhaseEnds.hide()
 
-func _shake_proposed_cards(angle: float) -> void:
+func _shake_proposed_cards(angle: float, progress: float) -> void:
 	if context == null:
 		return
 	for side in ["PlayerCards", "OpponentCards"]:
@@ -587,3 +587,8 @@ func _shake_proposed_cards(angle: float) -> void:
 			var visual: Control = card.get_node("Visual")
 			visual.pivot_offset = visual.size / 2.0
 			visual.rotation = angle
+			if progress > 0.0 and card.is_visible_in_tree():
+				var target_y: float = $Reveal.tuning.suspense_center_y + $Reveal.tuning.suspense_card_gap / 2.0
+				if side == "OpponentCards":
+					target_y = $Reveal.tuning.suspense_center_y - $Reveal.tuning.suspense_card_gap / 2.0 - visual.size.y * card.scale.y
+				card.position.y = lerpf(_home_position(side, 1).y, target_y, progress)

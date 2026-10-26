@@ -12,6 +12,8 @@ var local_portrait: Texture2D
 var opponent_profile: Dictionary = {}
 var previous_choice: Control
 var previous_choice_card: Button
+var previous_choice_caption: Label
+var previous_flip_elapsed: float = 0.0
 
 func set_local_streak(value: int) -> void:
 	local_streak = value
@@ -31,12 +33,22 @@ func _ready() -> void:
 	previous_choice_card.disabled = true
 	previous_choice_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	previous_choice_card.focus_mode = Control.FOCUS_NONE
+	previous_choice_caption = Label.new()
+	previous_choice_caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	previous_choice_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	previous_choice_caption.add_theme_font_override("font", tuning.heading_font)
+	previous_choice.add_child(previous_choice_caption)
 	previous_choice.hide()
 	get_viewport().size_changed.connect(_fit_dimmer)
 	arena.resized.connect(_fit_dimmer)
 	_fit_dimmer.call_deferred()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	if previous_choice.is_visible_in_tree():
+		previous_flip_elapsed += delta
+		var turn := cos(TAU * previous_flip_elapsed / maxf(arena.motion.previous_choice_flip_seconds, 0.01))
+		previous_choice_card.scale.x = maxf(absf(turn), 0.03)
+		previous_choice_card.get_node("Icon").visible = turn >= 0.0
 	if arena.is_visible_in_tree():
 		_fit_dimmer()
 
@@ -111,6 +123,14 @@ func prepare_choices(phase: String) -> void:
 	if phase == "final_choice":
 		var initial_card: String = arena.coordinator.history.actor(arena.context.local_player.player_id).initial_card
 		previous_choice_card.configure_face(initial_card)
+		if previous_choice_card.selection_tween:
+			previous_choice_card.selection_tween.kill()
+		previous_choice_card.scale = Vector2.ONE
+		previous_flip_elapsed = 0.0
+		previous_choice_caption.text = arena.motion.previous_choice_caption
+		previous_choice_caption.position = Vector2(0, arena.motion.previous_choice_caption_y)
+		previous_choice_caption.size = Vector2(136, 40)
+		previous_choice_caption.add_theme_font_size_override("font_size", arena.motion.previous_choice_caption_font_size)
 		previous_choice.position = arena.motion.previous_choice_position
 		previous_choice.scale = Vector2.ONE * arena.motion.previous_choice_scale
 		previous_choice.show()

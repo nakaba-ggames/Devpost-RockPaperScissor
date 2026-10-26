@@ -1,6 +1,8 @@
 class_name MenuMotion
 extends Resource
 
+@export var loading_spinner_size: float = 48.0
+@export var loading_spinner_seconds: float = 1.4
 @export var entry_delay: float = 0.35
 @export var fade_seconds: float = 0.28
 @export var press_seconds: float = 0.10
