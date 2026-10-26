@@ -1,7 +1,9 @@
 class_name MatchmakingSettings
 extends Resource
-@export_range(30.0, 45.0) var fallback_min_seconds: float = 30.0
-@export_range(30.0, 45.0) var fallback_max_seconds: float = 45.0
+## A first completed match is guaranteed to use the backend bot; no human queue.
+@export_range(0.1, 60.0) var first_bot_seconds: float = 5.0
+@export_range(0.1, 60.0) var fallback_min_seconds: float = 15.0
+@export_range(0.1, 60.0) var fallback_max_seconds: float = 15.0
 ## Unset production policy. The development adapter does not enforce ranking.
 @export var rating_policy_configured: bool = false
 @export var allowed_rating_gap: int = -1

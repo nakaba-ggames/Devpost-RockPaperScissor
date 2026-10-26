@@ -289,6 +289,7 @@ func _play() -> void:
 	player.rating_source = "development_preview"
 	if persistent_matches:
 		player.rating_source = "backend"
+		matchmaking.session.set("completed_matches", menu_profile.games_played)
 	player.public_profile = {}
 	matchmaking.destination.get_node("Presentation").set_local_streak(menu_profile.win_streak)
 	matchmaking.destination.get_node("Presentation").set_local_persona(menu_profile.lie_count, menu_profile.honest_count)

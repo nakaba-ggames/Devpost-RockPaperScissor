@@ -13,6 +13,34 @@ Status: **closed by explicit creator acceptance, 2026-10-26**. The creator says 
 
 ---
 
+## Creator-required live matchmaking timing — 2026-10-26
+
+- Explicit hard requirement: first run is guaranteed bot-only after 5 seconds; later runs use a 15-second bot fallback. This supersedes the old live 30–45-second policy and earlier statements that this remained an unresolved product decision. No milestone status changed in this follow-up.
+- Actual gap: `gdsync_match_session.gd` still rejected timing outside 30–45 seconds and had no real first-play detection. Implemented detection from the authenticated menu profile's backend `completedMatches` (`PlayerProfile.games_played`), refreshed before each live search. Zero completed matches selects the first-play path; cancelling before completing a match retains first-play eligibility. The offline sandbox remains separate and unchanged.
+- First-play searches never start SDK human matchmaking and reject human-pairing callbacks. They wait the Inspector-exposed `first_bot_seconds = 5.0` and use the existing backend bot registration/result pipeline. Later searches retain human matchmaking and cancel it at the fallback deadline; both fallback bounds are now 15.0. Values live in `resources/matchmaking/search_settings.tres`, with exported Resource fields. Decision windows remain 15 seconds; scoring, identity, quests, history, departure handling and durable receipts were not redesigned.
+- Intended implementation diff: `scripts/networking/gdsync_match_session.gd`, `scripts/resources/matchmaking_settings.gd`, `scripts/app/game_ui.gd`, and `resources/matchmaking/search_settings.tres`. No new development controls added. The observed live menu/arena contained player controls, without the offline Reset Preview/Replay Title controls; no additional control-removal change was needed for this timing task.
+
+### Two native flows — new direct evidence
+
+- Connected MCP project reported `RockPaperScissor`; the runtime log confirmed this exact filesystem project. Explicitly launched `res://scenes/main.tscn` once. Runtime MCP subsequently lost its registry port despite the game remaining active, so native UI input and the runtime log were used to finish the same uninterrupted run; no restart/troubleshooting/retest loop.
+- Preserved the existing native account credential privately outside the repository, created a genuine separate backend account named `TimingCheck` through normal entry, completed two consecutive matches, then restored the original credential byte-for-byte after stopping the game. No backend account/history reset, mock profile count or simulated receipt was used.
+- **Flow 1 passed:** entry/name → menu → bot search → Ember → four decision windows → reveal/result → menu. Log: `completedMatches=0 botOnly=true delay=5.000s`; bot deadline `elapsedMs=5014`. No human queue was started. Result showed TimingCheck winning, +10 match points; refreshed menu showed 11 total points and one win (including the existing quest reward behavior).
+- **Flow 2 passed:** same account's refreshed menu → normal human queue → Ember fallback → gameplay → reveal/result → menu. Log: `completedMatches=1 botOnly=false delay=15.000s rating=11`; deadline `elapsedMs=14989` (one-frame timer tolerance). Result showed Ember winning, +0 local match points; refreshed menu retained 11 points, showed one win/one loss and 50% win rate. Initial/final card and Keep/Switch inputs were exercised; unattended windows used the existing normal timeout defaults. No injected phase, timer acceleration or result was used.
+- Both results logged `simulated=false serverAcknowledged=true persisted=true`, followed by `M02 menu: return transition completed`. Match/receipt pairs: `a83064dc-79db-478f-a35e-c4354fc975df` / `81b7d5c2-e9bf-4a01-ad68-e78faf4db5e2`, and `c08b7863-1eb4-446b-bf51-bc869c3fba8d` / `14848386-d26a-490a-8d41-243c3778fffa`. No runtime errors in this run. These measure search timer deadlines; backend response latency and the existing found/curtain animation follow the deadline.
+- Focused validation: all three edited scripts passed Godot `script_check`; `git diff --check` passed. Native evidence saved under `/tmp/rps-live-timing-20261026/`: `native-two-flows.log`, `native-second-result.png`, `native-two-matches-menu.png`.
+
+### Updated local export and evidence boundary
+
+- One release export after both native journeys, only to `/Users/karinauval/Godot-Projects/Devpost-MadeWIthAI-Jam/Devpost-RockPaperScissor/builds/index.html`. PCK: **7,459,044 bytes**, SHA-256 `ef16abe0b32efe73ba35ce1213aaa70e08e113af012186fb2f9aed5f08d2dd8f`. The HTML diff only updates its PCK byte count. Previous build backed up outside the repository.
+- Package inspection passed: 269 entries, no unwanted offline/development paths, no missing required scripts, no assertion scripts. All three edited scripts inside the PCK match disk byte-for-byte. Single-threaded web settings retained. Existing three untracked `.png.import` sidecars in builds/ were preserved, not cleaned.
+- Export process exited 0 and completed `savepack`. It still emitted duplicate UID warnings for old export images and the GD-Sync editor shutdown error `Nonexistent signal: 'editor_script_saved'` at `GD-Sync.gd:586`. No repair/re-export loop was attempted; this is an export-editor diagnostic, separate from the error-free native gameplay run.
+- **No browser journey for this newly changed build, no hosted/mobile or human-versus-human test, and no Vercel upload/deployment.** Earlier browser evidence belongs to earlier builds. The new local export must be deployed by the creator before hosted behavior can include this timing change. Native bot fallback success is not a claim that all multiplayer paths passed.
+
+### Protected scenes and save review
+
+- Fresh pre-work and final SHA-256 values match: `scenes/main.tscn` = `2176ffadcf4a4b867f46a12fc2d0fee1cd34a5c0a11907d03f771b7e2a5baa9b`; `scenes/development/presentation.tscn` = `2145d9239408df39f3be715f9c6c186ebbb6174609d9cb6fd4e2f9db70784d25`; `scenes/ui/game_ui.tscn` = `12dcbcd386b04fc59445f9d121a5d057f5fbcc6907efaa2a9b5968832c872ccd`.
+- Godot's play launch serialized stale inherited overrides into the open presentation scene (67 additions/11 deletions, including anchors, node indices and a cached first-play Resource reference). Reviewed and saved that unintended diff privately, then restored only this scene from its fresh pre-work byte copy. No intentional scene save diff remains; main was neither edited nor resaved. Pre-existing report changes and the parent `.DS_Store` modification were preserved. No staging, commit, reset, clean, delegation or deployment.
+
 ## Preserved polishing execution record
 
 The entire preceding report body follows unchanged. Its historical status/acceptance wording is superseded by the closure above; its evidence and limitations remain intact.
@@ -670,6 +698,13 @@ Built-in image generation, one call per asset with `transparent_background=true`
 - Saved `optimized-menu.jpg` and `browser-log.json` under `/tmp/m13_optimization_baseline`; tab left open for creator review. This was a focused asset/startup/menu check, **not another match**. Earlier full native/browser fallback journeys used the preceding build and remain separate evidence; no new result credit, full gameplay regression, iPhone emulation or physical iPhone/Safari test was performed here.
 - Mobile benefit is lower texture memory and smaller game data; actual iPhone behavior still requires the creator's planned device test. No hosted/human-peer/mobile acceptance or M13 completion inferred. No upload, deployment, Git staging/commit/reset/clean, demo or submission material.
 - Original main, sandbox and shared-UI scene hashes remain respectively `2176ffadcf4a4b867f46a12fc2d0fee1cd34a5c0a11907d03f771b7e2a5baa9b`, `2145d9239408df39f3be715f9c6c186ebbb6174609d9cb6fd4e2f9db70784d25`, `12dcbcd386b04fc59445f9d121a5d057f5fbcc6907efaa2a9b5968832c872ccd`. No scene save/override diff or unsaved buffer discarded. Final whitespace check passed.
+
+### Creator-deployed frontend origin diagnosis — 2026-10-26
+
+- Creator reported their own successful Vercel frontend build at `https://devpost-rps-builds.vercel.app/`, followed by the account connection error. No frontend upload/deployment was performed by the agent.
+- Performed one read-only OPTIONS request to the existing backend `/api/anonymous`, with Origin `https://devpost-rps-builds.vercel.app` and requested POST/JSON/Authorization headers. Actual deployed response: **HTTP 403, ORIGIN_NOT_ALLOWED**, no allow-origin header. No hosted game journey, account creation, credentials or persistent-data mutation.
+- Current backend `src/http.ts` already supports exact extra HTTPS origins from **CORS_ALLOWED_ORIGINS**. The deployed allowlist does not accept the creator's new frontend domain. Required creator-side configuration: in the **backend Vercel project**, set/append `https://devpost-rps-builds.vercel.app` (no trailing slash) to that variable for Production, preserve any existing comma-separated origins, and redeploy the backend so the new environment is applied.
+- No backend source change, game re-export, hosting configuration edit or deployment was made by the agent. This is hosted-origin diagnostic evidence only; hosted/mobile/human-peer gameplay remain unverified by the agent. Environment documentation: https://vercel.com/docs/environment-variables .
 
 ## Assignment and dependencies
 

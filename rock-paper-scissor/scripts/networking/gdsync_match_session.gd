@@ -16,6 +16,9 @@ var offer_observation: String = ""
 var sdk: Node
 var scenario: int = 0 # Old game-facing start signature; never selects a fake human.
 var arena_condition: int = 0
+## Refreshed from the authenticated menu profile before every live search.
+var completed_matches: int = -1
+var first_play: bool = false
 var fallback_wait_seconds: float = 0.0
 var search_started_msec: int = 0
 var pending_lobby: String = ""
@@ -61,8 +64,11 @@ func begin(player: MatchParticipant) -> int:
 	if not settings.rating_policy_configured or not settings.bot_selection_configured:
 		report_failure(token, "Matchmaking configuration needs creator agreement.")
 		return token
-	if settings.fallback_min_seconds < 30.0 or settings.fallback_max_seconds > 45.0 or settings.fallback_min_seconds > settings.fallback_max_seconds:
-		report_failure(token, "Fallback configuration must stay within 30–45 seconds.")
+	if completed_matches < 0:
+		report_failure(token, "Your match history is unavailable. Return to menu and retry.")
+		return token
+	if settings.first_bot_seconds <= 0.0 or settings.fallback_min_seconds <= 0.0 or settings.fallback_min_seconds > settings.fallback_max_seconds:
+		report_failure(token, "Matchmaking delay configuration is invalid.")
 		return token
 	if not sdk.lobby_get_name().is_empty():
 		report_failure(token, "Previous lobby has not been released.")
@@ -71,12 +77,18 @@ func begin(player: MatchParticipant) -> int:
 	local_player.peer_id = sdk.get_client_id()
 	local_player.control_kind = "human_peer"
 	search_started_msec = Time.get_ticks_msec()
-	fallback_wait_seconds = randf_range(settings.fallback_min_seconds, settings.fallback_max_seconds)
+	first_play = completed_matches == 0
+	fallback_wait_seconds = settings.first_bot_seconds if first_play else randf_range(settings.fallback_min_seconds, settings.fallback_max_seconds)
+	if first_play:
+		# No human queue is started for a player without a completed match.
+		print("Live search generation=%d completedMatches=%d botOnly=true delay=%.3fs" % [token, completed_matches, fallback_wait_seconds])
+		_fallback_after(token)
+		return token
 	var request := Request.new(2)
 	request.set_min_players(2)
 	request.set_search_mode(Request.SearchMode.MATCHMAKE_ONLY)
 	request.set_required_tags({"Game": settings.queue_tag, "Rules": rules.revision})
-	request.set_timeout(0.0) # Own randomized fallback cancels and awaits SDK ACK.
+	request.set_timeout(0.0) # Own fallback cancels and awaits SDK ACK.
 	request.set_skill_rating(player.overall_points)
 	if settings.restrict_rating_gap:
 		if settings.allowed_rating_gap < 0 or settings.maximum_rating_gap < settings.allowed_rating_gap or settings.widening_points_per_second < 0:
@@ -85,13 +97,13 @@ func begin(player: MatchParticipant) -> int:
 		request.set_skill_range(settings.allowed_rating_gap, settings.maximum_rating_gap, settings.widening_points_per_second)
 	else:
 		request.clear_skill_matching() # Creator: no rating restriction for this jam.
-	print("M09 queue generation=%d rating=%d unrestricted=%s fallback=%.3fs" % [token, player.overall_points, not settings.restrict_rating_gap, fallback_wait_seconds])
+	print("Live search generation=%d completedMatches=%d botOnly=false delay=%.3fs rating=%d unrestricted=%s" % [token, completed_matches, fallback_wait_seconds, player.overall_points, not settings.restrict_rating_gap])
 	sdk.matchmaking_start(request)
 	_fallback_after(token)
 	return token
 
 func _process(_delta: float) -> void:
-	if searching and not closing and not sdk.lobby_get_name().is_empty():
+	if searching and not first_play and not closing and not sdk.lobby_get_name().is_empty():
 		_try_pair()
 		if pending_context != null and sdk.is_host() and Time.get_ticks_msec() >= offer_retry_msec:
 			offer_retry_msec = Time.get_ticks_msec() + int(settings.handshake_retry_seconds * 1000.0)
@@ -103,6 +115,7 @@ func _fallback_after(token: int) -> void:
 	await get_tree().create_timer(fallback_wait_seconds).timeout
 	if not is_current(token) or pending_context != null or not pending_lobby.is_empty():
 		return
+	print("Live bot deadline firstPlay=%s elapsedMs=%d" % [first_play, Time.get_ticks_msec() - search_started_msec])
 	# The generation becomes unusable before any asynchronous cancellation.
 	searching = false
 	generation += 1
@@ -177,7 +190,7 @@ func _queue_cancelled() -> void:
 	cancel_confirmed = true
 
 func _queue_found(lobby: String) -> void:
-	if not searching or closing:
+	if first_play or not searching or closing:
 		return
 	pending_lobby = lobby
 	print("M09 SDK queue found; awaiting lobby_joined")
@@ -185,7 +198,7 @@ func _queue_found(lobby: String) -> void:
 func _queue_failed(error: int) -> void:
 	if closing:
 		cancel_confirmed = true # SDK failed() resets the same request.
-	elif searching:
+	elif searching and not first_play:
 		print("M09 SDK queue error=%d localLobbyEmpty=%s" % [error, sdk.lobby_get_name().is_empty()])
 		_fail_search(_queue_error_message(error))
 
@@ -217,7 +230,7 @@ func _fail_search(detail: String) -> void:
 	failed.emit(token, detail)
 
 func _joined(lobby: String) -> void:
-	if closing or not searching or lobby != pending_lobby:
+	if first_play or closing or not searching or lobby != pending_lobby:
 		sdk.lobby_leave()
 		return
 	handshake_started_msec = Time.get_ticks_msec()
@@ -228,7 +241,7 @@ func _joined(lobby: String) -> void:
 	_try_pair()
 
 func _try_pair() -> void:
-	if not sdk.is_host() or offer_sent or pending_lobby.is_empty():
+	if first_play or not sdk.is_host() or offer_sent or pending_lobby.is_empty():
 		return
 	var peers: Array = sdk.lobby_get_all_clients()
 	var observation := str(peers)
@@ -357,7 +370,7 @@ func _receive(kind: String, envelope: Dictionary) -> void:
 		packet_received.emit(kind, envelope, sender)
 
 func _receive_offer(envelope: Dictionary, sender: int) -> void:
-	if not searching or sdk.get_host() != sender or pending_lobby.is_empty():
+	if first_play or not searching or sdk.get_host() != sender or pending_lobby.is_empty():
 		_note_offer("authority sender=%d host=%d searching=%s lobbyEmpty=%s" % [sender, sdk.get_host(), searching, pending_lobby.is_empty()])
 		return
 	var data: Dictionary = envelope.get("payload", {})
