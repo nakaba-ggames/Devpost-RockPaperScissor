@@ -34,4 +34,11 @@ extends Resource
 
 @export_group("Connection recovery")
 @export var retry_button_size: Vector2 = Vector2(260, 56)
-@export var retry_bottom_margin: float = 70.0
+@export var disconnected_copy: String = "Disconnected from server"
+@export var reconnecting_copy: String = "Reconnecting…"
+@export var retry_connection_copy: String = "Retry Connection"
+@export var connection_overlay_color: Color = Color(0.02, 0.03, 0.07, 0.85)
+@export var connection_overlay_layer: int = 128
+@export var connection_message_font_size: int = 26
+@export var connection_content_width: float = 360.0
+@export var connection_content_gap: int = 20

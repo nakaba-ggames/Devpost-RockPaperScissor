@@ -204,7 +204,8 @@ func connection_status(text: String) -> void:
 	# Other screen transitions may show this node; an empty live label stays silent.
 	%ConnectionStatus.text = "" if persistent_matches else text
 	%ConnectionStatus.visible = not persistent_matches
-	%RetryConnection.visible = text.contains("failed") or text.contains("disconnected")
+	if not persistent_matches:
+		%RetryConnection.visible = text.contains("failed") or text.contains("disconnected")
 
 func reset_data_views() -> void:
 	_set_menu_loading(false)

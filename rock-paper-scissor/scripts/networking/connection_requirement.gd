@@ -1,4 +1,6 @@
 extends Node
+const RecoveryOverlay = preload("res://scripts/ui/connection_overlay.gd")
+var recovery_overlay: CanvasLayer
 ## Live-only account, naming and multiplayer gate. Never instanced by preview.
 @onready var provider: ProfileProvider = $ProfileProvider
 @onready var service: Node = $ServiceConnection
@@ -34,20 +36,17 @@ func _start_services() -> void:
 	service.start()
 
 func _place_connection_retry() -> void:
-	# GUI hit-testing follows sibling order, not the visual z_index alone.
-	var button: Button = ui.get_node("%RetryConnection")
-	button.reparent(ui)
-	ui.move_child(button, ui.get_child_count() - 1)
-	button.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	var size: Vector2 = ui.title_intro.motion.retry_button_size
-	var bottom: float = ui.title_intro.motion.retry_bottom_margin
-	button.offset_left = -size.x / 2.0
-	button.offset_right = size.x / 2.0
-	button.offset_top = -bottom - size.y
-	button.offset_bottom = -bottom
-	button.mouse_filter = Control.MOUSE_FILTER_STOP
-	button.focus_mode = Control.FOCUS_ALL
-	button.disabled = false
+	recovery_overlay = RecoveryOverlay.new()
+	recovery_overlay.name = "ConnectionRecovery"
+	recovery_overlay.tuning = ui.title_intro.motion
+	recovery_overlay.ui_theme = ui.theme
+	ui.add_child(recovery_overlay)
+	recovery_overlay.install_retry(ui.get_node("%RetryConnection"))
+	_update_connection_overlay(service.status_text)
+
+func _update_connection_overlay(text: String) -> void:
+	var failed := text.contains("failed") or text.contains("disconnected") or text.contains("unavailable")
+	recovery_overlay.connection_state(service.connection_ready, failed)
 
 func stop() -> void:
 	if service.sdk != null:
@@ -142,5 +141,6 @@ func _cleared() -> void:
 
 func _connection_changed(text: String) -> void:
 	ui.connection_status(text)
+	_update_connection_overlay(text)
 	_refresh()
 

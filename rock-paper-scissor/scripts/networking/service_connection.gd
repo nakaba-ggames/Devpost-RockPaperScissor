@@ -42,6 +42,9 @@ func _on_disconnected() -> void:
 	print("M01 GD-Sync: actual SDK disconnected signal received")
 
 func retry() -> void:
+	if sdk == null:
+		_set_status("GD-Sync • SDK unavailable")
+		return
 	# Retry only on an explicit user action; never simulate a connected state.
 	connection_ready = false
 	_set_status("GD-Sync • connecting…")
