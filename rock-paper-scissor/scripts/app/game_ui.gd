@@ -93,6 +93,10 @@ func _on_intro_completed() -> void:
 func configure(source: ProfileProvider, api: Node = null, saved_matches: bool = false) -> void:
 	provider = source
 	persistent_matches = saved_matches
+	if persistent_matches:
+		%ConnectionStatus.text = ""
+		%ConnectionStatus.hide()
+		matchmaking.destination.get_node("Return").text = "RETURN TO MENU"
 	if api != null:
 		matchmaking.session.api = api
 	provider.menu_ready.connect(_menu_ready)
@@ -121,6 +125,14 @@ func _name_submitted(_text: String) -> void:
 
 func show_pending(text: String) -> void:
 	if persistent_matches:
+		# Keep recovery guidance while hiding service names and diagnostic codes.
+		if text.begins_with("GD-Sync"):
+			if text.contains("failed") or text.contains("unavailable"):
+				text = "Connection failed. Please retry."
+			elif text.contains("disconnected"):
+				text = "Connection lost. Please retry."
+			else:
+				text = "Connecting…"
 		title_intro.set_live_entry_state(text, false)
 	can_continue = false
 	continue_button.hide()
@@ -155,7 +167,9 @@ func show_menu_immediately() -> void:
 	changing_screen = false
 
 func connection_status(text: String) -> void:
-	%ConnectionStatus.text = text
+	# Other screen transitions may show this node; an empty live label stays silent.
+	%ConnectionStatus.text = "" if persistent_matches else text
+	%ConnectionStatus.visible = not persistent_matches
 	%RetryConnection.visible = text.contains("failed") or text.contains("disconnected")
 
 func reset_data_views() -> void:

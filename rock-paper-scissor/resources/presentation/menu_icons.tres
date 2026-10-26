@@ -8,6 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://fifq1msnk05h" path="res://Graphics/PresentationIcons/NavStats.png" id="6_ljmgj"]
 [ext_resource type="Texture2D" uid="uid://dv5giuqjggfe4" path="res://Graphics/PresentationIcons/MenuTrophy.png" id="7_l7iyl"]
 
+[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/ResultWinIcon.png" id="result_win"]
+[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/ResultDrawIcon.png" id="result_draw"]
+[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/ResultLossIcon.png" id="result_loss"]
+
 [resource]
 script = ExtResource("1")
 leaderboard = ExtResource("2_h2yff")
@@ -16,3 +20,6 @@ stats = ExtResource("6_ljmgj")
 quests = ExtResource("3_n6wdo")
 trophy = ExtResource("7_l7iyl")
 crown = ExtResource("1_5vace")
+result_win = ExtResource("result_win")
+result_draw = ExtResource("result_draw")
+result_loss = ExtResource("result_loss")

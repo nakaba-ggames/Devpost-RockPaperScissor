@@ -77,8 +77,8 @@ func waiting(delivery_state: String, detail: String, can_retry: bool) -> void:
 	retryable = can_retry
 	modulate.a = 1.0
 	show()
-	$Status.show()
-	$Status.text = detail
+	$Status.visible = delivery_state != "pending" and not detail.is_empty()
+	$Status.text = "" if delivery_state == "pending" else detail
 	$Retry.visible = can_retry
 	$Retry.disabled = not can_retry
 	if pulse and pulse.is_valid():
@@ -272,7 +272,7 @@ func _show_result(actor_id: String) -> void:
 			$Outcome/Points.text = tuning.ineligible_copy
 	for node in [$Outcome/Title, $Outcome/Versus, $Outcome/Winner, $Outcome/WinnerName, $Outcome/Points]:
 		emphasis.tween_property(node, "modulate:a", 1.0, tuning.card_emphasis_seconds)
-	$Notice.show()
+	$Notice.visible = not $Notice.text.is_empty()
 
 func _display_name(actor_id: String) -> String:
 	for recipient in submission.recipients:

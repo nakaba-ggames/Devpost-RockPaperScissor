@@ -79,10 +79,10 @@ extends Resource
 @export var switch_copy: String = "switch"
 @export var default_copy: String = "\nNo input: the phase default applied."
 @export_group("Delivery and result copy")
-@export var pending_copy: String = "Waiting for result acknowledgement…"
-@export var uncertain_copy: String = "Acknowledgement is uncertain. Query / retry the same result."
+@export var pending_copy: String = ""
+@export var uncertain_copy: String = "Couldn\'t load your result. Please retry."
 @export var preview_copy: String = "Simulated acknowledgement • session preview only\nNo server commitment or saved points"
-@export var committed_copy: String = "Result acknowledged"
+@export var committed_copy: String = ""
 @export var ineligible_copy: String = "Not eligible for credit"
 @export var win_copy: String = "YOU WIN"
 @export var loss_copy: String = "YOU LOSE"

@@ -5,6 +5,7 @@ signal sfx_requested(sound_id: String)
 signal pattern_background_activated
 signal intro_completed
 signal live_entry_state_changed
+signal web_start_requested
 
 const SOUND_CONFIG = preload("res://resources/presentation/ui_sound_config.tres")
 @export var motion: Resource = preload("res://resources/presentation/title_motion.tres")
@@ -36,6 +37,8 @@ var live_entry_gate: bool = false
 var live_entry_ready: bool = false
 var live_entry_status: String = "CONNECTING TO SERVER..."
 var prompt_reached: bool = false
+var awaiting_web_start: bool = false
+var web_start_confirmed: bool = false
 @onready var prompt_copy: String = $TapPrompt.text
 
 func set_live_entry_state(text: String, ready: bool) -> void:
@@ -59,6 +62,7 @@ func reset_state() -> void:
 	is_active = false
 	can_tap = false
 	prompt_reached = false
+	awaiting_web_start = false
 	live_entry_state_changed.emit()
 	tap_prompt.text = prompt_copy
 	if sequence_tween and sequence_tween.is_valid():
@@ -95,6 +99,17 @@ func play_sequence(wait_for_live_entry: bool = false) -> void:
 	var background := _find_scrolling_background()
 	if background:
 		background.reset_preview()
+	if live_entry_gate and OS.has_feature("web") and not web_start_confirmed:
+		# A real browser gesture unlocks audio before the intro and service start.
+		awaiting_web_start = true
+		tap_prompt.text = motion.web_start_copy
+		tap_prompt.modulate.a = 1.0
+		tap_prompt.show()
+		await web_start_requested
+		if ticket != generation:
+			return
+		tap_prompt.hide()
+		tap_prompt.text = prompt_copy
 	await get_tree().process_frame
 	if ticket != generation:
 		return
@@ -176,12 +191,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	_handle_continue(event)
 
 func _handle_continue(event: InputEvent) -> void:
-	if not can_tap:
-		return
 	var tapped: bool = event is InputEventScreenTouch and event.pressed
 	if event is InputEventMouseButton:
 		tapped = event.pressed and event.button_index == MOUSE_BUTTON_LEFT
-	if tapped or event.is_action_pressed("ui_accept"):
+	if not tapped and not event.is_action_pressed("ui_accept"):
+		return
+	if awaiting_web_start:
+		get_viewport().set_input_as_handled()
+		awaiting_web_start = false
+		web_start_confirmed = true
+		web_start_requested.emit()
+		return
+	if can_tap:
 		get_viewport().set_input_as_handled()
 		_on_tap()
 

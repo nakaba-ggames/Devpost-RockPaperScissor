@@ -1,5 +1,6 @@
 extends Control
 ## Read-only presentation companion. The arena/coordinator retain every decision.
+const PREVIOUS_CARD = preload("res://scenes/ui/decision_card.tscn")
 const SOUND = preload("res://resources/presentation/ui_sound_config.tres")
 @export var tuning: Resource
 @onready var arena: Control = get_parent()
@@ -9,6 +10,8 @@ var header_homes: Dictionary = {}
 var local_streak: Variant = null
 var local_portrait: Texture2D
 var opponent_profile: Dictionary = {}
+var previous_choice: Control
+var previous_choice_card: Button
 
 func set_local_streak(value: int) -> void:
 	local_streak = value
@@ -17,6 +20,18 @@ func set_local_persona(lies: int, honest: int) -> void:
 	local_portrait = tuning.persona.avatar(lies, honest)
 
 func _ready() -> void:
+	previous_choice = Control.new()
+	previous_choice.name = "PreviousChoiceReminder"
+	previous_choice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	previous_choice.z_index = 3
+	add_child(previous_choice)
+	previous_choice_card = PREVIOUS_CARD.instantiate()
+	previous_choice.add_child(previous_choice_card)
+	previous_choice_card.size = Vector2(136, 200)
+	previous_choice_card.disabled = true
+	previous_choice_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	previous_choice_card.focus_mode = Control.FOCUS_NONE
+	previous_choice.hide()
 	get_viewport().size_changed.connect(_fit_dimmer)
 	arena.resized.connect(_fit_dimmer)
 	_fit_dimmer.call_deferred()
@@ -92,6 +107,13 @@ func prepare_choices(phase: String) -> void:
 	for side in ["PlayerCards", "OpponentCards"]:
 		arena.get_node(side).show()
 	var choices := arena.get_node("Choices")
+	previous_choice.hide()
+	if phase == "final_choice":
+		var initial_card: String = arena.coordinator.history.actor(arena.context.local_player.player_id).initial_card
+		previous_choice_card.configure_face(initial_card)
+		previous_choice.position = arena.motion.previous_choice_position
+		previous_choice.scale = Vector2.ONE * arena.motion.previous_choice_scale
+		previous_choice.show()
 	# Reset all phase-specific layout each time, including replay/next round.
 	choices.position.y = arena.motion.choices_y
 	arena.get_node("LocalChoice").position.y = arena.motion.instruction_y
@@ -130,12 +152,14 @@ func update_clock(seconds: float, duration: float) -> void:
 	$PhaseClock.update_time(seconds, duration)
 
 func phase_locked() -> void:
+	previous_choice.hide()
 	update_clock(0.0, arena.coordinator.rules.option_seconds)
 	for side in ["PlayerCards", "OpponentCards"]:
 		arena.get_node(side).show()
 	SOUND.play(self, "phase_end")
 
 func reset_visuals() -> void:
+	previous_choice.hide()
 	for animation in [header_tween, retreat_tween]:
 		if animation and animation.is_valid():
 			animation.kill()

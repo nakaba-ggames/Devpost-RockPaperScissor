@@ -5,6 +5,7 @@ extends Control
 @export var icons: Resource
 var titles_by_player: Dictionary = {}
 var records_generation: int = 0
+var empty_recent_texture: Texture2D
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_fit_canvas)
@@ -15,6 +16,7 @@ func _ready() -> void:
 	%Quests.icon = icons.quests
 	$Trophy.texture = icons.trophy
 	$QuestCrown.texture = icons.crown
+	empty_recent_texture = $Recent.get_child(0).get_node("Disc").texture
 	_clear_recent()
 
 func present_profile(profile: PlayerProfile, source: ProfileProvider) -> void:
@@ -64,7 +66,8 @@ func fading_controls() -> Array[Control]:
 
 func _clear_recent() -> void:
 	for item in $Recent.get_children():
-		item.get_node("Mark").text = "—"
+		item.get_node("Mark").hide()
+		item.get_node("Disc").texture = empty_recent_texture
 		item.get_node("Disc").modulate = Color(0.20, 0.26, 0.34, 1)
 		item.tooltip_text = "No completed match"
 
@@ -86,16 +89,14 @@ func _load_recent(source: ProfileProvider) -> void:
 	for index in recent.size():
 		var outcome := str(recent[index].get("outcome", ""))
 		var item := $Recent.get_child(index)
-		var mark := "="
-		var tint := Color(0.67, 0.55, 0.29, 1)
+		var texture: Texture2D = icons.result_draw
 		if outcome == "win":
-			mark = "✓"
-			tint = Color(0.05, 0.68, 0.45, 1)
+			texture = icons.result_win
 		elif outcome == "loss":
-			mark = "×"
-			tint = Color(0.83, 0.23, 0.28, 1)
-		item.get_node("Mark").text = mark
-		item.get_node("Disc").modulate = tint
+			texture = icons.result_loss
+		item.get_node("Mark").hide()
+		item.get_node("Disc").texture = texture
+		item.get_node("Disc").modulate = Color.WHITE
 		item.tooltip_text = outcome.capitalize()
 
 func _fit_canvas() -> void:

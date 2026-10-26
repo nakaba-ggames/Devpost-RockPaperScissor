@@ -24,10 +24,33 @@ func start(view: GameUI) -> void:
 	$OpeningSequence.hide()
 	for button_name in ["%RetryEntry", "%NewPreview", "%RetryConnection"]:
 		ui.get_node(button_name).z_index = ui.title_intro.z_index + 1
+	_place_connection_retry()
 	ui.connection_status(service.status_text)
+	if OS.has_feature("web"):
+		ui.title_intro.web_start_requested.connect(_start_services, CONNECT_ONE_SHOT)
 	ui.play_title_intro(true)
+	if not OS.has_feature("web"):
+		_start_services()
+
+func _start_services() -> void:
 	_restart()
 	service.start()
+
+func _place_connection_retry() -> void:
+	# GUI hit-testing follows sibling order, not the visual z_index alone.
+	var button: Button = ui.get_node("%RetryConnection")
+	button.reparent(ui)
+	ui.move_child(button, ui.get_child_count() - 1)
+	button.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	var size: Vector2 = ui.title_intro.motion.retry_button_size
+	var bottom: float = ui.title_intro.motion.retry_bottom_margin
+	button.offset_left = -size.x / 2.0
+	button.offset_right = size.x / 2.0
+	button.offset_top = -bottom - size.y
+	button.offset_bottom = -bottom
+	button.mouse_filter = Control.MOUSE_FILTER_STOP
+	button.focus_mode = Control.FOCUS_ALL
+	button.disabled = false
 
 func stop() -> void:
 	if service.sdk != null:
