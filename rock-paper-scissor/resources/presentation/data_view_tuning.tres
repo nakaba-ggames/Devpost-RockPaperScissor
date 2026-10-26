@@ -1,12 +1,26 @@
-[gd_resource type="Resource" load_steps=2 format=3]
-[ext_resource type="Script" path="res://scripts/resources/data_view_tuning.gd" id="1"]
+[gd_resource type="Resource" format=3 uid="uid://bnrqydu6nngm8"]
+
+[ext_resource type="Script" uid="uid://jiu2mictb88w" path="res://scripts/resources/data_view_tuning.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yy63n"]
+bg_color = Color(0.82, 0.67, 0.34, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aoogc"]
+bg_color = Color(0.16, 0.22, 0.29, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [resource]
 script = ExtResource("1")
-fade_seconds = 0.25
-travel_pixels = 18.0
-losing_alpha = 0.35
-page_size = 3
 transition = 2
-ease = 1
-panel_insets = Vector4(16, 60, 16, 45)
-content_insets = Vector4(30, 78, 30, 63)
+open_seconds = 0.18
+close_seconds = 0.1
+quest_track = SubResource("StyleBoxFlat_aoogc")
+quest_fill = SubResource("StyleBoxFlat_yy63n")
+open_transition = 3.0

@@ -1,6 +1,6 @@
 # M13 — Antigravity polishing handoff
 
-Status: **prepared for creator-assigned takeover; polishing not performed by this HUB**. Date: 2026-10-24. Intended executor: **Antigravity using the creator-specified Gemini 3.8 Flash**. No agent/chat is created or contacted by this document. Execute only the presentation work the creator assigns.
+Status: **historical handoff — M13 closed by explicit creator acceptance on 2026-10-26**. See the current closure addendum in reports/AGY_Polishing_report.md; this handoff does not authorize resuming work or claim the web candidate/browser checks passed. Polishing was not performed by this HUB. Date: 2026-10-24. Intended executor: **Antigravity using the creator-specified Gemini 3.8 Flash**. No agent/chat is created or contacted by this document. Execute only the presentation work the creator assigns.
 
 ## Read only this handoff and relevant scene/source context first
 

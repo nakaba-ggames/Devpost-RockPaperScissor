@@ -8,14 +8,19 @@ signal recreate_requested
 signal retry_connection_requested
 signal presentation_requested
 
+const SOUND_CONFIG = preload("res://resources/presentation/ui_sound_config.tres")
+
 @export var motion: MenuMotion
 @onready var entry: VBoxContainer = %Entry
-@onready var menu: VBoxContainer = %Menu
+@onready var menu: MenuPresentation = %Menu
 @onready var name_box: VBoxContainer = %NameBox
 @onready var name_input: LineEdit = %DisplayName
 @onready var continue_button: Button = %Continue
 @onready var feedback: Label = %Feedback
 @onready var matchmaking: VBoxContainer = %Matchmaking
+@onready var scrolling_bg: Control = $ScrollingBackground
+@onready var title_intro: Control = $TitleIntroSequence
+@onready var music: Node = $MusicDirector
 var provider: ProfileProvider
 var persistent_matches: bool = false
 var menu_profile: PlayerProfile
@@ -23,8 +28,11 @@ var screen_tween: Tween
 var feedback_tween: Tween
 var can_continue: bool = false
 var changing_screen: bool = false
+var menu_homes: Dictionary = {}
 
 func _ready() -> void:
+	_apply_pixel_case(self)
+	get_tree().node_added.connect(_pixel_node_added)
 	%SearchScenario.hide()
 	%ArenaCondition.hide()
 	%SaveName.pressed.connect(_save_name)
@@ -41,6 +49,46 @@ func _ready() -> void:
 	%Record.pressed.connect(_open_data.bind($Records))
 	%Stats.pressed.connect(_open_data.bind($DetailedStats))
 	%Quests.pressed.connect(_open_data.bind($QuestsView))
+
+	if title_intro != null:
+		title_intro.intro_completed.connect(_on_intro_completed)
+		title_intro.pattern_background_activated.connect(music.play_menu)
+	matchmaking.session.found.connect(music.fade_out)
+	matchmaking.destination.get_node("Reveal").outcome_requested.connect(music.stop_for_result)
+	matchmaking.destination.get_node("Reveal").cinematic_started.connect(music.fade_out)
+	matchmaking.destination.get_node("Reveal").winner_revealed.connect(music.play_menu)
+
+func _play_btn_sfx() -> void:
+	SOUND_CONFIG.play(self, "tab_select")
+
+func play_title_intro(wait_for_live_entry: bool = false) -> void:
+	if changing_screen or title_intro.is_active:
+		return
+	reset_data_views()
+	music.stop()
+	can_continue = false
+	menu.hide()
+	entry.hide()
+	matchmaking.hide()
+	_arena_chrome(false)
+	%ConnectionStatus.hide()
+	title_intro.play_sequence(wait_for_live_entry)
+
+func _on_intro_completed() -> void:
+	if persistent_matches:
+		# Keep the real naming/menu gate in charge after the title tap.
+		entry.show()
+		entry.modulate.a = 1.0
+		_arena_chrome(true)
+		%ConnectionStatus.show()
+		_request_continue()
+		return
+	_arena_chrome(true)
+	%ConnectionStatus.show()
+	if menu_profile != null:
+		_transition_to_menu()
+	else:
+		show_menu_immediately()
 
 func configure(source: ProfileProvider, api: Node = null, saved_matches: bool = false) -> void:
 	provider = source
@@ -72,6 +120,8 @@ func _name_submitted(_text: String) -> void:
 	_save_name()
 
 func show_pending(text: String) -> void:
+	if persistent_matches:
+		title_intro.set_live_entry_state(text, false)
 	can_continue = false
 	continue_button.hide()
 	name_box.hide()
@@ -84,6 +134,8 @@ func show_continue(display_name: String) -> void:
 		%EntryStatus.text = "Welcome, " + display_name
 	can_continue = true
 	continue_button.show()
+	if persistent_matches:
+		title_intro.set_live_entry_state("", true)
 
 func show_name_prompt() -> void:
 	show_pending("Choose a display name (1–24 characters)")
@@ -97,6 +149,9 @@ func show_menu_immediately() -> void:
 	matchmaking.hide()
 	menu.show()
 	menu.modulate.a = 1.0
+	_restore_menu_visuals()
+	_arena_chrome(true)
+	%ConnectionStatus.show()
 	changing_screen = false
 
 func connection_status(text: String) -> void:
@@ -114,41 +169,86 @@ func reset_data_views() -> void:
 func _menu_ready(profile: PlayerProfile) -> void:
 	%Play.disabled = false
 	menu_profile = profile
-	%PlayerName.text = profile.display_name
-	%Points.text = "%d Overall Points" % profile.overall_points
-	%DailyQuest.text = profile.daily_quest_text
-	%WinRatio.text = "Win Ratio
-N/A"
-	if profile.games_played > 0:
-		%WinRatio.text = "Win Ratio
-%.0f%%" % (100.0 * profile.wins / profile.games_played)
-	%WinStreak.text = "Win Streak
-%d" % profile.win_streak
-	var allegiance := "Human • no wins"
-	if profile.lying_wins > profile.honest_wins:
-		allegiance = "Devil"
-	elif profile.honest_wins > profile.lying_wins:
-		allegiance = "Angel"
-	elif profile.wins > 0:
-		allegiance = "Angel / Devil"
-	$Margin/Stack/Body/Menu/Summary/Center/AllegianceLabel.text = allegiance + "\nTemp. icon"
+	menu.present_profile(profile, provider)
 	if entry.visible:
 		_transition_to_menu()
 
 func _transition_to_menu() -> void:
-	# Temporary fade only; the creator owns final opening choreography.
 	changing_screen = true
 	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
 	screen_tween.tween_property(entry, "modulate:a", 0.0, motion.fade_seconds)
 	await screen_tween.finished
 	entry.hide()
-	menu.show()
-	menu.modulate.a = 0.0
-	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
-	screen_tween.tween_property(menu, "modulate:a", 1.0, motion.fade_seconds)
-	await screen_tween.finished
+	await _animate_menu_entrance()
 	changing_screen = false
-	print("M01 menu: temporary transition completed")
+
+func _animate_menu_entrance() -> void:
+	music.play_menu()
+	menu.show()
+	menu.modulate.a = 1.0
+	_restore_menu_visuals()
+	await get_tree().process_frame
+	var controls := _sliding_menu_controls()
+	menu_homes.clear()
+	for control in controls:
+		menu_homes[control] = control.position
+	var offsets := _menu_offscreen_offsets(controls)
+	for index in controls.size():
+		controls[index].position += offsets[index]
+	for control in _fading_menu_controls():
+		control.modulate.a = 0.0
+	if screen_tween and screen_tween.is_valid():
+		screen_tween.kill()
+	screen_tween = create_tween().set_parallel(true).set_trans(motion.menu_transition).set_ease(motion.menu_enter_ease)
+	for control in controls:
+		screen_tween.tween_property(control, "position", menu_homes[control], motion.menu_enter_seconds)
+	for control in _fading_menu_controls():
+		screen_tween.tween_property(control, "modulate:a", 1.0, motion.menu_enter_seconds)
+	await screen_tween.finished
+
+func _animate_menu_exit_for_play() -> void:
+	var controls := _sliding_menu_controls()
+	var offsets := _menu_offscreen_offsets(controls)
+	menu_homes.clear()
+	for control in controls:
+		menu_homes[control] = control.position
+	if screen_tween and screen_tween.is_valid():
+		screen_tween.kill()
+	screen_tween = create_tween().set_parallel(true).set_trans(motion.menu_transition).set_ease(motion.menu_exit_ease)
+	for index in controls.size():
+		var control: Control = controls[index]
+		screen_tween.tween_property(control, "position", control.position + offsets[index], motion.menu_exit_seconds)
+	for control in _fading_menu_controls():
+		screen_tween.tween_property(control, "modulate:a", 0.0, motion.menu_exit_seconds)
+	await screen_tween.finished
+	# Hide before restoring so the last frame cannot flash the menu onscreen.
+	menu.hide()
+	_restore_menu_visuals()
+
+func _sliding_menu_controls() -> Array[Control]:
+	return [$Margin/Stack/Body/Menu/Summary/Left, $Margin/Stack/Body/Menu/Summary/Right, %Play]
+
+func _fading_menu_controls() -> Array[Control]:
+	var controls: Array[Control] = menu.fading_controls()
+	controls.append_array([$Margin/Stack/Brand, $Margin/Stack/Subtitle, %ConnectionStatus, $Margin/Stack/PreviewNotice])
+	return controls
+
+func _menu_offscreen_offsets(controls: Array[Control]) -> Array[Vector2]:
+	var viewport_size := get_viewport_rect().size
+	var left_rect := controls[0].get_global_rect()
+	var right_rect := controls[1].get_global_rect()
+	var play_rect := controls[2].get_global_rect()
+	return [Vector2(-left_rect.end.x - motion.offscreen_margin, 0.0),
+		Vector2(viewport_size.x - right_rect.position.x + motion.offscreen_margin, 0.0),
+		Vector2(0.0, viewport_size.y - play_rect.position.y + motion.offscreen_margin)]
+
+func _restore_menu_visuals() -> void:
+	for control in menu_homes:
+		if is_instance_valid(control):
+			control.position = menu_homes[control]
+	menu_homes.clear()
+	for control in _fading_menu_controls():
+		control.modulate.a = 1.0
 
 func _fade_in(control: Control) -> void:
 	control.modulate.a = 0.0
@@ -174,10 +274,10 @@ func _play() -> void:
 		return
 	changing_screen = true
 	feedback.modulate.a = 0.0
-	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
-	screen_tween.tween_property(menu, "modulate:a", 0.0, motion.fade_seconds)
-	await screen_tween.finished
+
+	await _animate_menu_exit_for_play()
 	menu.hide()
+	_arena_chrome(false)
 	var player := MatchParticipant.new()
 	player.player_id = menu_profile.player_id
 	player.display_name = menu_profile.display_name
@@ -190,6 +290,8 @@ func _play() -> void:
 	if persistent_matches:
 		player.rating_source = "backend"
 	player.public_profile = {}
+	matchmaking.destination.get_node("Presentation").set_local_streak(menu_profile.win_streak)
+	matchmaking.destination.get_node("Presentation").set_local_persona(menu_profile.lie_count, menu_profile.honest_count)
 	matchmaking.start(player, 0)
 	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
 	screen_tween.tween_property(matchmaking, "modulate:a", 1.0, motion.fade_seconds)
@@ -209,22 +311,19 @@ func _return_from_search() -> void:
 	%Play.disabled = true
 	provider.enter_menu()
 	_arena_chrome(true)
-	menu.modulate.a = 0.0
-	menu.show()
-	screen_tween = create_tween().set_trans(motion.transition).set_ease(motion.ease)
-	screen_tween.tween_property(menu, "modulate:a", 1.0, motion.fade_seconds)
-	await screen_tween.finished
+	await _animate_menu_entrance()
 	changing_screen = false
 	print("M02 menu: return transition completed")
 
 func _arena_entered(context: MatchContext) -> void:
 	_arena_chrome(false)
+	music.play_gameplay()
 
 func _arena_chrome(shown: bool) -> void:
-	$Margin/Stack/Brand.visible = shown
-	$Margin/Stack/Subtitle.visible = shown
+	$Margin/Stack/Brand.visible = shown and entry.visible
+	$Margin/Stack/Subtitle.visible = shown and entry.visible
 	$Margin/Stack/FeedbackSpace.visible = shown
-	$Margin/Stack/PreviewNotice.visible = shown
+	$Margin/Stack/PreviewNotice.visible = shown and not persistent_matches
 
 func _open_data(view: Control) -> void:
 	if changing_screen or not menu.visible:
@@ -232,11 +331,21 @@ func _open_data(view: Control) -> void:
 	view.open(provider)
 
 func _quest_menu_snapshot(snapshot: Dictionary) -> void:
-	%Points.text = "%d Overall Points" % snapshot.profile.overallPoints
-	var daily: Dictionary = snapshot.dailyQuest
-	if daily.is_empty():
-		%DailyQuest.text = "Daily • unavailable"
-	else:
-		%DailyQuest.text = "Daily • %s  %d/%d • +%d" % [daily.title, daily.progress, daily.target, daily.rewardPoints]
+	menu.apply_snapshot(snapshot)
 	if menu.visible:
 		_fade_in(%DailyQuest)
+
+func _apply_pixel_case(node: Node) -> void:
+	if node is Label:
+		node.uppercase = true
+	elif node is Button:
+		node.text = node.text.to_upper()
+	if node is OptionButton:
+		for index in range(node.item_count):
+			node.set_item_text(index, node.get_item_text(index).to_upper())
+	for child in node.get_children():
+		_apply_pixel_case(child)
+
+func _pixel_node_added(node: Node) -> void:
+	if is_ancestor_of(node) and node is Label:
+		node.uppercase = true

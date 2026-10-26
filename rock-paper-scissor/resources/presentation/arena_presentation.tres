@@ -1,0 +1,33 @@
+[gd_resource type="Resource" format=3 uid="uid://rdg7lp1iwy3y"]
+
+[ext_resource type="Script" uid="uid://dlsrtllw4ufv6" path="res://scripts/resources/arena_presentation_tuning.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://cbkmo30ou75xg" path="res://Fonts/BoldPixels.ttf" id="2"]
+[ext_resource type="Texture2D" uid="uid://bajypy2cemnml" path="res://Graphics/RPS-Choice-Icons.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://7f1mr2wn5bkw" path="res://Graphics/PresentationIcons/KeepIcon.png" id="4_keep"]
+[ext_resource type="Resource" path="res://resources/presentation/persona_style.tres" id="5_persona"]
+[ext_resource type="Texture2D" uid="uid://c1onq67ddhacm" path="res://Graphics/PresentationIcons/SwitchIcon.png" id="6_switch"]
+
+[sub_resource type="AtlasTexture" id="Paper"]
+atlas = ExtResource("3")
+region = Rect2(724, 0, 724, 724)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Rock"]
+atlas = ExtResource("3")
+region = Rect2(0, 0, 724, 724)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Scissor"]
+atlas = ExtResource("3")
+region = Rect2(1448, 0, 724, 724)
+filter_clip = true
+
+[resource]
+script = ExtResource("1")
+persona = ExtResource("5_persona")
+heading_font = ExtResource("2")
+rock_icon = SubResource("Rock")
+paper_icon = SubResource("Paper")
+scissor_icon = SubResource("Scissor")
+keep_icon = ExtResource("4_keep")
+switch_icon = ExtResource("6_switch")

@@ -1,0 +1,133 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/presentation/title_intro_sequence.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/CuteDevil.png" id="2"]
+[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/LoadingSpinner.png" id="3"]
+[ext_resource type="FontFile" path="res://Fonts/BoldPixels.ttf" id="4_font"]
+
+[node name="TitleIntroSequence" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+z_index = 40
+script = ExtResource("1")
+
+[node name="TitleContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 24.0
+offset_top = 100.0
+offset_right = -24.0
+offset_bottom = 252.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="DevilsGroup" type="HBoxContainer" parent="TitleContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="DevilsLabel" type="Label" parent="TitleContainer/DevilsGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.25, 0.2, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 88
+text = "DEVIL'S"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DevilIcon" type="TextureRect" parent="TitleContainer/DevilsGroup"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RPSGroup" type="HBoxContainer" parent="TitleContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="RockLabel" type="Label" parent="TitleContainer/RPSGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 40
+text = "ROCK"
+horizontal_alignment = 1
+
+[node name="PaperLabel" type="Label" parent="TitleContainer/RPSGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 40
+text = "PAPER"
+horizontal_alignment = 1
+
+[node name="ScissorsLabel" type="Label" parent="TitleContainer/RPSGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 40
+text = "SCISSORS"
+horizontal_alignment = 1
+
+[node name="SpinnerGroup" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -50.0
+offset_right = 160.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="SpinnerIcon" type="TextureRect" parent="SpinnerGroup"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_filter = 1
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusLabel" type="Label" parent="SpinnerGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.82, 0.85, 1)
+theme_override_font_sizes/font_size = 18
+text = "Connecting to server..."
+horizontal_alignment = 1
+
+[node name="TapPrompt" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -260.0
+offset_bottom = -210.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
+theme_override_font_sizes/font_size = 22
+text = "Tap anywhere to continue"
+horizontal_alignment = 1
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Master"

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/reveal_card.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/presentation/result_card.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/presentation/arena_presentation.tres" id="3"]
+[ext_resource type="Texture2D" path="res://Graphics/SearchCardBack.png" id="4"]
+[ext_resource type="Texture2D" path="res://Graphics/PresentationIcons/CuteDevil.png" id="5"]
+[node name="ResultCard" instance=ExtResource("1")]
+script = ExtResource("2")
+icons = ExtResource("3")
+texture_filter = 1
+[node name="Back" parent="Visual" index="0"]
+modulate = Color(1, 1, 1, 1)
+texture = ExtResource("4")
+[node name="EmblemHolder" parent="Visual" index="1"]
+visible = true
+[node name="Emblem" parent="Visual/EmblemHolder" index="0"]
+modulate = Color(1, 1, 1, 1)
+texture = ExtResource("5")
+[node name="Face" parent="." index="1"]
+offset_top = 160.0
+offset_bottom = 204.0
+theme_override_colors/font_color = Color(0.96, 0.84, 0.56, 1)
+theme_override_font_sizes/font_size = 24
+[node name="Icon" type="TextureRect" parent="."]
+visible = false
+offset_left = 20.0
+offset_top = 25.0
+offset_right = 130.0
+offset_bottom = 150.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2

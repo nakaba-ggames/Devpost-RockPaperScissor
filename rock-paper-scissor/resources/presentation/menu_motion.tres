@@ -1,15 +1,13 @@
-[gd_resource type="Resource" script_class="MenuMotion" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="MenuMotion" format=3 uid="uid://wc758wd1y8kv"]
 
-[ext_resource type="Script" path="res://scripts/resources/ui_motion.gd" id="1"]
+[ext_resource type="Script" uid="uid://b7kvug6v11aos" path="res://scripts/resources/ui_motion.gd" id="1"]
 
 [resource]
 script = ExtResource("1")
-entry_delay = 0.35
-fade_seconds = 0.28
-press_seconds = 0.1
-release_seconds = 0.18
-pressed_scale = 0.96
-feedback_seconds = 2.4
-feedback_offset = 10.0
+fade_seconds = 0.14
+press_seconds = 0.05
+release_seconds = 0.08
 transition = 2
-ease = 1
+menu_enter_seconds = 0.22
+menu_exit_seconds = 0.16
+menu_transition = 3.0

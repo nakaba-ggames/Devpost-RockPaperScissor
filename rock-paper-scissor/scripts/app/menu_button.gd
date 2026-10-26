@@ -1,9 +1,12 @@
 extends Button
 
+const SOUND_CONFIG = preload("res://resources/presentation/ui_sound_config.tres")
+@export_enum("button_click", "play_game_click", "card_confirm") var sound_id: String = "button_click"
 @export var motion: MenuMotion
 var motion_tween: Tween
 
 func _ready() -> void:
+	pressed.connect(func(): SOUND_CONFIG.play(self, sound_id))
 	button_down.connect(_press)
 	button_up.connect(_release)
 	mouse_exited.connect(_release)

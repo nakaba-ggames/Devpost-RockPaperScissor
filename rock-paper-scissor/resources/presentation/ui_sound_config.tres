@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="UISoundConfig" format=3 uid="uid://dcum888gu7jjs"]
+
+[ext_resource type="Script" uid="uid://dg44kcn8sl4ns" path="res://scripts/resources/ui_sound_config.gd" id="1"]
+[ext_resource type="AudioStream" uid="uid://cvum7bctrkshd" path="res://Sounds-Cozy/Button_Pressed.wav" id="s0"]
+[ext_resource type="AudioStream" uid="uid://dibcn80dygm50" path="res://Sounds-Cozy/Confirm.wav" id="s1"]
+[ext_resource type="AudioStream" uid="uid://btyqn2culvc5e" path="res://Sounds-Cozy/Highlight.wav" id="s2"]
+[ext_resource type="AudioStream" uid="uid://tgge010um24b" path="res://Sounds-Cozy/Menu_Open.wav" id="s3"]
+[ext_resource type="AudioStream" uid="uid://vrcu3psbp2fo" path="res://Sounds-Cozy/Menu_Close.wav" id="s4"]
+[ext_resource type="AudioStream" uid="uid://db73oi541dfgh" path="res://Sounds-Cozy/Clicked_In.wav" id="s5"]
+[ext_resource type="AudioStream" uid="uid://drwtmjkccxxpx" path="res://Sounds-Cozy/Lock.wav" id="s6"]
+[ext_resource type="AudioStream" uid="uid://cpvg6tv1o6r4v" path="res://Sounds-Cozy/Currency.wav" id="s7"]
+[ext_resource type="AudioStream" uid="uid://clpvmpqrnxlby" path="res://Sounds-Cozy/Purchase.wav" id="s8"]
+[ext_resource type="AudioStream" uid="uid://din3gjv8q8vf7" path="res://Sounds-Cozy/Dialogue_Expression.wav" id="s9"]
+
+[resource]
+script = ExtResource("1")
+button_click = ExtResource("s0")
+play_game_click = ExtResource("s1")
+tab_select = ExtResource("s2")
+modal_open = ExtResource("s3")
+modal_close = ExtResource("s4")
+sfx_rock = ExtResource("s5")
+sfx_paper = ExtResource("s5")
+sfx_scissors = ExtResource("s5")
+sfx_devils = ExtResource("s6")
+sfx_chring = ExtResource("s7")
+sfx_tap = ExtResource("s1")
+match_found = ExtResource("s8")
+card_select = ExtResource("s5")
+card_confirm = ExtResource("s1")
+phase_end = ExtResource("s6")
+dialogue = ExtResource("s9")
+volume_db = -8.0

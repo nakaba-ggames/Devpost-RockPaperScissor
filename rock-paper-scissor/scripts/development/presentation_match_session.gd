@@ -1,14 +1,19 @@
 extends MatchSession
-## Immediate local bot reservation. Never enters/cancels a real service queue.
+## Emulates real search duration before pairing with bot without exposing bot identity.
+@export var motion: SearchMotion = preload("res://resources/presentation/search_motion.tres")
+@export var first_play: Resource = preload("res://resources/presentation/offline_first_play.tres")
+var first_match: bool = false
 var api: Node
 var deployment_revision: String = "presentation-only"
 var arena_condition: int = 0
 var scenario: int = 0
+var active_token: int = 0
 
 func begin(player: MatchParticipant) -> int:
 	var token := super.begin(player)
 	if token == 0:
 		return 0
+	active_token = token
 	player.backend_verified = false
 	player.rating_source = "development_preview"
 	player.control_kind = "local_preview"
@@ -26,6 +31,19 @@ func begin(player: MatchParticipant) -> int:
 	context.opponent = bot
 	context.round_log = RoundLog.new()
 	context.round_log.arena_condition = clampi(arena_condition, 0, 2)
-	commit_found(token, context)
+
+	_schedule_bot_pair(token, context)
 	return token
 
+func _schedule_bot_pair(token: int, context: MatchContext) -> void:
+	var seconds := motion.preview_search_seconds
+	if first_match and first_play.enabled:
+		seconds = first_play.search_seconds
+	print("Presentation search: %.1fs; first_match=%s; simulated bot only" % [seconds, first_match])
+	await get_tree().create_timer(seconds).timeout
+	if is_current(token):
+		commit_found(token, context)
+
+func cancel() -> void:
+	active_token = 0
+	super.cancel()

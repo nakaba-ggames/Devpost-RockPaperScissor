@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/presentation/scrolling_background.gd" id="1"]
+[ext_resource type="Resource" path="res://resources/presentation/background_motion.tres" id="2"]
+[ext_resource type="Texture2D" path="res://Graphics/Background/Gradiented-Background.png" id="3"]
+[ext_resource type="Texture2D" path="res://Graphics/Background/Patterned-Background.png" id="4"]
+[ext_resource type="Shader" path="res://shaders/scrolling_pattern.gdshader" id="5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pattern"]
+shader = ExtResource("5")
+shader_parameter/scroll_speed = 0.08
+shader_parameter/pattern_color = Color(0.15, 0.22, 0.45, 0.85)
+shader_parameter/scroll_offset = 0.0
+
+[node name="ScrollingBackground" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1")
+motion = ExtResource("2")
+
+[node name="Gradient" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Pattern" type="TextureRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_pattern")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Flash" type="ColorRect" parent="."]
+z_index = 100
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.98, 0.9, 1)

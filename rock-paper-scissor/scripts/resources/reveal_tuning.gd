@@ -24,6 +24,50 @@ extends Resource
 @export var outcome_start_scale: Vector2 = Vector2(0.86, 0.86)
 @export var transition: Tween.TransitionType = Tween.TRANS_CUBIC
 @export var ease: Tween.EaseType = Tween.EASE_IN_OUT
+@export_group("Curtain and film")
+@export var curtain_texture: Texture2D
+@export var curtain_close_sound: AudioStream
+@export var curtain_open_sound: AudioStream
+@export var film_roll_sound: AudioStream
+@export var reveal_sound: AudioStream
+@export var effect_bus: StringName = &"Master"
+@export var effect_volume_db: float = -8.0
+@export var film_volume_db: float = -18.0
+@export var film_fade_seconds: float = 0.12
+@export var silent_db: float = -60.0
+@export var curtain_hold_seconds: float = 0.10
+@export var curtain_overlap_pixels: float = 2.0
+@export var curtain_transition: Tween.TransitionType = Tween.TRANS_QUART
+@export var curtain_ease: Tween.EaseType = Tween.EASE_OUT
+@export var grain_strength: float = 0.09
+@export var grain_pixel_size: float = 2.0
+@export var grain_frame_rate: float = 12.0
+@export var vignette_strength: float = 0.18
+@export_group("Result cards")
+@export var local_card_position: Vector2 = Vector2(40, 200)
+@export var opponent_card_position: Vector2 = Vector2(300, 200)
+@export var offscreen_margin: float = 30.0
+@export var card_enter_seconds: float = 0.30
+@export var card_transition: Tween.TransitionType = Tween.TRANS_QUART
+@export var card_ease: Tween.EaseType = Tween.EASE_OUT
+@export var winner_scale: float = 1.08
+@export var loser_scale: float = 0.94
+@export var loser_alpha: float = 0.48
+@export var card_emphasis_seconds: float = 0.18
+@export var flash_seconds: float = 0.28
+@export var flash_peak_fraction: float = 0.30
+@export var flash_color: Color = Color(1.0, 0.97, 0.86, 1.0)
+@export var flash_transition: Tween.TransitionType = Tween.TRANS_QUAD
+@export var flash_in_ease: Tween.EaseType = Tween.EASE_OUT
+@export var flash_out_ease: Tween.EaseType = Tween.EASE_IN
+@export var continue_pulse_seconds: float = 0.65
+@export var continue_min_alpha: float = 0.25
+@export var exit_seconds: float = 0.18
+@export var result_title: String = "RESULT"
+@export var winner_caption: String = "WINNER"
+@export var draw_caption: String = "DRAW"
+@export var draw_name: String = "No winner"
+@export var continue_copy: String = "TAP ANYWHERE TO CONTINUE"
 @export_group("Narration copy")
 @export_multiline var initial_copy: String = "{name} began with {initial}.{default}"
 @export_multiline var identity_copy: String = "{name} claimed {claim}.\n{truth} about the initial {initial}.{default}"
@@ -43,3 +87,10 @@ extends Resource
 @export var win_copy: String = "YOU WIN"
 @export var loss_copy: String = "YOU LOSE"
 @export var draw_copy: String = "DRAW"
+
+@export_group("Reveal suspense")
+@export var shake_start_beat: int = 4
+@export var shake_start_hz: float = 0.65
+@export var shake_end_hz: float = 5.0
+@export var shake_start_degrees: float = 0.6
+@export var shake_end_degrees: float = 2.5

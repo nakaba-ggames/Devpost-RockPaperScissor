@@ -1,0 +1,18 @@
+[gd_resource type="Resource" format=3 uid="uid://cbliixfwy6qjg"]
+
+[ext_resource type="Script" uid="uid://1gn47x3wygl8" path="res://scripts/resources/menu_icons.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://rj0k58nwyr4q" path="res://Graphics/PresentationIcons/MenuCrown.png" id="1_5vace"]
+[ext_resource type="Texture2D" uid="uid://cn6igwuxxnrbp" path="res://Graphics/PresentationIcons/NavLeaderboard.png" id="2_h2yff"]
+[ext_resource type="Texture2D" uid="uid://dcac5y68ep2c4" path="res://Graphics/PresentationIcons/NavQuests.png" id="3_n6wdo"]
+[ext_resource type="Texture2D" uid="uid://dedeynsbe3r74" path="res://Graphics/PresentationIcons/NavRecords.png" id="4_wp8lx"]
+[ext_resource type="Texture2D" uid="uid://fifq1msnk05h" path="res://Graphics/PresentationIcons/NavStats.png" id="6_ljmgj"]
+[ext_resource type="Texture2D" uid="uid://dv5giuqjggfe4" path="res://Graphics/PresentationIcons/MenuTrophy.png" id="7_l7iyl"]
+
+[resource]
+script = ExtResource("1")
+leaderboard = ExtResource("2_h2yff")
+records = ExtResource("4_wp8lx")
+stats = ExtResource("6_ljmgj")
+quests = ExtResource("3_n6wdo")
+trophy = ExtResource("7_l7iyl")
+crown = ExtResource("1_5vace")

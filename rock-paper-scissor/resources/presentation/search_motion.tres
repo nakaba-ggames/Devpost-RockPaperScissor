@@ -1,10 +1,13 @@
-[gd_resource type="Resource" script_class="SearchMotion" load_steps=2 format=3]
-[ext_resource type="Script" path="res://scripts/resources/search_motion.gd" id="1"]
+[gd_resource type="Resource" script_class="SearchMotion" format=3 uid="uid://cby71tn2hkyla"]
+
+[ext_resource type="Script" uid="uid://c3irb80khhlw2" path="res://scripts/resources/search_motion.gd" id="1"]
+
 [resource]
 script = ExtResource("1")
-fade_seconds = 0.28
-dot_seconds = 0.4
-bob_seconds = 0.85
-bob_distance = 12.0
+fade_seconds = 0.14
 transition = 0
-ease = 2
+card_enter_seconds = 0.18
+flip_quarter_seconds = 0.22
+found_pop_seconds = 0.55
+found_hold_seconds = 2.0
+table_enter_seconds = 0.24

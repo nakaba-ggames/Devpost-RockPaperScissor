@@ -23,6 +23,12 @@ extends Resource
 @export var unused_card_exit_distance: float = 95.0
 @export var chat_seconds: float = 0.25
 @export var chat_slide_distance: float = 34.0
-@export var final_choices_y: float = 550.0
+@export_group("Decision layout")
+@export var choices_y: float = 525.0
+@export var instruction_y: float = 455.0
+@export var final_choices_y: float = 300.0
+@export var final_instruction_y: float = 230.0
 @export var submission_pulse_scale: float = 1.12
 @export var submission_pulse_seconds: float = 0.18
+
+@export var table_position: Vector2 = Vector2(12, -15)

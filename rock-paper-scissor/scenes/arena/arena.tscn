@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://scripts/results/receipt_gate.gd" id="17"]
 [ext_resource type="Resource" path="res://resources/presentation/reveal_tuning.tres" id="18"]
 
+[ext_resource type="PackedScene" path="res://scenes/ui/arena_presentation.tscn" id="19_presentation"]
 [node name="Arena" unique_id=494029415 instance=ExtResource("1")]
 layout_mode = 3
 anchors_preset = 0
@@ -40,31 +41,32 @@ script = ExtResource("6")
 personality = ExtResource("12")
 
 [node name="OpponentBubble" parent="." instance=ExtResource("10")]
+portrait_side = 1
 visible = false
 layout_mode = 0
 z_index = 2
-offset_left = 45.0
-offset_top = 190.0
-offset_right = 405.0
-offset_bottom = 264.0
+offset_left = 230.0
+offset_top = 105.0
+offset_right = 472.0
+offset_bottom = 169.0
 [node name="PlayerBubble" parent="." instance=ExtResource("10")]
 visible = false
 layout_mode = 0
 z_index = 2
-offset_left = 45.0
-offset_top = 550.0
-offset_right = 405.0
-offset_bottom = 624.0
+offset_left = 3.0
+offset_top = 330.0
+offset_right = 245.0
+offset_bottom = 394.0
 [node name="ChatTrigger" parent="." instance=ExtResource("11")]
 layout_mode = 0
 z_index = 4
 custom_minimum_size = Vector2(0, 0)
-offset_left = 444.0
-offset_top = 324.0
-offset_right = 490.0
-offset_bottom = 472.0
+offset_left = 195.0
+offset_top = 821.0
+offset_right = 295.0
+offset_bottom = 853.0
 theme_override_font_sizes/font_size = 18
-text = "C\nH\nA\nT"
+text = "Chat"
 [node name="ChatOverlay" parent="." instance=ExtResource("9")]
 [node name="ChatSession" type="Node" parent="."]
 script = ExtResource("8")
@@ -74,11 +76,14 @@ visible = false
 layout_mode = 0
 z_index = 2
 custom_minimum_size = Vector2(0, 48)
-offset_top = 714.0
-offset_right = 490.0
-offset_bottom = 766.0
+offset_top = 745.0
+offset_right = 350.0
+offset_bottom = 789.0
 theme_override_font_sizes/font_size = 22
-text = "Switch • confirm choice"
+text = "CONFIRM CARD"
+offset_left = 140.0
+sound_id = "card_confirm"
+
 [node name="ResultSink" type="Node" parent="."]
 script = ExtResource("13")
 [node name="PlayerSubmissionEffect" type="CPUParticles2D" parent="."]
@@ -97,3 +102,5 @@ settings = ExtResource("15")
 script = ExtResource("17")
 sink = NodePath("../ResultSink")
 tuning = ExtResource("18")
+
+[node name="Presentation" parent="." instance=ExtResource("19_presentation")]

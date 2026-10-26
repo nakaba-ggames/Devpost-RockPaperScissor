@@ -1,0 +1,13 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://yr4yfstddmw6"]
+
+[ext_resource type="FontFile" uid="uid://cbkmo30ou75xg" path="res://Fonts/BoldPixels.ttf" id="1_rdmou"]
+
+[resource]
+font = ExtResource("1_rdmou")
+font_size = 20
+font_color = Color(0.6745098, 0.29803923, 1, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 2.5)

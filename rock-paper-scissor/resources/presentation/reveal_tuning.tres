@@ -1,27 +1,30 @@
-[gd_resource type="Resource" load_steps=2 format=3]
-[ext_resource type="Script" path="res://scripts/resources/reveal_tuning.gd" id="1"]
+[gd_resource type="Resource" format=3 uid="uid://88sndxj1j66s"]
+
+[ext_resource type="Script" uid="uid://blr2n7heam2yb" path="res://scripts/resources/reveal_tuning.gd" id="1"]
+[ext_resource type="AudioStream" uid="uid://b8m4djo5s3mca" path="res://Sounds-Extra/Curtain-Close.ogg" id="1_x2m1a"]
+[ext_resource type="AudioStream" uid="uid://btgb1x4yal330" path="res://Sounds-Extra/Curtain-open.ogg" id="2_0b70u"]
+[ext_resource type="Texture2D" uid="uid://d0nnu5afcguu3" path="res://Graphics/RevealCurtain.png" id="3_7shvu"]
+[ext_resource type="AudioStream" uid="uid://cm4f4w6op6j2g" path="res://Sounds-Extra/Film-Roll.ogg" id="4_evebm"]
+[ext_resource type="AudioStream" uid="uid://8iuseaxy5hfm" path="res://Sounds-Cozy/Success.wav" id="5_ul72s"]
+
 [resource]
 script = ExtResource("1")
 authoring_agreed = true
+black_hold_seconds = 0.22
 temporary_outcome_agreed = true
-dim_alpha = 0.3
-final_dim_alpha = 1.0
-black_hold_seconds = 0.35
-close_existing_chat = true
-allow_skip_narration = false
-retreat_seconds = 0.55
-fade_seconds = 0.4
-curtain_seconds = 0.8
-text_hold_seconds = 2.2
-outcome_seconds = 0.7
-outcome_hold_seconds = 1.0
-continue_seconds = 0.35
-receipt_timeout_seconds = 10.0
-retry_seconds = 1.0
-status_pulse_seconds = 0.65
-projector_cycle_seconds = 0.16
-projector_min_alpha = 0.04
-projector_max_alpha = 0.1
-outcome_start_scale = Vector2(0.86, 0.86)
-transition = 2
-ease = 2
+retreat_seconds = 0.45
+fade_seconds = 0.35
+curtain_seconds = 1.2
+text_hold_seconds = 1.8
+outcome_hold_seconds = 0.2
+continue_seconds = 0.15
+transition = 3.0
+ease = 1.0
+curtain_texture = ExtResource("3_7shvu")
+curtain_close_sound = ExtResource("1_x2m1a")
+curtain_open_sound = ExtResource("2_0b70u")
+film_roll_sound = ExtResource("4_evebm")
+reveal_sound = ExtResource("5_ul72s")
+curtain_hold_seconds = 0.3
+curtain_transition = 1
+curtain_ease = 2

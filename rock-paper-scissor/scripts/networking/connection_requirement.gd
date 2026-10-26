@@ -4,7 +4,6 @@ extends Node
 @onready var service: Node = $ServiceConnection
 var ui: GameUI
 var profile: PlayerProfile
-var opening_ready: bool = false
 var naming: bool = false
 var menu_pending: bool = false
 var entry_error: String = ""
@@ -21,8 +20,12 @@ func start(view: GameUI) -> void:
 	provider.request_failed.connect(_failed)
 	provider.local_data_cleared.connect(_cleared)
 	service.status_changed.connect(_connection_changed)
-	$OpeningSequence.finished.connect(_opening_finished)
+	# Reuse the shared title; only real provider/SDK signals unlock its tap.
+	$OpeningSequence.hide()
+	for button_name in ["%RetryEntry", "%NewPreview", "%RetryConnection"]:
+		ui.get_node(button_name).z_index = ui.title_intro.z_index + 1
 	ui.connection_status(service.status_text)
+	ui.play_title_intro(true)
 	_restart()
 	service.start()
 
@@ -38,7 +41,7 @@ func _restart() -> void:
 	ui.get_node("%RetryEntry").hide()
 	ui.get_node("%NewPreview").hide()
 	ui.menu.hide()
-	ui.entry.show()
+	ui.entry.visible = not ui.title_intro.is_active
 	ui.entry.modulate.a = 1.0
 	ui.show_pending("Connecting to server…")
 	provider.begin_session()
@@ -54,19 +57,11 @@ func _identity_ready(value: PlayerProfile) -> void:
 	else:
 		_refresh()
 
-func _opening_finished() -> void:
-	opening_ready = true
-	ui._fade_in(ui.get_node("Margin/Stack/Brand"))
-	ui._fade_in(ui.get_node("Margin/Stack/Subtitle"))
-	_refresh()
-
 func _refresh() -> void:
-	if not ui.entry.visible or ui.changing_screen:
+	if (not ui.entry.visible and not ui.title_intro.is_active) or ui.changing_screen:
 		return
 	if not entry_error.is_empty():
 		ui.show_pending(entry_error)
-	elif not opening_ready:
-		ui.show_pending("")
 	elif profile == null:
 		ui.show_pending("Connecting to server…")
 	elif not service.connection_ready:
@@ -109,6 +104,11 @@ func _failed(kind: String, detail: String) -> void:
 	ui._show_feedback(detail)
 	if kind in ["account", "server"]:
 		entry_error = detail
+		# Expose the existing account recovery controls if entry fails mid-title.
+		if ui.title_intro.is_active:
+			ui.title_intro.reset_state()
+			ui.entry.show()
+			ui.get_node("%ConnectionStatus").show()
 		ui.show_pending(detail)
 		if kind == "account":
 			ui.get_node("%NewPreview").show()

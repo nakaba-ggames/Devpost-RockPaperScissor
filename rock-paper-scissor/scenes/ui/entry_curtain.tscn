@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/presentation/entry_curtain.gd" id="1"]
+[ext_resource type="Resource" path="res://resources/presentation/reveal_tuning.tres" id="2"]
+[node name="EntryCurtain" type="CanvasLayer"]
+layer = 80
+script = ExtResource("1")
+tuning = ExtResource("2")
+[node name="CurtainLeft" type="TextureRect" parent="."]
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+[node name="CurtainRight" type="TextureRect" parent="."]
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+flip_h = true
+[node name="Audio" type="AudioStreamPlayer" parent="."]

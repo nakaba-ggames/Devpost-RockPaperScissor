@@ -9,8 +9,67 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/records.tscn" id="10_records"]
 [ext_resource type="PackedScene" path="res://scenes/ui/leaderboard.tscn" id="11_board"]
 [ext_resource type="PackedScene" path="res://scenes/ui/quests.tscn" id="13_quests"]
+[ext_resource type="PackedScene" path="res://scenes/ui/scrolling_background.tscn" id="14_bg"]
+[ext_resource type="PackedScene" path="res://scenes/ui/title_intro_sequence.tscn" id="15_intro"]
+[ext_resource type="FontFile" path="res://Fonts/BoldPixels.ttf" id="16_font"]
+[ext_resource type="Script" path="res://scripts/presentation/music_director.gd" id="17_music"]
+[ext_resource type="Resource" path="res://resources/presentation/music_config.tres" id="18_music"]
+[ext_resource type="Script" path="res://scripts/presentation/menu_presentation.gd" id="19_menu"]
+[ext_resource type="Resource" path="res://resources/presentation/persona_style.tres" id="20_persona"]
+[ext_resource type="Resource" path="res://resources/presentation/menu_icons.tres" id="21_icons"]
+[ext_resource type="Texture2D" path="res://Graphics/Simple Shapes/Circle.png" id="22_circle"]
+[ext_resource type="PackedScene" path="res://scenes/ui/profile_frame.tscn" id="frame"]
+[sub_resource type="StyleBoxFlat" id="MenuBar"]
+bg_color = Color(0.04, 0.13, 0.29, 1)
+[sub_resource type="StyleBoxFlat" id="MenuPanel"]
+bg_color = Color(0.04, 0.13, 0.29, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.65, 0.52, 0.28, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+[sub_resource type="StyleBoxFlat" id="MenuHover"]
+bg_color = Color(0.08, 0.22, 0.40, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.94, 0.79, 0.43, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+[sub_resource type="StyleBoxFlat" id="MenuPlay"]
+bg_color = Color(0.94, 0.79, 0.43, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.10, 0.06, 0.09, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+[sub_resource type="StyleBoxFlat" id="QuestTrack"]
+bg_color = Color(0.02, 0.06, 0.15, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_left = 7
+corner_radius_bottom_right = 7
+[sub_resource type="StyleBoxFlat" id="QuestFill"]
+bg_color = Color(0.94, 0.79, 0.43, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_left = 7
+corner_radius_bottom_right = 7
 [sub_resource type="Theme" id="Theme"]
-default_font_size = 22
+default_font_size = 20
+default_font = ExtResource("16_font")
+default_font_outline_size = 0
 [node name="UI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -22,6 +81,9 @@ theme = SubResource("Theme")
 script = ExtResource("1")
 motion = ExtResource("2")
 
+[node name="ScrollingBackground" parent="." instance=ExtResource("14_bg")]
+layout_mode = 1
+
 [node name="Margin" type="MarginContainer" parent="." unique_id=372527138]
 layout_mode = 1
 anchors_preset = 15
@@ -29,53 +91,77 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
-[node name="Stack" type="VBoxContainer" parent="Margin" unique_id=1267367011]
-layout_mode = 2
+[node name="Stack" type="Control" parent="Margin" unique_id=1267367011]
 theme_override_constants/separation = 8
+layout_mode = 2
 
 [node name="Brand" type="Label" parent="Margin/Stack" unique_id=1938608175]
-layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.65, 0.38, 1)
 theme_override_font_sizes/font_size = 30
 text = "DEVIL'S"
 horizontal_alignment = 1
+layout_mode = 0
+offset_left = 0.0
+offset_top = 65.0
+offset_right = 540.0
+offset_bottom = 107.0
+visible = false
 
 [node name="Subtitle" type="Label" parent="Margin/Stack" unique_id=1082343257]
-layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "ROCK PAPER SCISSOR"
 horizontal_alignment = 1
+layout_mode = 0
+offset_left = 0.0
+offset_top = 108.0
+offset_right = 540.0
+offset_bottom = 142.0
+visible = false
 
 [node name="ConnectionStatus" type="Label" parent="Margin/Stack" unique_id=1726149203]
 unique_name_in_owner = true
-layout_mode = 2
 theme_override_colors/font_color = Color(0.64, 0.83, 0.76, 1)
-theme_override_font_sizes/font_size = 18
 text = "GD-Sync • connecting…"
 horizontal_alignment = 1
+layout_mode = 1
+anchor_top = 1.0
+anchor_bottom = 1.0
+anchor_right = 1.0
+offset_top = -34.0
+offset_bottom = -18.0
+theme_override_font_sizes/font_size = 12
+mouse_filter = 2
 
 [node name="RetryConnection" parent="Margin/Stack" unique_id=1902865242 instance=ExtResource("5")]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
 text = "Retry connection"
+layout_mode = 0
+offset_left = 145.0
+offset_top = 183.0
+offset_right = 395.0
+offset_bottom = 227.0
 
 [node name="Body" type="CenterContainer" parent="Margin/Stack" unique_id=1704338558]
-layout_mode = 2
-size_flags_vertical = 3
+
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Entry" type="VBoxContainer" parent="Margin/Stack/Body" unique_id=784656123]
 visible = false
 unique_name_in_owner = true
-custom_minimum_size = Vector2(490, 0)
-layout_mode = 2
 theme_override_constants/separation = 24
+layout_mode = 2
+custom_minimum_size = Vector2(490, 0)
+
 
 [node name="EntryCaption" type="Label" parent="Margin/Stack/Body/Entry" unique_id=278828194]
 visible = false
@@ -128,153 +214,299 @@ visible = false
 layout_mode = 2
 text = "Sign me up again"
 
-[node name="Menu" type="VBoxContainer" parent="Margin/Stack/Body" unique_id=1505779647]
+[node name="Menu" type="Control" parent="Margin/Stack/Body" unique_id=1505779647]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(490, 0)
-layout_mode = 2
 theme_override_constants/separation = 8
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_minimum_size = Vector2(540, 960)
+script = ExtResource("19_menu")
+persona = ExtResource("20_persona")
+icons = ExtResource("21_icons")
 
 [node name="PlayerName" type="Label" parent="Margin/Stack/Body/Menu" unique_id=1496976688]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-horizontal_alignment = 1
 text_overrun_behavior = 3
+layout_mode = 0
+offset_left = 68.0
+offset_top = 6.0
+offset_right = 405.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 0
+mouse_filter = 2
 
 [node name="Points" type="Label" parent="Margin/Stack/Body/Menu" unique_id=57513010]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "0 Overall Points"
+layout_mode = 0
+offset_left = 467.0
+offset_top = 16.0
+offset_right = 528.0
+offset_bottom = 46.0
+theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
+tooltip_text = "Overall points"
+mouse_filter = 2
 
 [node name="DailyQuest" type="Label" parent="Margin/Stack/Body/Menu" unique_id=1186044296]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 19
 text = "Daily • loading saved quest"
 autowrap_mode = 2
 horizontal_alignment = 1
+layout_mode = 0
+offset_left = 85.0
+offset_top = 103.0
+offset_right = 411.0
+offset_bottom = 135.0
+theme_override_font_sizes/font_size = 17
+vertical_alignment = 1
+mouse_filter = 2
 
-[node name="Summary" type="HBoxContainer" parent="Margin/Stack/Body/Menu" unique_id=1823832453]
-layout_mode = 2
+[node name="Summary" type="Control" parent="Margin/Stack/Body/Menu" unique_id=1823832453]
 theme_override_constants/separation = 18
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="Left" type="VBoxContainer" parent="Margin/Stack/Body/Menu/Summary" unique_id=76294644]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="Left" type="Control" parent="Margin/Stack/Body/Menu/Summary" unique_id=76294644]
 theme_override_constants/separation = 14
+layout_mode = 0
+offset_left = 14.0
+offset_top = 374.0
+offset_right = 82.0
+offset_bottom = 548.0
 
 [node name="Leaderboard" parent="Margin/Stack/Body/Menu/Summary/Left" unique_id=1590556255 instance=ExtResource("5")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(145, 64)
-layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Leaderboard"
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 68.0
+offset_bottom = 70.0
+custom_minimum_size = Vector2(0, 0)
+text = ""
+tooltip_text = "Leaderboard"
+expand_icon = true
+icon_alignment = 1
+theme_override_constants/icon_max_width = 58
+theme_override_styles/normal = SubResource("MenuPanel")
+theme_override_styles/hover = SubResource("MenuHover")
+theme_override_styles/pressed = SubResource("MenuHover")
+theme_override_styles/focus = SubResource("MenuHover")
+texture_filter = 1
 
 [node name="Record" parent="Margin/Stack/Body/Menu/Summary/Left" unique_id=692886877 instance=ExtResource("5")]
 unique_name_in_owner = true
-layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Record"
+layout_mode = 0
+offset_left = 0.0
+offset_top = 104.0
+offset_right = 68.0
+offset_bottom = 174.0
+custom_minimum_size = Vector2(0, 0)
+text = ""
+tooltip_text = "Match records"
+expand_icon = true
+icon_alignment = 1
+theme_override_constants/icon_max_width = 58
+theme_override_styles/normal = SubResource("MenuPanel")
+theme_override_styles/hover = SubResource("MenuHover")
+theme_override_styles/pressed = SubResource("MenuHover")
+theme_override_styles/focus = SubResource("MenuHover")
+texture_filter = 1
 
-[node name="Center" type="VBoxContainer" parent="Margin/Stack/Body/Menu/Summary" unique_id=1611025114]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
+[node name="Center" type="Control" parent="Margin/Stack/Body/Menu/Summary" unique_id=1611025114]
 theme_override_constants/separation = 12
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="AllegianceIcon" type="TextureRect" parent="Margin/Stack/Body/Menu/Summary/Center" unique_id=2137206606]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-tooltip_text = "Temporary allegiance art. Final human-head icon is creator supplied."
 texture = ExtResource("7_o6xl0")
 expand_mode = 1
 stretch_mode = 5
+layout_mode = 0
+offset_left = 125.0
+offset_top = 334.0
+offset_right = 415.0
+offset_bottom = 624.0
+texture_filter = 1
+tooltip_text = "Cosmetic avatar: more lying rounds selects devil; ties and new players select angel."
+mouse_filter = 2
 
 [node name="AllegianceLabel" type="Label" parent="Margin/Stack/Body/Menu/Summary/Center" unique_id=119608517]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "No wins yet
-Temp. icon"
-horizontal_alignment = 1
+text = "No wins yet"
+layout_mode = 0
+offset_left = 68.0
+offset_top = 30.0
+offset_right = 405.0
+offset_bottom = 54.0
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 0
+text_overrun_behavior = 3
+mouse_filter = 2
+tooltip_text = "A playful session title, not a rank."
 
 [node name="WinRatio" type="Label" parent="Margin/Stack/Body/Menu/Summary/Center" unique_id=1266581936]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "Win Ratio
 N/A"
 horizontal_alignment = 1
+layout_mode = 0
+offset_left = 12.0
+offset_top = 254.0
+offset_right = 528.0
+offset_bottom = 288.0
+theme_override_font_sizes/font_size = 23
+mouse_filter = 2
 
 [node name="WinStreak" type="Label" parent="Margin/Stack/Body/Menu/Summary/Center" unique_id=1985722898]
 unique_name_in_owner = true
-layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Win Streak
 0"
 horizontal_alignment = 1
+layout_mode = 0
+offset_left = 0.0
+offset_top = 630.0
+offset_right = 540.0
+offset_bottom = 654.0
+visible = false
+mouse_filter = 2
 
-[node name="Right" type="VBoxContainer" parent="Margin/Stack/Body/Menu/Summary" unique_id=944638489]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="Right" type="Control" parent="Margin/Stack/Body/Menu/Summary" unique_id=944638489]
 theme_override_constants/separation = 14
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -86.0
+offset_right = -18.0
+offset_top = 374.0
+offset_bottom = 548.0
 
 [node name="Stats" parent="Margin/Stack/Body/Menu/Summary/Right" unique_id=651279727 instance=ExtResource("5")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(145, 64)
-layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Detailed Stats"
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 68.0
+offset_bottom = 70.0
+custom_minimum_size = Vector2(0, 0)
+text = ""
+tooltip_text = "Detailed statistics"
+expand_icon = true
+icon_alignment = 1
+theme_override_constants/icon_max_width = 58
+theme_override_styles/normal = SubResource("MenuPanel")
+theme_override_styles/hover = SubResource("MenuHover")
+theme_override_styles/pressed = SubResource("MenuHover")
+theme_override_styles/focus = SubResource("MenuHover")
+texture_filter = 1
 
 [node name="Quests" parent="Margin/Stack/Body/Menu/Summary/Right" unique_id=1240542357 instance=ExtResource("5")]
 unique_name_in_owner = true
-layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Quests"
+layout_mode = 0
+offset_left = 0.0
+offset_top = 104.0
+offset_right = 68.0
+offset_bottom = 174.0
+custom_minimum_size = Vector2(0, 0)
+text = ""
+tooltip_text = "Quests"
+expand_icon = true
+icon_alignment = 1
+theme_override_constants/icon_max_width = 58
+theme_override_styles/normal = SubResource("MenuPanel")
+theme_override_styles/hover = SubResource("MenuHover")
+theme_override_styles/pressed = SubResource("MenuHover")
+theme_override_styles/focus = SubResource("MenuHover")
+texture_filter = 1
 
 [node name="Play" parent="Margin/Stack/Body/Menu" unique_id=1806773411 instance=ExtResource("6")]
 unique_name_in_owner = true
-layout_mode = 2
-text = "PLAY"
+sound_id = "play_game_click"
+layout_mode = 0
+offset_left = 163.0
+offset_top = 788.0
+offset_right = 393.0
+offset_bottom = 852.0
+custom_minimum_size = Vector2(0, 0)
+text = "PLAY GAME !"
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.05, 0.08, 0.16, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.08, 0.16, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.08, 0.16, 1)
+theme_override_styles/normal = SubResource("MenuPlay")
+theme_override_styles/hover = SubResource("MenuPlay")
+theme_override_styles/pressed = SubResource("MenuPlay")
 
 [node name="ClearData" parent="Margin/Stack/Body/Menu" unique_id=2008483376 instance=ExtResource("5")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "Clear Data • local only"
+layout_mode = 0
+offset_left = 14.0
+offset_top = 870.0
+offset_right = 172.0
+offset_bottom = 900.0
+custom_minimum_size = Vector2(0, 0)
+theme_override_font_sizes/font_size = 11
+text_overrun_behavior = 3
 
 [node name="PresentationMode" parent="Margin/Stack/Body/Menu" instance=ExtResource("5")]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
 text = "Presentation • offline bot"
+layout_mode = 0
+offset_left = 180.0
+offset_top = 870.0
+offset_right = 348.0
+offset_bottom = 900.0
+custom_minimum_size = Vector2(0, 0)
+theme_override_font_sizes/font_size = 11
+text_overrun_behavior = 3
 
 [node name="FixtureNotice" type="Label" parent="Margin/Stack/Body/Menu"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 17
 text = "Live GD-Sync queue • saved backend accounts"
 horizontal_alignment = 1
+layout_mode = 0
+offset_left = 12.0
+offset_top = 908.0
+offset_right = 528.0
+offset_bottom = 922.0
+theme_override_font_sizes/font_size = 10
+mouse_filter = 2
 
 [node name="SearchScenario" type="OptionButton" parent="Margin/Stack/Body/Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
 theme_override_font_sizes/font_size = 20
 disabled = true
 item_count = 1
 selected = 0
 popup/item_0/text = "Live queue • unrestricted matchmaking"
 popup/item_0/id = 0
+layout_mode = 0
+offset_left = 14.0
+offset_top = 870.0
+offset_right = 172.0
+offset_bottom = 900.0
+visible = false
 
 [node name="ArenaCondition" type="OptionButton" parent="Margin/Stack/Body/Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
 item_count = 3
 selected = 0
 popup/item_0/text = "Devil's Seduction"
@@ -283,15 +515,30 @@ popup/item_1/text = "Angel's Confession"
 popup/item_1/id = 1
 popup/item_2/text = "No modifier"
 popup/item_2/id = 2
+layout_mode = 0
+offset_left = 356.0
+offset_top = 870.0
+offset_right = 526.0
+offset_bottom = 900.0
+custom_minimum_size = Vector2(0, 0)
+theme_override_font_sizes/font_size = 11
+text_overrun_behavior = 3
 
 [node name="Matchmaking" parent="Margin/Stack/Body" instance=ExtResource("8_search")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
+
 [node name="FeedbackSpace" type="Control" parent="Margin/Stack" unique_id=1298282414]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
+
+layout_mode = 0
+offset_left = 24.0
+offset_top = 206.0
+offset_right = 516.0
+offset_bottom = 250.0
+mouse_filter = 2
+z_index = 12
 
 [node name="Feedback" type="Label" parent="Margin/Stack/FeedbackSpace" unique_id=1093589450]
 unique_name_in_owner = true
@@ -308,15 +555,224 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="PreviewNotice" type="Label" parent="Margin/Stack" unique_id=225304620]
-layout_mode = 2
 theme_override_colors/font_color = Color(0.62, 0.7, 0.69, 1)
-theme_override_font_sizes/font_size = 17
 text = "FUNCTIONALITY BUILD • saved backend accounts
 Presentation is still in progress."
 horizontal_alignment = 1
+layout_mode = 1
+anchor_top = 1.0
+anchor_bottom = 1.0
+anchor_right = 1.0
+offset_top = -18.0
+theme_override_font_sizes/font_size = 10
+mouse_filter = 2
 
 [node name="DetailedStats" parent="." instance=ExtResource("9_stats")]
 [node name="Records" parent="." instance=ExtResource("10_records")]
 [node name="LeaderboardView" parent="." instance=ExtResource("11_board")]
 
 [node name="QuestsView" parent="." instance=ExtResource("13_quests")]
+
+[node name="TitleIntroSequence" parent="." instance=ExtResource("15_intro")]
+visible = false
+layout_mode = 1
+
+[node name="MusicDirector" type="Node" parent="."]
+script = ExtResource("17_music")
+config = ExtResource("18_music")
+
+[node name="TopBar" type="Panel" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 540.0
+offset_bottom = 62.0
+show_behind_parent = true
+mouse_filter = 2
+theme_override_styles/panel = SubResource("MenuBar")
+
+[node name="TopAvatar" type="TextureRect" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 56.0
+offset_bottom = 50.0
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1
+mouse_filter = 2
+
+[node name="Trophy" type="TextureRect" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 419.0
+offset_top = 4.0
+offset_right = 467.0
+offset_bottom = 52.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="QuestPanel" type="Panel" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 96.0
+offset_right = 470.0
+offset_bottom = 180.0
+show_behind_parent = true
+mouse_filter = 2
+theme_override_styles/panel = SubResource("MenuPanel")
+
+[node name="QuestProgress" type="ProgressBar" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 142.0
+offset_right = 432.0
+offset_bottom = 160.0
+show_percentage = false
+theme_override_styles/background = SubResource("QuestTrack")
+theme_override_styles/fill = SubResource("QuestFill")
+mouse_filter = 2
+
+[node name="QuestCounter" type="Label" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 141.0
+offset_right = 412.0
+offset_bottom = 163.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1, 1, 0.91, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.03, 0.08, 1)
+theme_override_constants/outline_size = 4
+text = "—"
+mouse_filter = 2
+
+[node name="QuestCrown" type="TextureRect" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 421.0
+offset_top = 130.0
+offset_right = 465.0
+offset_bottom = 160.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="QuestReward" type="Label" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 419.0
+offset_top = 157.0
+offset_right = 467.0
+offset_bottom = 175.0
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+mouse_filter = 2
+
+[node name="RecentLabel" type="Label" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 658.0
+offset_right = 540.0
+offset_bottom = 686.0
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+text = "Last 3 games"
+mouse_filter = 2
+
+[node name="Recent" type="HBoxContainer" parent="Margin/Stack/Body/Menu"]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 690.0
+offset_right = 334.0
+offset_bottom = 722.0
+alignment = 1
+theme_override_constants/separation = 16
+mouse_filter = 2
+
+[node name="Result0" type="Control" parent="Margin/Stack/Body/Menu/Recent"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Disc" type="TextureRect" parent="Margin/Stack/Body/Menu/Recent/Result0"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("22_circle")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Mark" type="Label" parent="Margin/Stack/Body/Menu/Recent/Result0"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 32.0
+offset_bottom = 32.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 23
+text = "—"
+mouse_filter = 2
+
+[node name="Result1" type="Control" parent="Margin/Stack/Body/Menu/Recent"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Disc" type="TextureRect" parent="Margin/Stack/Body/Menu/Recent/Result1"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("22_circle")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Mark" type="Label" parent="Margin/Stack/Body/Menu/Recent/Result1"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 32.0
+offset_bottom = 32.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 23
+text = "—"
+mouse_filter = 2
+
+[node name="Result2" type="Control" parent="Margin/Stack/Body/Menu/Recent"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Disc" type="TextureRect" parent="Margin/Stack/Body/Menu/Recent/Result2"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("22_circle")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Mark" type="Label" parent="Margin/Stack/Body/Menu/Recent/Result2"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 32.0
+offset_bottom = 32.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 23
+text = "—"
+mouse_filter = 2
+
+[node name="ProfileFrame" parent="Margin/Stack/Body/Menu/TopAvatar" instance=ExtResource("frame")]
+
+[node name="ProfileFrame" parent="Margin/Stack/Body/Menu/Summary/Center/AllegianceIcon" instance=ExtResource("frame")]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" format=3 uid="uid://dm0d3fdokxghm"]
+
+[ext_resource type="Script" uid="uid://plmc1ojobha5" path="res://scripts/resources/title_motion.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+word_seconds = 0.22
+word_gap_seconds = 0.08
+devil_delay_seconds = 0.28
+devil_seconds = 0.34
+spinner_fade_seconds = 0.12
+center_seconds = 0.22
+exit_seconds = 0.28

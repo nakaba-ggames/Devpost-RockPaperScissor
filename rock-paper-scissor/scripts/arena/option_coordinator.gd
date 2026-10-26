@@ -21,7 +21,7 @@ var deadline_msec: int = 0
 var sequence: int = 0
 
 func begin_match(match_context: MatchContext, condition: int) -> bool:
-	if rules == null or rules.option_seconds != 15.0 or rules.identity_claim_seconds != 15.0 or rules.switch_claim_seconds != 15.0 or rules.final_choice_seconds != 15.0:
+	if not _decision_windows_allowed():
 		push_error("Option requires the approved 15-second rules resource.")
 		return false
 	context = match_context
@@ -49,7 +49,7 @@ func start_option() -> void:
 	history.option_deadline_elapsed_msec = deadline_msec
 	phase = "option"
 	option_started.emit()
-	print("M03 Option started: full 15-second window; accepted history retained")
+	print("M03 Option started: full %.0f-second window; accepted history retained" % rules.option_seconds)
 
 func _process(_delta: float) -> void:
 	if elapsed_msec() < deadline_msec:
@@ -137,7 +137,7 @@ func start_claim(phase_name: String) -> bool:
 		actor_history.claim_phases[phase_name] = {"defaulted": false, "locked": false, "lockedElapsedMsec": -1, "events": []}
 	phase = phase_name
 	claim_started.emit(phase_name)
-	print("M04 %s started: full 15-second window" % phase_name)
+	print("M04 %s started: full %.0f-second window" % [phase_name, duration])
 	return true
 
 func accept_claim(actor_id: String, claim: String) -> bool:
@@ -225,7 +225,7 @@ func start_final() -> bool:
 	for actor_history in history.initial_choices:
 		actor_history.final_state = {"defaulted": false, "locked": false, "lockedElapsedMsec": -1, "events": []}
 	phase = "final_choice"
-	print("M05 final choice started: full 15-second window")
+	print("M05 final choice started: full %.0f-second window" % rules.final_choice_seconds)
 	return true
 
 func accept_final(actor_id: String, choice: String) -> bool:
@@ -289,3 +289,6 @@ func finish_final_presentation() -> void:
 	phase = "m05_complete"
 	round_ready.emit(context)
 	print("M12 round closed; receipt gate controls cinematic; reservation retained")
+
+func _decision_windows_allowed() -> bool:
+	return rules != null and rules.option_seconds == 15.0 and rules.identity_claim_seconds == 15.0 and rules.switch_claim_seconds == 15.0 and rules.final_choice_seconds == 15.0

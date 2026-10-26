@@ -1,30 +1,24 @@
-[gd_resource type="Resource" script_class="ArenaMotion" load_steps=2 format=3]
-[ext_resource type="Script" path="res://scripts/resources/arena_motion.gd" id="1"]
+[gd_resource type="Resource" script_class="ArenaMotion" format=3 uid="uid://cvqkwh1mw4cjv"]
+
+[ext_resource type="Script" uid="uid://bkf6ncvhbatet" path="res://scripts/resources/arena_motion.gd" id="1"]
+
 [resource]
 script = ExtResource("1")
-intro_fade_seconds = 0.35
-intro_hold_seconds = 2.0
-card_seconds = 0.45
-dim_seconds = 0.25
-announcement_seconds = 0.2
-phase_end_fade_seconds = 0.3
-phase_end_hold_seconds = 1.0
-dim_alpha = 0.5
-unselected_brightness = 0.55
-card_scale = Vector2(0.42, 0.42)
-card_spacing = 112.0
-opponent_y = 178.0
-player_y = 534.0
-opponent_submission_y = 306.0
-player_submission_y = 404.0
-feedback_start_scale = Vector2(0.85, 0.85)
+intro_fade_seconds = 0.12
+intro_hold_seconds = 4.0
+card_seconds = 0.16
+dim_seconds = 0.45
+announcement_seconds = 0.1
+phase_end_hold_seconds = 1.5
+dim_alpha = 0.72
+card_scale = Vector2(0.64, 0.64)
+card_spacing = 110.0
+opponent_y = 60.0
+player_y = 590.0
+opponent_submission_y = 200.0
+player_submission_y = 400.0
 transition = 2
-ease = 1
-bubble_seconds = 0.35
-bubble_start_scale = Vector2(0.92, 0.92)
-unused_card_exit_distance = 95.0
-chat_seconds = 0.25
-chat_slide_distance = 34.0
-final_choices_y = 550.0
-submission_pulse_scale = 1.12
-submission_pulse_seconds = 0.18
+bubble_seconds = 0.25
+chat_seconds = 0.14
+submission_pulse_scale = 1.16
+submission_pulse_seconds = 0.14

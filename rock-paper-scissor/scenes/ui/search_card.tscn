@@ -1,8 +1,18 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 [ext_resource type="PackedScene" path="res://scenes/ui/card_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/app/search_card.gd" id="2"]
 [ext_resource type="Resource" path="res://resources/presentation/search_motion.tres" id="3"]
+[ext_resource type="Texture2D" path="res://Graphics/SearchCardBack.png" id="4_back"]
 [node name="SearchCard" instance=ExtResource("1")]
 script = ExtResource("2")
 motion = ExtResource("3")
 [node name="CreatorAnimation" type="AnimationPlayer" parent="."]
+
+[node name="Back" parent="Visual" index="0"]
+modulate = Color(1, 1, 1, 1)
+texture = ExtResource("4_back")
+stretch_mode = 0
+[node name="Emblem" parent="Visual/EmblemHolder" index="0"]
+modulate = Color(1, 1, 1, 1)
+custom_minimum_size = Vector2(88, 88)
+texture_filter = 1

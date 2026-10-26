@@ -1,15 +1,18 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c55v7dj7ts1ck"]
+
 [ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="1"]
-[ext_resource type="Script" path="res://scripts/development/presentation_main.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/development/presentation_provider.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/development/presentation_match_session.gd" id="6"]
-[ext_resource type="Script" path="res://scripts/arena/option_coordinator.gd" id="7"]
-[ext_resource type="Script" path="res://scripts/development/local_result_sink.gd" id="8"]
-[ext_resource type="Script" path="res://scripts/development/presentation_gate.gd" id="9"]
-[ext_resource type="Script" path="res://scripts/development/local_preview_chat.gd" id="10"]
-[ext_resource type="Resource" path="res://resources/presentation/menu_motion.tres" id="11"]
+[ext_resource type="Script" uid="uid://ccwod5m7hfgyw" path="res://scripts/development/presentation_main.gd" id="2"]
+[ext_resource type="Script" uid="uid://byllas7kd8244" path="res://scripts/development/presentation_provider.gd" id="3"]
+[ext_resource type="Resource" uid="uid://cby71tn2hkyla" path="res://resources/presentation/search_motion.tres" id="4_b8wdk"]
+[ext_resource type="Script" uid="uid://dcf7qp64me75u" path="res://scripts/development/presentation_match_session.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/development/presentation_coordinator.gd" id="7"]
+[ext_resource type="Script" uid="uid://cg5xir2nkhoni" path="res://scripts/development/local_result_sink.gd" id="8"]
+[ext_resource type="Script" uid="uid://c5whjtye5iskw" path="res://scripts/development/presentation_gate.gd" id="9"]
+[ext_resource type="Script" uid="uid://hc40o3tgarns" path="res://scripts/development/local_preview_chat.gd" id="10"]
+[ext_resource type="Resource" uid="uid://wc758wd1y8kv" path="res://resources/presentation/menu_motion.tres" id="11"]
 [ext_resource type="Resource" path="res://resources/quests/development_catalogue.tres" id="12"]
-[node name="Presentation" type="Control"]
+
+[node name="Presentation" type="Control" unique_id=1147082506]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,21 +20,75 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2")
-[node name="UI" parent="." instance=ExtResource("1")]
-[node name="ProfileProvider" type="Node" parent="."]
+
+[node name="UI" parent="." unique_id=261282458 instance=ExtResource("1")]
+layout_mode = 1
+
+[node name="Session" parent="UI/Margin/Stack/Body/Matchmaking" index="0"]
+script = ExtResource("6")
+motion = ExtResource("4_b8wdk")
+
+[node name="OpponentCards" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="9"]
+anchors_preset = 0
+
+[node name="Card0" parent="UI/Margin/Stack/Body/Matchmaking/Arena/OpponentCards" index="0"]
+anchors_preset = 0
+
+[node name="Card1" parent="UI/Margin/Stack/Body/Matchmaking/Arena/OpponentCards" index="1"]
+anchors_preset = 0
+
+[node name="Card2" parent="UI/Margin/Stack/Body/Matchmaking/Arena/OpponentCards" index="2"]
+anchors_preset = 0
+
+[node name="PlayerCards" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="10"]
+anchors_preset = 0
+
+[node name="Card0" parent="UI/Margin/Stack/Body/Matchmaking/Arena/PlayerCards" index="0"]
+anchors_preset = 0
+
+[node name="Card1" parent="UI/Margin/Stack/Body/Matchmaking/Arena/PlayerCards" index="1"]
+anchors_preset = 0
+
+[node name="Card2" parent="UI/Margin/Stack/Body/Matchmaking/Arena/PlayerCards" index="2"]
+anchors_preset = 0
+
+[node name="Rock" parent="UI/Margin/Stack/Body/Matchmaking/Arena/Choices" index="0"]
+layout_mode = 2
+
+[node name="Paper" parent="UI/Margin/Stack/Body/Matchmaking/Arena/Choices" index="1"]
+layout_mode = 2
+
+[node name="Scissor" parent="UI/Margin/Stack/Body/Matchmaking/Arena/Choices" index="2"]
+layout_mode = 2
+
+[node name="Coordinator" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="17" unique_id=1008589915]
+script = ExtResource("7")
+
+[node name="ChatSession" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="23"]
+script = ExtResource("10")
+
+[node name="ConfirmSwitch" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="24"]
+sound_id = "card_confirm"
+
+[node name="ResultSink" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="25"]
+script = ExtResource("8")
+
+[node name="Reveal" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="28"]
+anchors_preset = 0
+
+[node name="ReceiptGate" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="29"]
+script = ExtResource("9")
+
+[node name="Presentation" parent="UI/Margin/Stack/Body/Matchmaking/Arena" index="30"]
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProfileProvider" type="Node" parent="." unique_id=266745226]
 script = ExtResource("3")
 motion = ExtResource("11")
 quest_catalogue = ExtResource("12")
-[node name="Session" parent="UI/Margin/Stack/Body/Matchmaking"]
-script = ExtResource("6")
-[node name="Coordinator" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
-script = ExtResource("7")
-[node name="ResultSink" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
-script = ExtResource("8")
-[node name="ReceiptGate" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
-script = ExtResource("9")
-[node name="ChatSession" parent="UI/Margin/Stack/Body/Matchmaking/Arena"]
-script = ExtResource("10")
+
 [editable path="UI"]
 [editable path="UI/Margin/Stack/Body/Matchmaking"]
 [editable path="UI/Margin/Stack/Body/Matchmaking/Arena"]
