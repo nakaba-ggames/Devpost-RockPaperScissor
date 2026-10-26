@@ -14,6 +14,8 @@ The private GD-Sync configuration at `addons/GD-Sync/keys.cfg` is excluded from 
 
 ## Documentation
 
+- [How I used the Devpost Learn skills (Markdown)](../ai-development-process.md)
+- [Download the searchable PDF](../ai-development-process.pdf)
 - [Scope](devpost/scope.md)
 - [Product requirements](devpost/prd.md)
 - [Technical spec](devpost/spec.md)
