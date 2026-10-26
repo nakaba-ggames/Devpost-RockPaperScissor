@@ -49,6 +49,13 @@ LICENSING.md        License scope and third-party/asset terms
 
 Planning documents: [scope](rock-paper-scissor/devpost/scope.md), [product requirements](rock-paper-scissor/devpost/prd.md) and [technical spec](rock-paper-scissor/devpost/spec.md).
 
+## AI development process
+
+See how I used the Devpost Learn skills to shape the game plan and guide implementation:
+
+- [How I used the Devpost Learn skills (Markdown)](ai-development-process.md)
+- [Download the searchable PDF](ai-development-process.pdf)
+
 ## Open the source project
 
 1. Install Godot 4.7 and import `rock-paper-scissor/project.godot`.
